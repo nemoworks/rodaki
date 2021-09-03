@@ -1,0 +1,30 @@
+@startuml
+' left to right direction
+top to bottom direction
+
+frame DomainModel #lightblue
+node source
+node Webflux #mediumpurple
+
+node Flink #pink
+database IoTDB #grey
+queue RabbitMQ #grey
+node Ditto #lightgreen
+
+
+DomainModel -[plain]-> Flink   :Business Object Extracting
+DomainModel --> Ditto   :Digital Twin Modeling
+
+
+
+source --> Webflux      :Raw Message
+Webflux --> Flink       :Transaction Records
+
+
+Flink --> RabbitMQ      :Messages(Object Status)
+Flink --> IoTDB         :Telemetry Measurements
+
+RabbitMQ --> Ditto      :Messages(Object Status)
+Ditto -[dotted]-> IoTDB :Telemetry Reference
+@enduml
+
