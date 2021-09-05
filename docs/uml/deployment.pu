@@ -4,18 +4,21 @@ top to bottom direction
 
 frame DomainModel #lightblue
 node source
+node jmeter
+node DataSplit
 node Webflux #mediumpurple
 
 node Flink #pink
+node ElasticSearch 
 database IoTDB #grey
 queue RabbitMQ #grey
 node Ditto #lightgreen
-
+node TrafficFlowPrediction
 
 DomainModel -[plain]-> Flink   :Business Object Extracting
 DomainModel --> Ditto   :Digital Twin Modeling
-
-
+DataSplit --> jmeter    :station records
+jmeter --> Webflux  :upload raw data
 
 source --> Webflux      :Raw Message
 Webflux --> Flink       :Transaction Records
@@ -23,7 +26,9 @@ Webflux --> Flink       :Transaction Records
 
 Flink --> RabbitMQ      :Messages(Object Status)
 Flink --> IoTDB         :Telemetry Measurements
-
+Flink --> ElasticSearch :Gantry Records
+ElasticSearch --> TrafficFlowPrediction :Gantry Historical Data
+TrafficFlowPrediction -->ElasticSearch  :Gantry Forecast Data
 RabbitMQ --> Ditto      :Messages(Object Status)
 Ditto -[dotted]-> IoTDB :Telemetry Reference
 @enduml

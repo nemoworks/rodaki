@@ -1,0 +1,41 @@
+---
+#base_dir: model_output/
+log_level: INFO
+data:
+  train_batch_size: 8 #需要自己定义
+  test_batch_size: 8 #需要自己定义
+  predict_batch_size: 1 
+  train: 4 #需要自己定义
+  test: 1 #需要自己定义
+  #val_batch_size: 32
+  #graph_pkl_filename: models/DCRNN/data/sensor_graph/adj_mx_mydata.pkl
+
+model:
+  cl_decay_steps: 2000
+  filter_type: dual_random_walk
+  horizon: 1 #需要自己定义
+  input_dim: 2
+  l1_decay: 0
+  max_diffusion_step: 2
+  num_nodes: 15
+  num_rnn_layers: 2
+  output_dim: 1
+  rnn_units: 32
+  seq_len: 2 #需要自己定义
+  use_curriculum_learning: true
+
+train:
+  base_lr: 0.01
+  dropout: 0
+  epoch: 0
+  epochs: 250
+  epsilon: 1.0e-3
+  global_step: 0
+  lr_decay_ratio: 0.1
+  max_grad_norm: 5
+  max_to_keep: 10
+  min_learning_rate: 2.0e-06
+  optimizer: adam
+  patience: 50
+  steps: [20,30,40,50]
+  test_every_n_epochs: 10

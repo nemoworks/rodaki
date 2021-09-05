@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: cvicse_highway
+  # data:
+  #   mongodb:
+  #     authentication-database: test
+  #     username: my_user
+  #     password: password123
+  #     port: 27017
+  #     host: localhost
+  #     database: test
+server:
+  port: 8000
+  address: 0.0.0.0
+logging:
+  level:
+    root: WARN
+kafka:
+  bootstrapAddress: localhost:9094
+  topicOutput: zcoutput
+  topicInput: zcinput
