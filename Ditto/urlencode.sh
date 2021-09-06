@@ -1,5 +1,7 @@
 #!/bin/bash
 
+
+# 将字符串以URL编码
 urlencode() {
   local length="${#1}"
   for (( i = 0; i < length; i++ )); do

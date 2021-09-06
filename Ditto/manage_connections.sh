@@ -1,7 +1,10 @@
 #!/bin/bash
 
+
 option=$1
-echo $option
+
+
+# 执行 打开/关闭/删除/获取 连接操作
 if [ $option == "--open" ] || [ $option == "--close" ] || [ $option == "--delete" ] || [ $option == "--retrieve" ] 
 then
   for connect in "CPCCard" "ETCCard" "Gantry" "GantryRecord" "InvoiceRecord" "Lane" "OBUCard" "Operator" "PaymentRecord" "Plate" "Shift" "StationRecord" "TollStation" "TrafficRecord" "TrafficTransaction" "Vehicle" 
@@ -17,6 +20,8 @@ then
     }
   }' 'http://localhost:8080/devops/piggyback/connectivity'
   done
+
+# 执行 创建 连接操作
 elif [ $option == "--create" ]
 then
 
@@ -60,5 +65,13 @@ then
 
   done
 
-
+# 打印帮助信息
+elif [ $option == "-h" ]
+then
+  echo "所有连接操作:"
+  echo "  --create    创建"
+  echo "  --delete    删除"
+  echo "  --open      打开"
+  echo "  --close     关闭"
+  echo "  --retrieve  获取信息"
 fi
