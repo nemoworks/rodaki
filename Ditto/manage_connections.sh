@@ -1,5 +1,6 @@
 #!/bin/bash
 
+port="8080"
 
 option=$1
 
@@ -18,7 +19,7 @@ then
       "type": "connectivity.commands:'${option:2}'Connection",
       "connectionId": "'$connect'-mqtt-connection"
     }
-  }' 'http://localhost:8080/devops/piggyback/connectivity'
+  }' 'http://localhost:'$port'/devops/piggyback/connectivity'
   done
 
 # 执行 创建 连接操作
@@ -61,12 +62,12 @@ then
               }
           }
       }
-  }" http://localhost:8080/devops/piggyback/connectivity
+  }" http://localhost:$port/devops/piggyback/connectivity
 
   done
 
 # 打印帮助信息
-elif [ $option == "-h" ]
+elif [ $option == "-h" ] || [ $option == "--help" ]
 then
   echo "所有连接操作:"
   echo "  --create    创建"
