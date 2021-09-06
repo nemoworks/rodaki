@@ -1,0 +1,5 @@
+zookeeper-data/
+kafka-data/
+rabbitmq-data/
+iotdb/
+es-data/
