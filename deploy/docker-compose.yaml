@@ -47,7 +47,7 @@ services:
   zookeeper:
     image: wurstmeister/zookeeper
     volumes:
-      - ./zooleeper-data:/opt/zookeeper-3.4.13/data
+      - ./zookeeper-data:/opt/zookeeper-3.4.13/data
     networks:
       - share_net
   kafka:
