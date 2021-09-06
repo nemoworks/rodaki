@@ -1,12 +1,12 @@
 # Ditto 模块部署
 ------------------------------
 
-1. [ditto的安装与运行](#jump1)
-2. [ditto与rabbitmq连接的建立](#jump2)
-3. [things 的统计与删除](#jump3)
+1. [ditto 的安装与运行](#jump1)
+2. [ditto 与 rabbitmq 连接的建立](#jump2)
+3. [ditto 中 thing 的统计与删除](#jump3)
 
 
-### <span id="jump1"> Ditto的安装与运行 </span>  
+### <span id="jump1"> Ditto 的安装与运行 </span>  
 
 
 通过 Docker Compose 运行 ditto，需要:  
@@ -46,7 +46,7 @@
 	docker-compose stop
 
 
-### <span id="jump2"> Ditto与RabbitMQ连接的建立 </span>
+### <span id="jump2"> Ditto 与 RabbitMQ 连接的建立 </span>
 
 
 ditto 服务启动后，回到 Ditto/ 目录，使用 manage_connection.sh 脚本创建所有连接
