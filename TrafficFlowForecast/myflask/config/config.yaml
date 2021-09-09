@@ -1,7 +1,7 @@
 flask:
   server_host: 0.0.0.0
   server_port: 5000
-  debug: true
+  debug: false
   #用于存放运行过程中生成的有用的文件
   #output: flask_out
   logging_level: INFO
