@@ -61,6 +61,7 @@ def es_init(flask_config):
         # 说明不存在，现在需要创建
         print('本不存在 index:', predict_index_name)
         create_index_by_name(predict_index_name, host, port)
+    #真实车流量transfomer
     es_init_transform(flask_config)
 
 

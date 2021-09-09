@@ -1,7 +1,11 @@
 ## 环境准备
 机器安装docker、docker-compose
 ## 运行说明
+整个系统主要分为两块内容 ，一个是kafka分布时消息队列系统与flink部署，一个是elasticsearch、flink部署
 
+kafka分布时消息队列系统与flink部署负责抽取数字孪生对象，同时会把车流量预测需要的数据发送到elasticsearch
+
+elasticsearch、flink部署主要是为了进行车流量预测使用
 ## kafka分布时消息队列系统与flink部署
 
 1. 创建flink的savepoint与checkpoint目录
@@ -33,6 +37,15 @@
 
 6. 测试kafka（也可不用执行）
     `docker-compose exec kafka kafkacat -b kafka:9092 -L`
-    ` docker-compose exec kafka kafka-console-producer.sh --broker-list localhost:9092 --topic zcinput`
-    ` docker-compose exec kafka kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic zcinput`
-## 
+    `docker-compose exec kafka kafka-console-producer.sh --broker-list localhost:9092 --topic zcinput`
+    `docker-compose exec kafka kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic zcinput`
+## elasticsearch、flink部署
+
+elasticsearch需要持久化存储数据
+
+`mkdir ./es-data`
+
+然后将这个文件夹的所有者的gid和uid改为1000，不然es程序无法写入数据，造成容器启动失败
+
+`sudo chown 1000:1000 es-data/`
+

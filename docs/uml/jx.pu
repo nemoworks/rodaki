@@ -1,0 +1,12 @@
+@startuml
+' left to right direction
+top to bottom direction
+node Webflux #mediumpurple
+node TrafficFlowPrediction
+node ElasticSearch 
+node source
+source --> Webflux      :Raw Message
+Webflux --> ElasticSearch       :save Records
+ElasticSearch --> TrafficFlowPrediction :Gantry Historical Data
+TrafficFlowPrediction -->ElasticSearch  :Gantry Forecast Data
+@enduml

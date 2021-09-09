@@ -7,7 +7,7 @@ node source
 node jmeter
 node DataSplit
 node Webflux #mediumpurple
-
+database kafka
 node Flink #pink
 node ElasticSearch 
 database IoTDB #grey
@@ -21,9 +21,9 @@ DataSplit --> jmeter    :station records
 jmeter --> Webflux  :upload raw data
 
 source --> Webflux      :Raw Message
-Webflux --> Flink       :Transaction Records
+Webflux --> kafka       :Produce Records
 
-
+kafka --> Flink :consume records
 Flink --> RabbitMQ      :Messages(Object Status)
 Flink --> IoTDB         :Telemetry Measurements
 Flink --> ElasticSearch :Gantry Records
