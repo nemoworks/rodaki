@@ -45,14 +45,17 @@ def execute_pipline(flask_config,predictor:Predictor=None):
     #    print(current_app.config['flask_config'])
     if not check_serving_dir(flask_config['serving']['models_dir']):
         logging.logger.info("没有可用的模型文件，需要执行一次训练任务")
-        BeamDagRunner().run(
-            _create_pipeline(
-                pipeline_name=_pipeline_name,
-                pipeline_root=_pipeline_root,
-                metadata_path=_metadata_path,
-                module_file=_module_file,
-                beam_pipeline_args=_beam_pipeline_args,
-                param=flask_config))
+        try:
+            BeamDagRunner().run(
+                _create_pipeline(
+                    pipeline_name=_pipeline_name,
+                    pipeline_root=_pipeline_root,
+                    metadata_path=_metadata_path,
+                    module_file=_module_file,
+                    beam_pipeline_args=_beam_pipeline_args,
+                    param=flask_config))
+        except Exception as e:
+            logging.logger.error(e)
         if predictor:
             predictor.delete_extra_model()
             predictor.update_current_serving_model()

@@ -15,7 +15,7 @@ kibana:
   host: 127.0.0.1
   port: 5601
   #kibana中与es真实车流量数据建立的index名称,必须与es里的一致
-  real_index_name: j xflask_realvolume
+  real_index_name: jxflask_realvolume
   #当real_index_name已经存在了，是否删除重建
   delete_real_index_if_exist: false
   #kibana中与es预测车流量数据建立的index名称，必须与es里的一致

@@ -59,8 +59,8 @@ def MyExampleGen(
     table['timestamp'] = pd.to_datetime(
         table['timestamp'], unit='ms', utc=True).dt.tz_convert('Asia/Shanghai')
     if len(table) == 0:
-        logging.logger.warning('数据量为0，请重新选择时间范围，这次不做预测')
-        raise AssertionError
+        logging.logger.warning('数据量为0，请重新选择时间范围，这次不做操作')
+        raise AssertionError()
     # table.to_csv(os.path.join(Outputs.uri,'test.csv'),index=False)
     # print(table)
     DataFrameGrouptemp = table.groupby(['name'])
