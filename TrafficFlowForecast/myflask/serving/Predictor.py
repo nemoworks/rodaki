@@ -39,7 +39,8 @@ def re_execute_pipline(flask_config):
     # with app.context():
     #    print(current_app.config['flask_config'])
 
-    BeamDagRunner().run(
+    try:
+        BeamDagRunner().run(
         _create_pipeline(
             pipeline_name=_pipeline_name,
             pipeline_root=_pipeline_root,
@@ -47,7 +48,8 @@ def re_execute_pipline(flask_config):
             module_file=_module_file,
             beam_pipeline_args=_beam_pipeline_args,
             param=flask_config))
-
+    except Exception as e:
+        logging.logger.error(e)
 
 class Predictor:
     def __init__(self, serving_dir, max_keep, model_config):
@@ -67,6 +69,7 @@ class Predictor:
     def predict(self, es_config, model_config, debug=False):
         if self.current_serving_model is None:
             logging.logger.warning('当前预测器没有使用serving model，因此跳过')
+            return
         saved_model_dir = self.current_serving_model
         logging.logger.info(saved_model_dir)
         # (saved_model_dir)
@@ -217,6 +220,7 @@ class Predictor:
             re_execute_pipline(flask_config)
             self.delete_extra_model()
             self.update_current_serving_model()
+            return
         saved_model_dir = self.current_serving_model
         logging.logger.info(saved_model_dir)
         # (saved_model_dir)
