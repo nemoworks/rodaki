@@ -49,7 +49,7 @@
 ### <span id="jump2"> Ditto 与 RabbitMQ 连接的建立 </span>
 
 
-ditto 服务启动后，回到 Ditto/ 目录，使用 manage_connection.sh 脚本创建所有连接
+ditto 服务启动后，回到 Ditto/ 目录，使用 manage_connections.sh 脚本创建所有连接
 
 	./manage_connections.sh --create
 	
