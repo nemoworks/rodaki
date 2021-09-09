@@ -49,14 +49,14 @@
 ### <span id="jump2"> Ditto 与 RabbitMQ 连接的建立 </span>
 
 
-ditto 服务启动后，回到 Ditto/ 目录，使用 manage_connection.sh 脚本创建所有连接
+ditto 服务启动后，回到 Ditto/ 目录，使用 manage_connections.sh 脚本创建所有连接
 
-	./manage_connection.sh --create
+	./manage_connections.sh --create
 	
 使用 -h 查看可对连接进行的管理操作，使用 open/close/delete/retrieve 选项执行 打开/关闭/删除/获取信息 操作，连接创建好后默认状态为 closed，使用 --open 选项打开所有连接进行消费
 
-	./manage_connection.sh -h
-	./manage_connection.sh --open
+	./manage_connections.sh -h
+	./manage_connections.sh --open
 
 
 ### <span id="jump3"> Things 的统计与删除 </span>
