@@ -140,6 +140,8 @@ services:
   #     ME_CONFIG_MONGODB_URL: mongodb://root:123456@mongo:27017/
 
 
+#################### ditto services #########################################
+
   mongodb:
     image: docker.io/mongo:4.2
     networks:
@@ -176,6 +178,7 @@ services:
     # only needed if DITTO_LOGGING_FILE_APPENDER is set
     # volumes:
     #  - ditto_log_files:/var/log/ditto
+
 
   things:
     image: docker.io/eclipse/ditto-things:${DITTO_VERSION:-latest}
