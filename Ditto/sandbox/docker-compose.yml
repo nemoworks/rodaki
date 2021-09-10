@@ -1,0 +1,157 @@
+# Copyright (c) 2019 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Public License 2.0 which is available at
+# http://www.eclipse.org/legal/epl-2.0
+#
+# SPDX-License-Identifier: EPL-2.0
+version: '2.4'
+
+services:
+  mongodb:
+    image: docker.io/mongo:4.2
+    networks:
+      default:
+        aliases:
+          - mongodb
+    command: mongod --storageEngine wiredTiger --noscripting
+    volumes:
+      - "/opt/docker-volumes/mongo-data:/data/db"
+    environment:
+       TZ: Europe/Berlin
+
+  policies:
+    image: docker.io/eclipse/ditto-policies:${DITTO_VERSION:-latest}
+    mem_limit: 384m
+    networks:
+      default:
+        aliases:
+          - ditto-cluster
+    environment:
+      - TZ=Europe/Berlin
+      - INSTANCE_INDEX=1
+      - BIND_HOSTNAME=0.0.0.0
+      - OPENJ9_JAVA_OPTIONS=-XX:+ExitOnOutOfMemoryError -Xtune:virtualized -Xss512k -XX:MaxRAMPercentage=80 -Dakka.coordinated-shutdown.exit-jvm=on -Dakka.cluster.shutdown-after-unsuccessful-join-seed-nodes=120s
+      - MONGO_DB_HOSTNAME=mongodb
+
+  things:
+    image: docker.io/eclipse/ditto-things:${DITTO_VERSION:-latest}
+    mem_limit: 384m
+    networks:
+      default:
+        aliases:
+          - ditto-cluster
+    depends_on:
+      - policies
+    environment:
+      - TZ=Europe/Berlin
+      - INSTANCE_INDEX=1
+      - BIND_HOSTNAME=0.0.0.0
+      - OPENJ9_JAVA_OPTIONS=-XX:+ExitOnOutOfMemoryError -Xtune:virtualized -Xss512k -XX:MaxRAMPercentage=80 -Dakka.coordinated-shutdown.exit-jvm=on -Dakka.cluster.shutdown-after-unsuccessful-join-seed-nodes=120s
+      - MONGO_DB_HOSTNAME=mongodb
+
+  things-search:
+    image: docker.io/eclipse/ditto-things-search:${DITTO_VERSION:-latest}
+    mem_limit: 384m
+    networks:
+      default:
+        aliases:
+          - ditto-cluster
+    depends_on:
+      - policies
+    environment:
+      - TZ=Europe/Berlin
+      - INSTANCE_INDEX=1
+      - BIND_HOSTNAME=0.0.0.0
+      - OPENJ9_JAVA_OPTIONS=-XX:+ExitOnOutOfMemoryError -Xtune:virtualized -Xss512k -XX:MaxRAMPercentage=80 -Dakka.coordinated-shutdown.exit-jvm=on -Dakka.cluster.shutdown-after-unsuccessful-join-seed-nodes=120s
+      - MONGO_DB_HOSTNAME=mongodb
+
+  concierge:
+    image: docker.io/eclipse/ditto-concierge:${DITTO_VERSION:-latest}
+    mem_limit: 384m
+    networks:
+      default:
+        aliases:
+          - ditto-cluster
+    depends_on:
+      - policies
+    environment:
+      - TZ=Europe/Berlin
+      - INSTANCE_INDEX=1
+      - BIND_HOSTNAME=0.0.0.0
+      - OPENJ9_JAVA_OPTIONS=-XX:+ExitOnOutOfMemoryError -Xtune:virtualized -Xss512k -XX:MaxRAMPercentage=80 -Dakka.coordinated-shutdown.exit-jvm=on -Dakka.cluster.shutdown-after-unsuccessful-join-seed-nodes=120s
+      - MONGO_DB_HOSTNAME=mongodb
+
+  connectivity:
+    image: docker.io/eclipse/ditto-connectivity:${DITTO_VERSION:-latest}
+    mem_limit: 384m
+    networks:
+      default:
+        aliases:
+          - ditto-cluster
+    depends_on:
+      - policies
+      - concierge
+    environment:
+      - TZ=Europe/Berlin
+      - INSTANCE_INDEX=1
+      - BIND_HOSTNAME=0.0.0.0
+      - OPENJ9_JAVA_OPTIONS=-XX:+ExitOnOutOfMemoryError -Xtune:virtualized -Xss512k -XX:MaxRAMPercentage=80 -Dakka.coordinated-shutdown.exit-jvm=on -Dakka.cluster.shutdown-after-unsuccessful-join-seed-nodes=120s
+      - MONGO_DB_HOSTNAME=mongodb
+
+  gateway:
+    image: docker.io/eclipse/ditto-gateway:${DITTO_VERSION:-latest}
+    mem_limit: 384m
+    networks:
+      default:
+        aliases:
+          - ditto-cluster
+    depends_on:
+      - policies
+      - concierge
+    environment:
+      - TZ=Europe/Berlin
+      - INSTANCE_INDEX=1
+      - BIND_HOSTNAME=0.0.0.0
+      - ENABLE_PRE_AUTHENTICATION=true
+      - DEVOPS_SECURE_STATUS=false
+      - OPENJ9_JAVA_OPTIONS=-XX:+ExitOnOutOfMemoryError -Xtune:virtualized -Xss512k -XX:MaxRAMPercentage=80 -Dakka.coordinated-shutdown.exit-jvm=on -Dakka.cluster.shutdown-after-unsuccessful-join-seed-nodes=120s
+
+  swagger-ui:
+    image: docker.io/swaggerapi/swagger-ui:v3.38.0
+    volumes:
+       - ../../../documentation/src/main/resources/openapi:/usr/share/nginx/html/openapi:ro
+       - ../../../documentation/src/main/resources/images:/usr/share/nginx/html/images:ro
+       - ../swagger3-index.html:/usr/share/nginx/html/index.html:ro
+    command: nginx -g 'daemon off;'
+
+#  node-red:
+#    image: docker.io/nodered/node-red-docker:latest
+#    volumes:
+#       - /opt/docker-volumes/nodered-data:/data:rw
+#       - ./nodered/settings.js:/data/settings.js:ro
+#       - ./nodered/package.json:/data/package.json:rw
+#       - ./nodered/flows-ditto.json:/data/flows-ditto.json:rw
+
+  nginx:
+    image: docker.io/nginx:1.13-alpine
+    volumes:
+       - ./nginx.conf:/etc/nginx/nginx.conf:ro
+       - ./nginx.htpasswd:/etc/nginx/nginx.htpasswd:ro
+       - ./nginx-devops.htpasswd:/etc/nginx/nginx-devops.htpasswd:ro
+       - ./html:/etc/nginx/html
+       - ../nginx-cors.conf:/etc/nginx/nginx-cors.conf:ro
+       - ../../../documentation/src/main/resources/images:/etc/nginx/html/images:ro
+       - /opt/letsencrypt/src/letsencrypt/letsencrypt-site/.well-known:/etc/nginx/html/.well-known:ro
+       - /opt/letsencrypt/src/production/dh-param/dhparam-2048.pem:/etc/ssl/certs/dhparam-2048.pem
+       - /opt/docker-volumes/etc/letsencrypt/live/ditto.eclipseprojects.io/fullchain.pem:/etc/letsencrypt/live/ditto.eclipseprojects.io/fullchain.pem
+       - /opt/docker-volumes/etc/letsencrypt/live/ditto.eclipseprojects.io/privkey.pem:/etc/letsencrypt/live/ditto.eclipseprojects.io/privkey.pem
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - gateway
+      - swagger-ui

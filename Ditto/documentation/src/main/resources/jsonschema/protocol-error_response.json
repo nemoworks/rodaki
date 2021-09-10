@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "description": "The Ditto Protocol error response is sent in response to a command that failed during execution.",
+  "title": "Ditto Protocol error response",
+  "properties": {
+    "topic": {
+      "type": "string",
+      "description": "Contains the topic of the error including on which channel it was issued: `<namespace>/<name>/<group>/<optional-channel>/errors`\n* for Thing related errors: `<namespace>/<name>/things/twin/errors`\n* for Policy related errors: `<namespace>/<name>/policies/errors`"
+    },
+    "headers": {
+      "type": "object",
+      "description": "Additional headers.",
+      "properties": {
+        "correlation-id": {
+          "type": "string",
+          "description": "The correlation-id header is used for linking one message with another. It typically links a reply message with its requesting message."
+        }
+      },
+      "required": [ "correlation-id" ]
+    },
+    "path": {
+      "type": "string",
+      "description": "The path is always `/` for error responses."
+    },
+    "value": {
+      "type": "object",
+      "description": "The _value_ field contains information about the error that occurred.",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "title": "Error status",
+          "description": "The status code of the error with HTTP status code semantics (e.g.: 4xx for user errors, 5xx for server errors)."
+        },
+        "error": {
+          "type": "string",
+          "title": "Error code",
+          "description": "The error code or identifier that uniquely identifies the error.\nThis code is not to be considered as API and must therefore not be relied on.\nIt might change without prior notice."
+        },
+        "message": {
+          "type": "string",
+          "title": "Error message",
+          "description": "The human readable message that explains what went wrong during the execution of a command/message."
+        },
+        "description": {
+          "type": "string",
+          "title": "Error description",
+          "description": "Contains further information about the error e.g. a hint what caused the problem and how to solve it."
+        },
+        "href": {
+          "type": "string",
+          "title": "Error link",
+          "description": "A link to further information about the error and how to fix it."
+        }
+      },
+      "required": [
+        "status",
+        "error",
+        "message"
+      ]
+    },
+    "status": {
+      "type": "integer",
+      "description": "The status code that indicates the result of the command. The semantics of the used status codes are based on the [HTTP status codes](https://tools.ietf.org/html/rfc7231#section-6)."
+    }
+  },
+  "required": [ "topic", "headers", "path", "value","status" ]
+}

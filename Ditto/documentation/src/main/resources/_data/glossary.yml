@@ -1,0 +1,38 @@
+asset: "An asset can be anything from a tangible and physical device to the more intangible such as the reputation of a
+       company. In our context we define an asset as any item, entity, application or even system of applications that
+       can be registered at Eclipse Ditto using the `Thing` concept."
+
+attributes: "Attributes describe the Thing in more detail and can be of any type.
+             Attributes can be used to find Things.
+             Attributes are typically used to model rather static properties at the Thing level.
+             Static means that the values do not change as frequently as property values of Features."
+
+cqrs: "Command-Query Responsibility Segregation. A pattern Ditto applies in order to handle commands (ModifyCommands in
+      Ditto) and queries (QueryCommands in Ditto) differently, e.g. by reading queries from memory and persisting
+      commands to a datastore."
+
+feature: "A Feature clusters a set of coherent Properties and has an optional Feature definition."
+
+properties: "A feature may consist of a distinct set of properties, which are functional or logically coherent.
+            The feature properties can represent: _properties_ (e.g. values as reported by a physical device)
+            or _desiredProperties_ (e.g. values set via a remote management UI, aiming to trigger
+            the device integration layer to change the device configuration).
+            Each property itself can be either a simple scalar value or a complex object. Allowed is any JSON object."
+
+iiot: "Industrial Internet of Things - also known as 'Industry 4.0'"
+
+iot: "Internet of Things"
+
+jwt: "JSON Web Token (JWT)"
+
+policy: "A Policy enables developers to configure fine-grained access control in an easy way.
+         A specific policy defines who (subject) is granted or revoked permissions (rights) on a specific resource.
+         The resource can be defined as rough or as fine-grained as necessary for the respective use case. "
+
+rql: "Resource Query Language"
+
+sse: "Server Sent Events - one way messaging/push from a HTTP server to a consuming client (e.g. a browser)."
+
+thing: "A Thing is a generic entity and is mostly used to cluster multiple Features and manage the access to the data
+        and functionality the Thing represents.
+        A Thing may have additional metadata (Attributes) that describes the Thing in more detail."

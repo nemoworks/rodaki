@@ -15,19 +15,9 @@
 * Docker Compose 已经安装
 
 
-在 Ditto/ 目录下获取 ditto  
+在 Ditto/ 目录下运行 ditto  
 
-	git clone https://github.com/eclipse/ditto.git
-	
-	
-修改配置文件 docker-compose.yml
-
-	cp docker-compose.yml ditto/deployment/docker/
-
-
-运行 ditto  
-
-	cd ditto/deployment/docker/
+	cd Ditto/deployment/docker/
 	docker-compose up -d
 
 
@@ -39,7 +29,7 @@
 
 	docker-compose ps
 	docker stats
-	docker restart mongodb/policies/things/things-search/concierge/connectivity
+	docker restart mongodb
 
 停止 ditto  
 
@@ -49,7 +39,7 @@
 ### <span id="jump2"> Ditto 与 RabbitMQ 连接的建立 </span>
 
 
-ditto 服务启动后，回到 Ditto/ 目录，使用 manage_connections.sh 脚本创建所有连接
+ditto 服务启动后，回到 Ditto/ 目录，使用 manage_connection.sh 脚本创建所有连接
 
 	./manage_connections.sh --create
 	
@@ -85,3 +75,5 @@ ditto 服务启动后，回到 Ditto/ 目录，使用 manage_connections.sh 脚�
 删除 ditto 中所有 thing
 
 	./delete_all_things.sh
+
+

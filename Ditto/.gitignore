@@ -1,1 +1,3 @@
 ditto/
+mongo_local_data/*
+mongo_local_configdb/*

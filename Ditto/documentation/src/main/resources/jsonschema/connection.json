@@ -1,0 +1,582 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Connection",
+  "type": "object",
+  "properties": {
+    "id": {
+      "$id": "/properties/id",
+      "type": "string",
+      "title": "Connection ID",
+      "description": "The self assigned unique identifier of the connection",
+      "examples": [
+        "myConnection"
+      ]
+    },
+    "name": {
+      "$id": "/properties/name",
+      "type": "string",
+      "title": "Connection name",
+      "description": "A name describing the connection",
+      "examples": [
+        "My first Connection"
+      ]
+    },
+    "connectionType": {
+      "$id": "/properties/connectionType",
+      "type": "string",
+      "enum": [ "amqp-091", "amqp-10", "mqtt", "mqtt-5", "kafka", "http-push" ],
+      "title": "Connection type",
+      "description": "The type determining the connection's underlying transport protocol",
+      "examples": [
+        "amqp-10"
+      ]
+    },
+    "connectionStatus": {
+      "$id": "/properties/connectionStatus",
+      "type": "string",
+      "enum": [ "open", "closed" ],
+      "title": "Connection status",
+      "description": "The persisted/desired status of the connection",
+      "examples": [
+        "open"
+      ]
+    },
+    "uri": {
+      "$id": "/properties/uri",
+      "type": "string",
+      "format": "uri",
+      "title": "Connection URI",
+      "description": "The URI defining the connections remote endpoint",
+      "examples": [
+        "amqps://user:password@localhost:5671"
+      ]
+    },
+    "ca": {
+      "$id": "/properties/ca",
+      "type": "string",
+      "title": "Trusted certificates",
+      "description": "Certificates to trust as DER in PEM-format",
+      "examples": [
+        "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----\n"
+      ]
+    },
+    "credentials": {
+      "$id": "/properties/credentials",
+      "type": "object",
+      "title": "Credentials",
+      "description": "Credentials with which Ditto authenticates itself at the connection URI",
+      "properties": {
+        "type": {
+          "$id": "/properties/credentials/properties/type",
+          "type": "string",
+          "enum": [ "client-cert" ],
+          "title": "Type of credentials",
+          "description": "Type of credentials",
+          "examples": [
+            "client-cert"
+          ]
+        },
+        "cert": {
+          "$id": "/properties/credentials/properties/cert",
+          "type": "string",
+          "title": "Client certificate for type client-cert",
+          "description": "Client certificate for type client-cert as DER in PEM-format",
+          "examples": [
+            "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----\n"
+          ]
+        },
+        "key": {
+          "$id": "/properties/credentials/properties/key",
+          "type": "string",
+          "title": "Client private key for type client-cert",
+          "description": "Unencrypted client private for type client-cert as PKCS8 in PEM-format",
+          "examples": [
+            "-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
+          ]
+        }
+      }
+    },
+    "sources": {
+      "$id": "/properties/sources",
+      "type": "array",
+      "title": "The subscription sources of this connection",
+      "description": "The subscription sources of this connection",
+      "uniqueItems": true,
+      "items": {
+        "$id": "/properties/sources/items",
+        "type": "object",
+        "title": "Source",
+        "description": "A subscription source subscribed by this connection",
+        "properties": {
+          "addresses": {
+            "$id": "/properties/sources/properties/addresses",
+            "type": "array",
+            "uniqueItems": true,
+            "title": "Array of source addresses",
+            "description": "The source addresses this connection consumes messages from.",
+            "items": {
+              "$id": "/properties/sources/items/addresses/items",
+              "type": "string",
+              "title": "Source address",
+              "description": "A source address to consume messages from."
+            }
+          },
+          "consumerCount": {
+            "$id": "/properties/sources/items/properties/consumerCount",
+            "type": "integer",
+            "title": "Consumer count",
+            "description": "The number of consumers that should be attached to each source address.",
+            "default": 1
+          },
+          "authorizationContext": {
+            "$id": "/properties/sources/items/properties/authorizationContext",
+            "type": "array",
+            "title": "The authorization context",
+            "description": "The authorization context defines all authorization subjects associated for this source. ",
+            "uniqueItems": true,
+            "items": {
+              "$id": "/properties/authorizationContext/items",
+              "type": "string",
+              "title": "Authorization Subject",
+              "description": "An authorization subject associated with this source. You can either use a fixed subject or use a placeholder that resolves header values from incoming messages. For example to use the `device_id` header in the subject, you can specify the placeholder `{{ header:device_id }}` which is then replaced by Ditto when a message from this source is processed. By using a placeholder you can access any header value: `{{ header:<any-header-name> }}`.",
+              "examples": [
+                "ditto:myAuthorizationSubject",
+                "device:{{ header:device-id }}"
+              ]
+            }
+          },
+          "enforcement": {
+            "$id": "/properties/sources/items/properties/enforcement",
+            "type": "object",
+            "title": "Enforcement configuration",
+            "description": "Configuration of enforcement for this source",
+            "properties": {
+              "input": {
+                "$id": "/properties/sources/items/properties/enforcement/input",
+                "type": "string",
+                "title": "Input value of enforcement",
+                "description": "The input value of the enforcement that should identify the origin of the message (e.g. a device id). Placeholders can be used within this field depending on the connection type. E.g. for AMQP 1.0 connections you can use `{{ header:[any-header-name] }}` to resolve the value from a message header.",
+                "examples": ["{{ header:device_id }}", "{{ source:address }}"]
+              },
+              "filters": {
+                "$id": "/properties/sources/items/properties/enforcement/filters",
+                "type": "array",
+                "uniqueItems": true,
+                "title": "Array of enforcement filters",
+                "description": "An array of filters. One of the defined filters must match the input value from the message otherwise the message is rejected.",
+                "items": {
+                  "$id": "/properties/sources/items/enforcement/filters/items",
+                  "type": "string",
+                  "title": "Enforcement filter string",
+                  "description": "A filter that must match the input value for a message to be accepted. You can use the placeholders `{{ thing:id }}`, `{{ thing:name }}` or `{{ thing:namespace }}` in a filter."
+                }
+              }
+            }
+          },
+          "acknowledgementRequests": {
+            "$id": "/properties/sources/items/properties/acknowledgementRequests",
+            "type": "object",
+            "title": "Acknowledgement requests configuration",
+            "description": "Contains requests to acknowledgements which must be fulfilled before a message consumed from this source is technically settled/ACKed at the e.g. message broker.",
+            "additionalProperties": false,
+            "properties": {
+              "includes": {
+                "$id": "/properties/sources/items/properties/acknowledgementRequests/includes",
+                "type": "array",
+                "title": "Included acknowledgement requests",
+                "description": "Acknowledgement requests to be included for each message consumed by this source.",
+                "items": {
+                  "title": "String representation of a single acknowledgement request",
+                  "type": "string"
+                }
+              },
+              "filter": {
+                "$id": "/properties/sources/items/properties/acknowledgementRequests/filter",
+                "type": "string",
+                "title": "Filter expression whether to include acknowledgements at all",
+                "description": "Optional filter to be applied to the requested acknowledgements - takes an `fn:filter()` function expression",
+                "examples": [
+                  "fn:filter(header:qos,'ne',0)"
+                ]
+              }
+            },
+            "required": [
+              "includes"
+            ]
+          },
+          "declaredAcks": {
+            "$id": "/properties/sources/items/properties/declaredAcks",
+            "type": "array",
+            "title": "Declared acknowledgement labels",
+            "description": "Contains labels of acknowledgements this source is allowed to send. Must be globally unique.",
+            "items": {
+              "title": "Acknowledgement label",
+              "type": "string"
+            }
+          },
+          "payloadMapping": {
+            "$id": "/properties/sources/items/properties/payloadMapping",
+            "type": "array",
+            "description": "References the IDs of payload mappers defined in the payload mapping definitions that are applied to messages received via this source.",
+            "items": {
+              "title": "Payload definition reference",
+              "type": "string"
+            }
+          },
+          "headerMapping": {
+            "$id": "/properties/sources/items/properties/headerMapping",
+            "type": "object",
+            "title": "Header mapping configuration",
+            "description": "Ditto protocol headers computed from external headers and certain properties of the Ditto protocol messages created by payload mapping.",
+            "additionalProperties": false,
+            "patternProperties": {
+              "^.+$": {
+                "title": "header value",
+                "description": "The key is the Ditto protocol header key to set, the value can make use of placeholders in order to access external header values via `{{ header:[any-header-name] }}`, the Thing ID via `{{ thing:id }}` or to access the Ditto protocol topic via `{{ topic:[topic-placeholder-attr] }}`.",
+                "type": "string"
+              }
+            }
+          },
+          "replyTarget": {
+            "$id": "/properties/sources/items/properties/replyTarget",
+            "type": "object",
+            "title": "Reply target configuration",
+            "description": "Configuration for sending responses of incoming commands.",
+            "properties": {
+              "enabled": {
+                "$id": "/properties/sources/items/properties/replyTarget/enabled",
+                "type": "boolean",
+                "title": "Whether reply target is enabled",
+                "description": "Whether reply target is enabled."
+              },
+              "address": {
+                "$id": "/properties/sources/items/properties/replyTarget/address",
+                "type": "string",
+                "title": "Reply target address",
+                "description": "The target address where responses of incoming commands from the parent source are published to. The following placeholders are allowed within the target address:\n * Thing ID: `{{ thing:id }}`\n * Thing Namespace: `{{ thing:namespace }}`\n * Thing Name: `{{ thing:name }}` (the part of the ID without the namespace)\n * Ditto protocol topic attribute: `{{ topic:[topic-placeholder-attr] }}`\n * Ditto protocol header value: `{{ header:[any-header-name] }}`\n\nIf placeholder resolution fails for a response, then the response is dropped.",
+                "examples": ["{{ header:device_id }}", "{{ source:address }}"]
+              },
+              "headerMapping": {
+                "$id": "/properties/sources/items/properties/replyTarget/headerMapping",
+                "type": "object",
+                "title": "Header mapping configuration",
+                "description": "External headers computed from headers and other properties of Ditto protocol messages.",
+                "additionalProperties": false,
+                "patternProperties": {
+                  "^.+$": {
+                    "title": "header value",
+                    "description": "The key is the external header key to set, the value can make use of placeholders in order to access Ditto protocol header values via `{{ header:[any-header-name] }}`, the Thing ID via `{{ thing:id }}` or to access the DittoProtocol topic via `{{ topic:[topic-placeholder-attr] }}`.",
+                    "type": "string"
+                  }
+                }
+              },
+              "expectedResponseTypes": {
+                "$id": "/properties/sources/items/properties/replyTarget/expectedResponseTypes",
+                "type": "array",
+                "title": "Expected response types",
+                "description": "Contains a list of response types that should be published to the reply target.",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "title": "Response types",
+                  "enum": [
+                    "response",
+                    "error",
+                    "nack"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "address"
+            ]
+          }
+        }
+      }
+    },
+    "targets": {
+      "$id": "/properties/targets",
+      "type": "array",
+      "title": "The publish targets of this connection",
+      "description": "The publish targets of this connection",
+      "uniqueItems": true,
+      "items": {
+        "$id": "/properties/targets/items",
+        "type": "object",
+        "title": "Target",
+        "description": "A publish target served by this connection",
+        "properties": {
+          "address": {
+            "$id": "/properties/targets/properties/address",
+            "type": "string",
+            "title": "Target address",
+            "description": "The target address where events, commands and messages are published to. The following placeholders are allowed within the target address:\n * Thing ID: `{{ thing:id }}`\n * Thing Namespace: `{{ thing:namespace }}`\n * Thing Name: `{{ thing:name }}` (the part of the ID without the namespace)\n * Ditto protocol topic attribute: `{{ topic:[topic-placeholder-attr] }}`\n * Ditto protocol header value: `{{ header:[any-header-name] }}`"
+          },
+          "topics": {
+            "$id": "/properties/targets/items/properties/topics",
+            "type": "array",
+            "title": "Topics",
+            "description": "The topics to which this target is registered for.",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "title": "Subscribed topics.",
+              "description": "Contains the type of messages that are delivered to this target. You can receive\n * Thing events: `_/_/things/twin/events` (notification about twin change) \n * Live events: `_/_/things/live/events`\n * Live commands: `_/_/things/live/commands`\n * Live messages: `_/_/things/live/messages`\n\nYou can specify an additional namespace and/or event filter (URL encoded)",
+              "examples": [
+                "_/_/things/twin/events",
+                "_/_/things/twin/events?namespaces=org.eclipse.ditto.one,org.eclipse.foo",
+                "_/_/things/twin/events?namespaces=org.eclipse.ditto&filter=eq(attributes/counter,42)",
+                "_/_/things/twin/events?extraFields=attributes",
+                "_/_/things/twin/events?extraFields=attributes&filter=eq(attributes/counter,42)",
+                "_/_/things/live/commands",
+                "_/_/things/live/commands?namespaces=org.eclipse.ditto.one",
+                "_/_/things/live/events",
+                "_/_/things/live/events?filter=eq(attributes/counter,42)",
+                "_/_/things/live/messages",
+                "_/_/things/live/messages?namespaces=org.eclipse.ditto",
+                "_/_/things/live/messages?extraFields=attributes/tags,attributes/location"
+              ]
+            }
+          },
+          "authorizationContext": {
+            "$id": "/properties/targets/items/properties/authorizationContext",
+            "type": "array",
+            "title": "The authorization context",
+            "description": "The authorization context defines all authorization subjects associated for this target. ",
+            "uniqueItems": true,
+            "items": {
+              "$id": "/properties/authorizationContext/items",
+              "type": "string",
+              "title": "Authorization Subject",
+              "description": "An authorization subject associated with this target.",
+              "examples": [
+                "ditto:myAuthorizationSubject"
+              ]
+            }
+          },
+          "issuedAcknowledgementLabel": {
+            "$id": "/properties/targets/items/properties/issuedAcknowledgementLabel",
+            "type": "string",
+            "title": "Issued acknowledgement label for this target",
+            "description": "the optional label of an acknowledgement which should automatically be issued by this target based on the technical settlement/ACK the connection channel provides."
+          },
+          "payloadMapping": {
+            "$id": "/properties/targets/items/properties/payloadMapping",
+            "type": "array",
+            "description": "References the IDs of payload mappers defined in the payload mapping definitions that are applied to messages received via this target.",
+            "items": {
+              "title": "Payload definition reference",
+              "type": "string"
+            }
+          },
+          "headerMapping": {
+            "$id": "/properties/targets/items/properties/headerMapping",
+            "type": "object",
+            "title": "Header mapping configuration",
+            "description": "External headers computed from headers and other properties of Ditto protocol messages.",
+            "additionalProperties": false,
+            "patternProperties": {
+              "^.+$": {
+                "title": "header value",
+                "description": "The key is the external header key to set, the value can make use of placeholder in order to access Ditto protocol header values via `{{ header:[any-header-name] }}`, the Thing ID via `{{ thing:id }}` or to access the Ditto protocol topic via `{{ topic:[topic-placeholder-attr] }}`.",
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "clientCount": {
+      "$id": "/properties/clientCount",
+      "type": "integer",
+      "title": "Client count",
+      "description": "The client count defines how many clients are instantiated for this connection. Each client opens a separate 'physical' connection and thus raises the overall availability and throughput of the connection. Clients are always instantiated on separate AKKA cluster nodes while having only a single client per node. Therefore the max client count is limited by the number of cluster nodes.",
+      "default": 1,
+      "minimum": 1,
+      "maximum": "#clusterNodes",
+      "examples": [
+        1,2,3
+      ]
+    },
+    "failoverEnabled": {
+      "$id": "/properties/failoverEnabled",
+      "type": "boolean",
+      "title": "Failover enabled",
+      "description": "Defines if this connection uses automatic reconnect/recovery mechanisms when an active open connection fails",
+      "default": true
+    },
+    "validateCertificates": {
+      "$id": "/properties/validateCertificates",
+      "type": "boolean",
+      "title": "Validate certificates",
+      "description": "Defines if SSL certificate validation is enabled for this connection",
+      "default": true
+    },
+    "processorPoolSize": {
+      "$id": "/properties/processorPoolSize",
+      "type": "integer",
+      "title": "Processor pool size",
+      "description": "The processor pool size determines how many mapping processors are instantiated per client, therefore the total amount of mapping processors depends on the configured client count. By increasing the processor count, you can scale the message throughput in mapping scenarios.",
+      "default": 5,
+      "minimum": 1,
+      "examples": [
+        1,2,3,5,8
+      ]
+    },
+    "specificConfig": {
+      "$id": "/properties/specificConfig",
+      "type": "object",
+      "title": "Specific config",
+      "description": "Depending on the configured connection type, there might be protocol specific configuration options or tuning settings available. These can be configured in the specific config object. The specific config object is interpreted as a key value based map of setting properties.",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^.+$": {
+          "title": "Setting value",
+          "description": "Setting value",
+          "type": "string"
+        }
+      }
+    },
+    "mappingDefinitions": {
+      "$id": "/properties/mappingDefinitions",
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "description": "The payload mapping definitions.",
+        "properties": {
+          "mappingEngine": {
+            "$id": "/properties/mappingDefinitions/properties/mappingEngine",
+            "type": "string",
+            "title": "Mapping engine",
+            "description": "The Mapping engine defines which kind of mapping processor is instantiated for this connection. Currently you can choose between `Ditto`, `JavaScript`, `Normalized` and `ConnectionStatus`. The payload mapper documentation provides a detailed description of available mappers or how to bring your own mapper."
+          },
+          "options": {
+            "$id": "/properties/mappingDefinitions/properties/options",
+            "type": "object",
+            "title": "Options",
+            "description": "The mapping options contain specific configuration settings for the selected mapping engine. The options object is interpreted as a key value based map of setting properties.",
+            "additionalProperties": false,
+            "patternProperties": {
+              "^.+$": {
+                "title": "Setting value",
+                "description": "Setting value",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "mappingEngine"
+        ]
+      }
+    },
+    "sshTunnel": {
+      "$id": "/properties/sshTunnel",
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "description": "The configuration of a local SSH port forwarding used to tunnel the connection to the actual endpoint.",
+        "properties": {
+          "enabled": {
+            "$id": "/properties/sshTunnel/properties/enabled",
+            "type": "boolean",
+            "title": "Whether the tunnel is enabled.",
+            "description": "This flag controls whether Ditto establishes an SSH tunnel before connecting to the actual endpoint."
+          },
+          "uri": {
+            "$id": "/properties/sshTunnel/properties/uri",
+            "type": "string",
+            "title": "SSH host",
+            "description": "The URI of the SSH host."
+          },
+          "credentials": {
+            "$id": "/properties/sshTunnel/properties/credentials",
+            "type": "object",
+            "title": "Credentials",
+            "description": "Credentials with which Ditto authenticates itself at the SSH host.",
+            "properties": {
+              "type": {
+                "$id": "/properties/sshTunnel/properties/credentials/properties/type",
+                "type": "string",
+                "enum": [
+                  "password",
+                  "public-key"
+                ],
+                "title": "Type of credentials",
+                "description": "Type of credentials",
+                "examples": [
+                  "password",
+                  "public-key"
+                ]
+              },
+              "username": {
+                "$id": "/properties/sshTunnel/properties/credentials/properties/username",
+                "type": "string",
+                "title": "The username for authentication.",
+                "description": "A valid username.",
+                "examples": [
+                  "tunnel-user"
+                ]
+              },
+              "password": {
+                "$id": "/properties/sshTunnel/properties/credentials/properties/password",
+                "type": "string",
+                "title": "The password for authentication.",
+                "description": "A valid password. Only required for type `plain`.",
+                "examples": [
+                  "*****"
+                ]
+              },
+              "publicKey": {
+                "$id": "/properties/sshTunnel/properties/credentials/properties/publicKey",
+                "type": "string",
+                "title": "Public key for credentials type `public-key`.",
+                "description": "Public key for type `public-key` in PEM-format.",
+                "examples": [
+                  "-----BEGIN PUBLIC KEY-----\n...\n-----END PUBLIC KEY-----\n"
+                ]
+              },
+              "privateKey": {
+                "$id": "/properties/sshTunnel/properties/credentials/properties/privateKey",
+                "type": "string",
+                "title": "Private key for credentials type `public-key`.",
+                "description": "Unencrypted private key for type `public-key` as PKCS8 in PEM-format.",
+                "examples": [
+                  "-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
+                ]
+              }
+            }
+          },
+          "validateHost": {
+            "$id": "/properties/sshTunnel/properties/validateHost",
+            "type": "boolean",
+            "title": "Whether the SSH host is verified.",
+            "description": "This flag controls whether Ditto verifies the SSH host used for tunneling by checking the public key provided by the host against the given public key fingerprints."
+          },
+          "knownHosts": {
+            "$id": "/properties/sshTunnel/properties/knownHosts",
+            "type": "array",
+            "title": "A list of accepted fingerprints.",
+            "description": "One of these fingerprints must match the fingerprint of the public key the SSH host provides.",
+            "uniqueItems": true,
+            "items": {
+              "$id": "/properties/sshTunnel/properties/knownHosts/items",
+              "type": "string",
+              "title": "Fingerprint",
+              "description": "A public key fingerprint in the format the command line tool `ssh-keygen` produces, e.g. `MD5:e0:3a:34:1c:68:ed:c6:bc:7c:ca:a8:67:c7:45:2b:19`. The fingerprint is prefixed with the hash algorithm used to calculate the fingerprint. Supported algorithms are `MD5`, `SHA1`, `SHA224`, `SHA256`, `SHA384` and `SHA512`"
+            },
+            "additionalProperties": false,
+            "required": [
+              "enabled",
+              "uri",
+              "credentials"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [ "id", "connectionType", "connectionStatus", "uri", "authorizationContext"]
+}
