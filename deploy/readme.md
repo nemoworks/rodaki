@@ -52,7 +52,7 @@ elasticsearch需要持久化存储数据
 
 ## ditto 部署
 
-ditto 的服务已添加进 docker-compose.yaml 文件中，执行'docker-compose up -d'命令后，ditto 也一同启动，访问 [http://localhost:8080](http://localhost:8080) (或 docker-compose.yml 中手动配置的端口)验证 ditto 已启动或使用以下命令查看容器运行情况  
+ditto 的服务已添加进 docker-compose.yaml 文件中，执行`docker-compose up -d`命令后，ditto 也一同启动，访问 [http://localhost:8080](http://localhost:8080) (或 docker-compose.yml 中手动配置的端口)验证 ditto 已启动，或使用以下命令查看容器运行情况  
 
 `docker-compose ps`
 
