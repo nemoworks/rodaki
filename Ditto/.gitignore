@@ -1,3 +1,0 @@
-ditto/
-ditto_mongo_data/*
-!ditto_mongo_data/.gitkeep
