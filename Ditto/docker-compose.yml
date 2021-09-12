@@ -20,7 +20,6 @@ services:
     command: mongod --storageEngine wiredTiger --noscripting
     volumes:
       - ./ditto_mongo_data:/data/db
-      - ./ditto_mongo_configdb:/data/configdb
     # restart: "always"
     user: mongodb
     ports:
@@ -195,20 +194,20 @@ services:
   swagger-ui:
     image: docker.io/swaggerapi/swagger-ui:v3.38.0
     volumes:
-       - ./documentation/src/main/resources/openapi:/usr/share/nginx/html/openapi:ro
-       - ./documentation/src/main/resources/images:/usr/share/nginx/html/images:ro
-       - ./ditto_config/swagger3-index.html:/usr/share/nginx/html/index.html:ro
+       - ./ditto_conf/documentation/src/main/resources/openapi:/usr/share/nginx/html/openapi:ro
+       - ./ditto_conf/documentation/src/main/resources/images:/usr/share/nginx/html/images:ro
+       - ./ditto_conf/swagger3-index.html:/usr/share/nginx/html/index.html:ro
     command: nginx -g 'daemon off;'
     restart: "always"
 
   nginx:
     image: docker.io/nginx:1.20-alpine
     volumes:
-       - ./ditto_config/nginx.conf:/etc/nginx/nginx.conf:ro
-       - ./ditto_config/nginx.htpasswd:/etc/nginx/nginx.htpasswd:ro
-       - ./ditto_config/nginx-cors.conf:/etc/nginx/nginx-cors.conf:ro
-       - ./ditto_config/index.html:/etc/nginx/html/index.html:ro
-       - ./documentation/src/main/resources/images:/etc/nginx/html/images:ro
+       - ./ditto_conf/nginx.conf:/etc/nginx/nginx.conf:ro
+       - ./ditto_conf/nginx.htpasswd:/etc/nginx/nginx.htpasswd:ro
+       - ./ditto_conf/nginx-cors.conf:/etc/nginx/nginx-cors.conf:ro
+       - ./ditto_conf/index.html:/etc/nginx/html/index.html:ro
+       - ./ditto_conf/documentation/src/main/resources/images:/etc/nginx/html/images:ro
     ports:
       - "${DITTO_EXTERNAL_PORT:-8080}:80"
     restart: "always"
