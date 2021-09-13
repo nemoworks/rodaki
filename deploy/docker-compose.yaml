@@ -18,88 +18,88 @@
 
 version: "2.1"
 services:
-  # jobmanager:
-  #   image: apache/flink:1.13.1-scala_2.12-java8
-  #   command: "jobmanager.sh start-foreground"
-  #   ports:
-  #     - 8081:8081
-  #   volumes:
-  #     - ./flink-conf:/opt/flink/conf
-  #     - ./flink-checkpoint:/tmp/flink-checkpoints-directory
-  #     - ./flink-savepoint:/tmp/flink-savepoints-directory
-  #   environment:
-  #     - JOB_MANAGER_RPC_ADDRESS=jobmanager
-  #   networks:
-  #     - share_net
-  # taskmanager:
-  #   image: apache/flink:1.13.1-scala_2.12-java8
-  #   depends_on:
-  #     - jobmanager
-  #   command: "taskmanager.sh start-foreground"
-  #   volumes:
-  #     - ./flink-conf:/opt/flink/conf
-  #     - ./flink-checkpoint:/tmp/flink-checkpoints-directory
-  #     - ./flink-savepoint:/tmp/flink-savepoints-directory
-  #   environment:
-  #     - JOB_MANAGER_RPC_ADDRESS=jobmanager
-  #   networks:
-  #     - share_net
-  # zookeeper:
-  #   image: wurstmeister/zookeeper
-  #   volumes:
-  #     - ./zookeeper-data:/opt/zookeeper-3.4.13/data
-  #   networks:
-  #     - share_net
-  # kafka:
-  #   image: wurstmeister/kafka:2.13-2.7.0
-  #   environment:
-  #     # KAFKA_ADVERTISED_LISTENERS: OUTSIDE://localhost:9094
-  #     # KAFKA_LISTENERS: OUTSIDE://kafka:9094
-  #     # KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: OUTSIDE:PLAINTEXT
-  #     # KAFKA_INTER_BROKER_LISTENER_NAME: OUTSIDE
-  #     # KAFKA_CREATE_TOPICS: "input:2:1, output:2:1"
-  #     # KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-  #     KAFKA_BROKER_ID: 1
-  #     KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9092,OUTSIDE://localhost:9094
-  #     KAFKA_LISTENERS: INSIDE://0.0.0.0:9092,OUTSIDE://0.0.0.0:9094
-  #     KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
-  #     KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
-  #     KAFKA_CREATE_TOPICS: "zcinput:1:1"
-  #     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-  #     KAFKA_LOG_DIRS: "/kafka"
-  #     KAFKA_LOG_RETENTION_HOURS: 720
-  #   ports:
-  #     - 9094:9094
-  #   volumes:
-  #     - ./kafka-data:/kafka
-  #   networks:
-  #     - share_net
-  # rabbitmq:
-  #   image: rabbitmq:3.8.20-management
-  #   hostname: myRabbitmq
-  #   environment:
-  #     RABBITMQ_DEFAULT_USER: admin
-  #     RABBITMQ_DEFAULT_PASS: admin
-  #     TZ: Asia/Shanghai
-  #     hostname: myRabbitmq
-  #   volumes:
-  #     - ./rabbitmq-data:/var/lib/rabbitmq
-  #     - ./rabbitmq_plugins:/etc/rabbitmq/enabled_plugins
-  #   ports:
-  #     - 15672:15672
-  #     - 5672:5672
-  #   networks:
-  #     - share_net
-  # iotdb:
-  #   image: apache/iotdb:0.12.1-node
-  #   networks:
-  #     - share_net
-  #   volumes:
-  #     - ./iotdb/data:/iotdb/data
-  #     - ./iotdb/logs:/iotdb/logs 
-  #   ports:
-  #     - 6667:6667
-  #     - 8182:8181
+  jobmanager:
+    image: apache/flink:1.13.1-scala_2.12-java8
+    command: "jobmanager.sh start-foreground"
+    ports:
+      - 8081:8081
+    volumes:
+      - ./flink-conf:/opt/flink/conf
+      - ./flink-checkpoint:/tmp/flink-checkpoints-directory
+      - ./flink-savepoint:/tmp/flink-savepoints-directory
+    environment:
+      - JOB_MANAGER_RPC_ADDRESS=jobmanager
+    networks:
+      - share_net
+  taskmanager:
+    image: apache/flink:1.13.1-scala_2.12-java8
+    depends_on:
+      - jobmanager
+    command: "taskmanager.sh start-foreground"
+    volumes:
+      - ./flink-conf:/opt/flink/conf
+      - ./flink-checkpoint:/tmp/flink-checkpoints-directory
+      - ./flink-savepoint:/tmp/flink-savepoints-directory
+    environment:
+      - JOB_MANAGER_RPC_ADDRESS=jobmanager
+    networks:
+      - share_net
+  zookeeper:
+    image: wurstmeister/zookeeper
+    volumes:
+      - ./zookeeper-data:/opt/zookeeper-3.4.13/data
+    networks:
+      - share_net
+  kafka:
+    image: wurstmeister/kafka:2.13-2.7.0
+    environment:
+      # KAFKA_ADVERTISED_LISTENERS: OUTSIDE://localhost:9094
+      # KAFKA_LISTENERS: OUTSIDE://kafka:9094
+      # KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: OUTSIDE:PLAINTEXT
+      # KAFKA_INTER_BROKER_LISTENER_NAME: OUTSIDE
+      # KAFKA_CREATE_TOPICS: "input:2:1, output:2:1"
+      # KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_BROKER_ID: 1
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9092,OUTSIDE://localhost:9094
+      KAFKA_LISTENERS: INSIDE://0.0.0.0:9092,OUTSIDE://0.0.0.0:9094
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+      KAFKA_CREATE_TOPICS: "zcinput:1:1"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LOG_DIRS: "/kafka"
+      KAFKA_LOG_RETENTION_HOURS: 720
+    ports:
+      - 9094:9094
+    volumes:
+      - ./kafka-data:/kafka
+    networks:
+      - share_net
+  rabbitmq:
+    image: rabbitmq:3.8.20-management
+    hostname: myRabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+      TZ: Asia/Shanghai
+      hostname: myRabbitmq
+    volumes:
+      - ./rabbitmq-data:/var/lib/rabbitmq
+      - ./rabbitmq_plugins:/etc/rabbitmq/enabled_plugins
+    ports:
+      - 15672:15672
+      - 5672:5672
+    networks:
+      - share_net
+  iotdb:
+    image: apache/iotdb:0.12.1-node
+    networks:
+      - share_net
+    volumes:
+      - ./iotdb/data:/iotdb/data
+      - ./iotdb/logs:/iotdb/logs 
+    ports:
+      - 6667:6667
+      - 8182:8181
   elasticsearch:
     image: elasticsearch:7.8.1
     networks:
