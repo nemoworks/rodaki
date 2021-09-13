@@ -155,7 +155,7 @@ services:
     ports:
       - 27017:27017
     environment:
-       TZ: Europe/Berlin
+       TZ: Asia/Shanghai
 
   policies:
     image: docker.io/eclipse/ditto-policies:${DITTO_VERSION:-latest}
@@ -166,7 +166,7 @@ services:
           - ditto-cluster
     restart: "always"
     environment:
-      - TZ=Europe/Berlin
+      - TZ=Asia/Shanghai
       - INSTANCE_INDEX=1
       - BIND_HOSTNAME=0.0.0.0
       - OPENJ9_JAVA_OPTIONS=-XX:+ExitOnOutOfMemoryError -Xtune:virtualized -Xss512k -XX:MaxRAMPercentage=80 -Dakka.coordinated-shutdown.exit-jvm=on -Dakka.cluster.shutdown-after-unsuccessful-join-seed-nodes=120s
@@ -193,7 +193,7 @@ services:
     depends_on:
       - policies
     environment:
-      - TZ=Europe/Berlin
+      - TZ=Asia/Shanghai
       - INSTANCE_INDEX=1
       - BIND_HOSTNAME=0.0.0.0
       - OPENJ9_JAVA_OPTIONS=-XX:+ExitOnOutOfMemoryError -Xtune:virtualized -Xss512k -XX:MaxRAMPercentage=80 -Dakka.coordinated-shutdown.exit-jvm=on -Dakka.cluster.shutdown-after-unsuccessful-join-seed-nodes=120s
@@ -219,7 +219,7 @@ services:
     depends_on:
       - policies
     environment:
-      - TZ=Europe/Berlin
+      - TZ=Asia/Shanghai
       - INSTANCE_INDEX=1
       - BIND_HOSTNAME=0.0.0.0
       - OPENJ9_JAVA_OPTIONS=-XX:+ExitOnOutOfMemoryError -Xtune:virtualized -Xss512k -XX:MaxRAMPercentage=80 -Dakka.coordinated-shutdown.exit-jvm=on -Dakka.cluster.shutdown-after-unsuccessful-join-seed-nodes=120s
@@ -245,7 +245,7 @@ services:
     depends_on:
       - policies
     environment:
-      - TZ=Europe/Berlin
+      - TZ=Asia/Shanghai
       - INSTANCE_INDEX=1
       - BIND_HOSTNAME=0.0.0.0
       - OPENJ9_JAVA_OPTIONS=-XX:+ExitOnOutOfMemoryError -Xtune:virtualized -Xss512k -XX:MaxRAMPercentage=80 -Dakka.coordinated-shutdown.exit-jvm=on -Dakka.cluster.shutdown-after-unsuccessful-join-seed-nodes=120s
@@ -275,7 +275,7 @@ services:
       - policies
       - concierge
     environment:
-      - TZ=Europe/Berlin
+      - TZ=Asia/Shanghai
       - INSTANCE_INDEX=1
       - BIND_HOSTNAME=0.0.0.0
       - OPENJ9_JAVA_OPTIONS=-XX:+ExitOnOutOfMemoryError -Xtune:virtualized -Xmx8192m  -Xss512k -XX:MaxRAMPercentage=80 -Dakka.coordinated-shutdown.exit-jvm=on -Dakka.cluster.shutdown-after-unsuccessful-join-seed-nodes=120s
@@ -304,7 +304,7 @@ services:
     ports:
       - "8082:8080"
     environment:
-      - TZ=Europe/Berlin
+      - TZ=Asia/Shanghai
       - INSTANCE_INDEX=1
       - BIND_HOSTNAME=0.0.0.0
       - ENABLE_PRE_AUTHENTICATION=true
