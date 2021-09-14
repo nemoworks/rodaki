@@ -4,6 +4,6 @@ rabbitmq-data/
 iotdb/
 es-data/
 ditto_mongo_data/*
-flink-checkpoist/*
+flink-checkpoint/*
 flink-savepoint/*
 !ditto_mongo_data/.gitkeep
