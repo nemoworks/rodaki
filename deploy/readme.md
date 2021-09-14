@@ -15,6 +15,7 @@ elasticsearch、flink部署主要是为了进行车流量预测使用
     ```
     
     记得更改这两个文件夹的权限，不然无法写入文件
+    `chown 9999:9999 flink-checkpoint flink-savepoint`
 
     创建kafka的数据存储文件夹
     
