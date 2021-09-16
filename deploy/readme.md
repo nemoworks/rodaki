@@ -61,6 +61,10 @@ ditto 的服务已添加进 docker-compose.yaml 文件中，执行`docker-compos
 
 `docker-compose ps`
 
+使用 create_policy.sh 脚本创建 things 的 policy
+
+`./create_policy.sh`
+
 使用 manage_connection.sh 脚本创建并开启ditto 与 rabbitmq 中所有队列的连接
 
 `./manage_connections.sh --create`
