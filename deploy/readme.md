@@ -69,3 +69,8 @@ ditto 的服务已添加进 docker-compose.yaml 文件中，执行`docker-compos
 
 `./manage_connections.sh --create`
 `./manage_connections.sh --open`
+
+
+运行结束后关闭ditto 与 rabbitmq 中所有队列的连接
+
+`./manage_connections.sh --close`
