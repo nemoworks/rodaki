@@ -77,6 +77,7 @@ services:
   rabbitmq:
     image: rabbitmq:3.8.20-management
     hostname: myRabbitmq
+    restart: always
     environment:
       RABBITMQ_DEFAULT_USER: admin
       RABBITMQ_DEFAULT_PASS: admin
@@ -145,7 +146,9 @@ services:
   mongodb:
     image: docker.io/mongo:4.2
     networks:
-      - share_net
+      default:
+        aliases:
+          - mongodb
     command: mongod --storageEngine wiredTiger --noscripting
     volumes:
       - ./ditto_mongo_data:/data/db
@@ -153,16 +156,18 @@ services:
     ports:
       - 27017:27017
     environment:
-       TZ: Europe/Berlin
+       TZ: Asia/Shanghai
 
   policies:
     image: docker.io/eclipse/ditto-policies:${DITTO_VERSION:-latest}
     #mem_limit: 512m
     networks:
-      - share_net
+      default:
+        aliases:
+          - ditto-cluster
     restart: "always"
     environment:
-      - TZ=Europe/Berlin
+      - TZ=Asia/Shanghai
       - INSTANCE_INDEX=1
       - BIND_HOSTNAME=0.0.0.0
       - OPENJ9_JAVA_OPTIONS=-XX:+ExitOnOutOfMemoryError -Xtune:virtualized -Xss512k -XX:MaxRAMPercentage=80 -Dakka.coordinated-shutdown.exit-jvm=on -Dakka.cluster.shutdown-after-unsuccessful-join-seed-nodes=120s
@@ -182,12 +187,14 @@ services:
     image: docker.io/eclipse/ditto-things:${DITTO_VERSION:-latest}
     # mem_limit: 4096m
     networks:
-      - share_net
+      default:
+        aliases:
+          - ditto-cluster
     restart: "always"
     depends_on:
       - policies
     environment:
-      - TZ=Europe/Berlin
+      - TZ=Asia/Shanghai
       - INSTANCE_INDEX=1
       - BIND_HOSTNAME=0.0.0.0
       - OPENJ9_JAVA_OPTIONS=-XX:+ExitOnOutOfMemoryError -Xtune:virtualized -Xss512k -XX:MaxRAMPercentage=80 -Dakka.coordinated-shutdown.exit-jvm=on -Dakka.cluster.shutdown-after-unsuccessful-join-seed-nodes=120s
@@ -206,12 +213,14 @@ services:
     image: docker.io/eclipse/ditto-things-search:${DITTO_VERSION:-latest}
     #mem_limit: 512m
     networks:
-      - share_net
+      default:
+        aliases:
+          - ditto-cluster
     restart: "always"
     depends_on:
       - policies
     environment:
-      - TZ=Europe/Berlin
+      - TZ=Asia/Shanghai
       - INSTANCE_INDEX=1
       - BIND_HOSTNAME=0.0.0.0
       - OPENJ9_JAVA_OPTIONS=-XX:+ExitOnOutOfMemoryError -Xtune:virtualized -Xss512k -XX:MaxRAMPercentage=80 -Dakka.coordinated-shutdown.exit-jvm=on -Dakka.cluster.shutdown-after-unsuccessful-join-seed-nodes=120s
@@ -230,12 +239,14 @@ services:
     image: docker.io/eclipse/ditto-concierge:${DITTO_VERSION:-latest}
     #mem_limit: 512m
     networks:
-      - share_net
+      default:
+        aliases:
+          - ditto-cluster
     restart: "always"
     depends_on:
       - policies
     environment:
-      - TZ=Europe/Berlin
+      - TZ=Asia/Shanghai
       - INSTANCE_INDEX=1
       - BIND_HOSTNAME=0.0.0.0
       - OPENJ9_JAVA_OPTIONS=-XX:+ExitOnOutOfMemoryError -Xtune:virtualized -Xss512k -XX:MaxRAMPercentage=80 -Dakka.coordinated-shutdown.exit-jvm=on -Dakka.cluster.shutdown-after-unsuccessful-join-seed-nodes=120s
@@ -254,13 +265,18 @@ services:
     image: docker.io/eclipse/ditto-connectivity:${DITTO_VERSION:-latest}
     #mem_limit: 1024m
     networks:
-      - share_net
+      default:
+        aliases:
+          - ditto-cluster
+      share_net:
+        aliases:
+          - ditto-connectivity
     restart: "always"
     depends_on:
       - policies
       - concierge
     environment:
-      - TZ=Europe/Berlin
+      - TZ=Asia/Shanghai
       - INSTANCE_INDEX=1
       - BIND_HOSTNAME=0.0.0.0
       - OPENJ9_JAVA_OPTIONS=-XX:+ExitOnOutOfMemoryError -Xtune:virtualized -Xmx8192m  -Xss512k -XX:MaxRAMPercentage=80 -Dakka.coordinated-shutdown.exit-jvm=on -Dakka.cluster.shutdown-after-unsuccessful-join-seed-nodes=120s
@@ -279,7 +295,9 @@ services:
     image: docker.io/eclipse/ditto-gateway:${DITTO_VERSION:-latest}
     mem_limit: 512m
     networks:
-      - share_net
+      default:
+        aliases:
+          - ditto-cluster
     restart: "always"
     depends_on:
       - policies
@@ -287,7 +305,7 @@ services:
     ports:
       - "8082:8080"
     environment:
-      - TZ=Europe/Berlin
+      - TZ=Asia/Shanghai
       - INSTANCE_INDEX=1
       - BIND_HOSTNAME=0.0.0.0
       - ENABLE_PRE_AUTHENTICATION=true
@@ -317,11 +335,11 @@ services:
   nginx:
     image: docker.io/nginx:1.20-alpine
     volumes:
-       - ../ditto_conf/nginx.conf:/etc/nginx/nginx.conf:ro
-       - ../ditto_conf/nginx.htpasswd:/etc/nginx/nginx.htpasswd:ro
-       - ../ditto_conf/nginx-cors.conf:/etc/nginx/nginx-cors.conf:ro
-       - ../ditto_conf/index.html:/etc/nginx/html/index.html:ro
-       - ../ditto_conf/documentation/src/main/resources/images:/etc/nginx/html/images:ro
+       - ./ditto_conf/nginx.conf:/etc/nginx/nginx.conf:ro
+       - ./ditto_conf/nginx.htpasswd:/etc/nginx/nginx.htpasswd:ro
+       - ./ditto_conf/nginx-cors.conf:/etc/nginx/nginx-cors.conf:ro
+       - ./ditto_conf/index.html:/etc/nginx/html/index.html:ro
+       - ./ditto_conf/documentation/src/main/resources/images:/etc/nginx/html/images:ro
     ports:
       - "${DITTO_EXTERNAL_PORT:-8080}:80"
     restart: "always"
