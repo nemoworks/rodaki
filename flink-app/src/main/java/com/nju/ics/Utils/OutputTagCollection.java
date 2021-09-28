@@ -13,6 +13,7 @@ import org.apache.flink.util.OutputTag;
 import com.nju.ics.ModelExtractors.*;
 import com.nju.ics.Models.*;
 import com.nju.ics.Connectors.IotDBDataSink;
+import com.nju.ics.Connectors.MQTTSink;
 import com.nju.ics.Connectors.RabbitMQDataSink;
 import com.nju.ics.ModelExtractors.GeneralExtractor;
 
@@ -111,6 +112,9 @@ public class OutputTagCollection {
         public static void buildModelDataStream(SingleOutputStreamOperator stream, StreamExecutionEnvironment env) {
 
                 for (Map.Entry<String, OutputTag> entry : OutputTagCollection.RMQoutputTags.entrySet()) {
+                        // 构建将字符串写入Rabbimq队列的旁路输出
+                        // stream.getSideOutput(entry.getValue()).addSink(new MQTTSink(entry.getKey()))
+                        //                 .name(String.format("RMQ:%s", entry.getKey()));
                         // 构建将字符串写入Rabbimq队列的旁路输出
                         stream.getSideOutput(entry.getValue()).addSink(
                                         RabbitMQDataSink.generateCustomRMQSink(entry.getKey(), env.getConfig()))

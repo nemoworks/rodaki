@@ -36,8 +36,8 @@ public class PaymentRecordExtractor extends GeneralExtractor {
                     modelEntity = JSONObject.toJavaObject(element,PaymentRecord.class);
                 }
                 catch(Exception e){
-                    System.out.println(e);
-                    System.out.println(element);
+                    //System.out.println(e);
+                    //System.out.println(element);
                     return null;
                 }
                 break;

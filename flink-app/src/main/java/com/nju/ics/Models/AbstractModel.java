@@ -9,9 +9,20 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import com.nju.ics.Utils.ConfigureENV;
 import com.nju.ics.Configs.IotDBTypeConfig;
+import com.alibaba.fastjson.annotation.JSONField;
 import com.nju.ics.Annotation.IotDBAnnotion.sinkIotDB;
 
 public abstract class AbstractModel {
+    private String model;
+    @JSONField(name="_model")
+    public String get_model() {
+        return this.getClass().getSimpleName();
+    }
+    @JSONField(deserialize=false)
+    public void set_model(String _model) {
+        this.model = model;
+    }
+
     public abstract String id();
 
     public Map<String, String> generateIotMsg(long timestamp) {

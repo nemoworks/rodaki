@@ -37,8 +37,13 @@ public class GantryRecordExtractor extends GeneralExtractor {
 
                 return null;
             case DataSourceJudge.gantryCharge:
-
-                modelEntity = new GantryRecord(element.getString("计费交易编号"), element.getString("计费交易时间"));
+                try {
+                    modelEntity = element.toJavaObject(GantryRecord.class);
+                } catch (Exception e) {
+                    // System.out.println(e);
+                    // System.out.println(element);
+                    modelEntity = new GantryRecord(element.getString("计费交易编号"), element.getString("计费交易时间"));
+                }
 
                 break;
             default:

@@ -34,6 +34,7 @@ public class RabbitMQDataSink {
                                 .setVirtualHost(ConfigureENV.prop.getProperty("RMQ.vhost")).build();
                 // TypeInformation<String> info = TypeInformation.of(new TypeHint<CPCCard>() {
                 // });
+                queueName="highway";
                 DummyPublishOptions<String> publishOptions = new DummyPublishOptions<String>(queueName,
                                 RabbitMQDataSink.exchange);
                 CustomRMQSink<String> rmqsink = new CustomRMQSink<String>(connectionConfig, queueName, queueName,

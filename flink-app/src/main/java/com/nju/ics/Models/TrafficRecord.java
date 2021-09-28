@@ -3,7 +3,7 @@ package com.nju.ics.Models;
 import java.util.List;
 
 public class TrafficRecord extends AbstractModel {
-    /**入口、出口:通行标识ID 门架：通行标识 ID */
+    /** 入口、出口:通行标识ID 门架：通行标识 ID */
     public String id;
     /** class Media */
     public String mediaId;
@@ -24,8 +24,7 @@ public class TrafficRecord extends AbstractModel {
     }
 
     public TrafficRecord(String id) {
-        this.id =id==null?null: id.trim();
+        this.id = id == null ? null : id.trim();
     }
-    
 
 }

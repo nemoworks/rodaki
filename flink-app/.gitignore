@@ -1,4 +1,4 @@
-target/
+target
 .history
 .vscode
 dependency-reduced-pom.xml

@@ -47,6 +47,7 @@ public class TrafficRecordExtractor extends GeneralExtractor {
         // 第二个是出口记录 type：StationRecord
         // 第三个是OBU或者CPC type：Media
         // 如果有第四个就是代表门架记录 type：GantryRecord
+        //System.out.println(modelEntity.id());
         modelEntity.entryStationId = linkModel.get(0);
         modelEntity.exitStationId = linkModel.get(1);
         modelEntity.mediaId = linkModel.get(2);
