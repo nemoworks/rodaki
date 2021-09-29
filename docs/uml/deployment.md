@@ -27,14 +27,17 @@ kafka消息队列系统会使用一个队列，将webflux传来的数据按顺�
 
 ### flink & DomainModel
 flink流处理系统主要负责按照DomainModel的数据结构，从kafka获得的数据里抽取出DomainModel，将实体的状态信息
-写入rabbitmq队列、iotdb数据库；同时会将门架数据传入elasticsearch数据库中
+写入couchdb数据库、iotdb数据库；同时会将门架数据传入elasticsearch数据库中
 
+### couchdb
+couchdb 接收并存储来至flink处理的实体状态信息；与此同时，依据用户提供的额外的算子，计算实体的额外属性的状态信息；当实体的状态信息（直接接收到/通过算子得到）发生变更时，构建消息写入rabbitmq队列通知ditto
 ### rabbitmq &&  iotdb && elasticsearch
 
 这三个数据库有各自的职能：
-1. rabbitmq 负责放入实体的状态消息，供ditto消费
-2. iotdb 负责存放实体在历史上的状态信息，因为ditto只存储实体当前的状态
-3. elasticsearch 负责利用门架记录来进行车流量的聚合计算，提供真实车流量与预测车流量的数据存储
+1. couchdb 负责存放实体的历史状态信息，并基于他来实现实体中依赖于其他属性（历史/状态变化）的状态的计算和更新
+2. rabbitmq 负责放入实体的状态消息，供ditto消费
+3. iotdb 负责存放实体在历史上的状态信息，因为ditto只存储实体当前的状态
+4. elasticsearch 负责利用门架记录来进行车流量的聚合计算，提供真实车流量与预测车流量的数据存储
 
 ### Ditto
 

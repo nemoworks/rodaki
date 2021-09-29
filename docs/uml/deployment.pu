@@ -14,6 +14,8 @@ database IoTDB #grey
 queue RabbitMQ #grey
 node Ditto #lightgreen
 node TrafficFlowPrediction
+database CouchDB
+
 
 DomainModel -[plain]-> Flink   :Business Object Extracting
 DomainModel --> Ditto   :Digital Twin Modeling
@@ -24,12 +26,13 @@ source --> Webflux      :Raw Message
 Webflux --> kafka       :Produce Records
 
 kafka --> Flink :consume records
-Flink --> RabbitMQ      :Messages(Object Status)
+Flink --> CouchDB      :Messages(Object Status)
+CouchDB --> RabbitMQ      :Messages'(Object Status)
 Flink --> IoTDB         :Telemetry Measurements
 Flink --> ElasticSearch :Gantry Records
 ElasticSearch --> TrafficFlowPrediction :Gantry Historical Data
 TrafficFlowPrediction -->ElasticSearch  :Gantry Forecast Data
-RabbitMQ --> Ditto      :Messages(Object Status)
+RabbitMQ --> Ditto      :Messages'(Object Status)
 Ditto -[dotted]-> IoTDB :Telemetry Reference
 @enduml
 
