@@ -14,7 +14,7 @@ database IoTDB #grey
 queue RabbitMQ #grey
 node Ditto #lightgreen
 node TrafficFlowPrediction
-database CouchDB
+database MongoDB
 
 
 DomainModel -[plain]-> Flink   :Business Object Extracting
@@ -26,8 +26,8 @@ source --> Webflux      :Raw Message
 Webflux --> kafka       :Produce Records
 
 kafka --> Flink :consume records
-Flink --> CouchDB      :Messages(Object Status)
-CouchDB --> RabbitMQ      :Messages'(Object Status)
+Flink --> MongoDB      :Messages(Object Status)
+MongoDB --> RabbitMQ      :Messages'(Object Status)
 Flink --> IoTDB         :Telemetry Measurements
 Flink --> ElasticSearch :Gantry Records
 ElasticSearch --> TrafficFlowPrediction :Gantry Historical Data
