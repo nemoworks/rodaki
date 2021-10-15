@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const backendApi = 'http://localhost:10086/apis/ListHistoricalLocation'
-const dittoApi='http://localhost:8080/'
+const dittoApi = 'http://localhost:8080/'
+const amapApi = `https://restapi.amap.com/v3/direction/driving?key=f4833b485afbe530c057be70b1893ed5`
 
 export async function get(id) {
   let body = new FormData();
@@ -15,7 +16,7 @@ export async function get(id) {
   return data
 }
 export async function getVehicles(cursor) {
-  var url = dittoApi+'api/2/search/things?filter=eq(definition,"ics.rodaki:vehicle:1.0")&option=size(200)'
+  var url = dittoApi + 'api/2/search/things?filter=eq(definition,"ics.rodaki:vehicle:1.0")&option=size(200)'
   if (cursor) {
     url += ',cursor(' + cursor + ')'
   }
@@ -30,7 +31,7 @@ export async function getVehicles(cursor) {
   return data
 }
 export async function getGantries(cursor) {
-  var url =  dittoApi+'api/2/search/things?filter=eq(definition,"ics.rodaki:gantry:1.0")&option=size(200)'
+  var url = dittoApi + 'api/2/search/things?filter=eq(definition,"ics.rodaki:gantry:1.0")&option=size(200)'
   if (cursor) {
     url += ',cursor(' + cursor + ')'
   }
@@ -45,7 +46,7 @@ export async function getGantries(cursor) {
   return data
 }
 export async function direction(origin, destination) {
-  const url = `https://restapi.amap.com/v3/direction/driving?key=f4833b485afbe530c057be70b1893ed5&destination=` + destination.longitude + `,` + destination.latitude + `&origin=` + origin.longitude + `,` + origin.latitude
+  const url = amapApi + `&destination=` + destination.longitude + `,` + destination.latitude + `&origin=` + origin.longitude + `,` + origin.latitude
   const { data } = await axios.request({
     url,
     method: 'GET',
