@@ -2,3 +2,5 @@
 datas/
 cleaneddatas/
 *.log
+/.idea
+
