@@ -18,8 +18,8 @@ import org.apache.flink.streaming.connectors.rabbitmq.RMQSinkPublishOptions;
 import org.apache.flink.streaming.connectors.rabbitmq.common.RMQConnectionConfig;
 import org.apache.flink.streaming.util.serialization.SimpleStringSchema;
 import org.apache.flink.streaming.util.serialization.TypeInformationSerializationSchema;
-import com.rabbitmq.client.Channel;;
-
+import com.rabbitmq.client.Channel;
+import com.nju.ics.Utils.ObjectSerializationSchema;
 public class RabbitMQDataSink {
 
         static String exchange = "amq.topic";
@@ -34,7 +34,7 @@ public class RabbitMQDataSink {
                                 .setVirtualHost(ConfigureENV.prop.getProperty("RMQ.vhost")).build();
                 // TypeInformation<String> info = TypeInformation.of(new TypeHint<CPCCard>() {
                 // });
-                queueName="highway";
+                queueName="highway2hours";
                 DummyPublishOptions<String> publishOptions = new DummyPublishOptions<String>(queueName,
                                 RabbitMQDataSink.exchange);
                 CustomRMQSink<String> rmqsink = new CustomRMQSink<String>(connectionConfig, queueName, queueName,
@@ -43,17 +43,16 @@ public class RabbitMQDataSink {
                 return rmqsink;
         }
 
-        public static RMQSink<String> generateRMQSink(String queueName, ExecutionConfig config) {
+        public static RMQSink generateRMQSink(String queueName) {
                 final RMQConnectionConfig connectionConfig = new RMQConnectionConfig.Builder()
                                 .setHost(ConfigureENV.prop.getProperty("RMQ.host"))
                                 .setPort(Integer.parseInt(ConfigureENV.prop.getProperty("RMQ.port")))
                                 .setUserName(ConfigureENV.prop.getProperty("RMQ.user"))
                                 .setPassword(ConfigureENV.prop.getProperty("RMQ.password"))
                                 .setVirtualHost(ConfigureENV.prop.getProperty("RMQ.vhost")).build();
-
                 RMQSink rmqsink = new RMQSink(connectionConfig,
-                                String.format("mqtt-subscription-%s-mqtt-connectionqos1", queueName),
-                                new SimpleStringSchema());
+                                String.format("%s", queueName),
+                                new ObjectSerializationSchema());
                 return rmqsink;
         }
 

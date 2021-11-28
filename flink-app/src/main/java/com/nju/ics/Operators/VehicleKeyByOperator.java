@@ -18,22 +18,22 @@ public class VehicleKeyByOperator implements KeySelector<JSONObject, String> {
     @Override
     public String getKey(JSONObject value) throws Exception {
         // TODO Auto-generated method stub
-        int type = DataSourceJudge.typeDetect(value);
+        int type = value.getIntValue(DataSourceJudge.sourceKey);
         String vehicleNumber=null;
         String vehicleColor=null;
         switch (type) {
             case DataSourceJudge.entryLane:
-                vehicleNumber = value.getString("车牌号");
-                vehicleColor = value.getString("车牌颜色");
+                vehicleNumber = value.getString("VLP");
+                vehicleColor = value.getString("VLPC");
                 break;
             case DataSourceJudge.exitLane:
-                vehicleNumber = value.getString("出口实际车牌号");
-                vehicleColor = value.getString("出口实际车牌颜色");
+                vehicleNumber = value.getString("EXVLP");
+                vehicleColor = value.getString("EXVLPC");
                 break;
 
             case DataSourceJudge.gantryCharge:
-                vehicleNumber = value.getString("计费车牌号");
-                vehicleColor = value.getString("计费车牌颜色");
+                vehicleNumber = value.getString("VLP");
+                vehicleColor = value.getString("VLPC");
                 break;
 
         }

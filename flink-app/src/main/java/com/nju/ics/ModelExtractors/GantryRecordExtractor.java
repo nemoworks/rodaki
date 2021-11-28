@@ -26,45 +26,7 @@ public class GantryRecordExtractor extends GeneralExtractor {
             KeyedProcessFunction<String, JSONObject, String>.Context ctx, int source, JSONObject entryRecord,
             List<AbstractModel> linkModel) {
         GantryRecord modelEntity;
-        Map<String, String> tuple;
-        // 先获得一个Gantry对象
-        Gantry gantry = (Gantry) OutputTagCollection.modelExtractors.get(GantryExtractor.class.getSimpleName()).f0
-                .processElement(element, ctx, source, entryRecord, null);
-        switch (source) {
-            case DataSourceJudge.entryLane:
-
-            case DataSourceJudge.exitLane:
-
-                return null;
-            case DataSourceJudge.gantryCharge:
-                try {
-                    modelEntity = element.toJavaObject(GantryRecord.class);
-                } catch (Exception e) {
-                    // System.out.println(e);
-                    // System.out.println(element);
-                    modelEntity = new GantryRecord(element.getString("计费交易编号"), element.getString("计费交易时间"));
-                }
-
-                break;
-            default:
-                return null;
-
-        }
-
-        // linkModel应当有一个元素，要么是OBU，要么是CPC
-        modelEntity.gantryId = gantry == null ? null : gantry.id();
-        modelEntity.mediaId = linkModel.get(0) == null ? null : linkModel.get(0).id();
-        tuple = modelEntity.generateIotMsg(ctx.timestamp());
-
-        // System.out.println(tuple);
-        if (this.RMQtag != null) {
-            ctx.output(this.RMQtag, this.toJSONString(modelEntity));
-        }
-
-        if (this.IotDBtag != null) {
-            ctx.output(this.IotDBtag, tuple);
-        }
-        return modelEntity;
+        return null;
     }
 
 }

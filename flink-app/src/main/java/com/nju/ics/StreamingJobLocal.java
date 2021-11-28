@@ -20,10 +20,12 @@ package com.nju.ics;
 
 import java.util.Properties;
 
-
+import com.alibaba.fastjson.JSONObject;
 import com.nju.ics.Utils.ConfigureENV;
 import com.nju.ics.Utils.DataFlowBuilder;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
+import org.apache.flink.api.common.typeinfo.TypeInformation;
+import org.apache.flink.api.common.typeutils.TypeSerializer;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.connector.kafka.source.KafkaSource;
@@ -67,6 +69,10 @@ public class StreamingJobLocal {
 				initparams.getProperty("flink.state.checkpoints.dir", "file:///tmp/flink-checkpoints-directory"));
 		conf.setInteger("rest.port", Integer.parseInt(initparams.getProperty("flink.rest.port", "8081")));
 		StreamExecutionEnvironment env = StreamExecutionEnvironment.createLocalEnvironmentWithWebUI(conf);
+		// TypeInformation<JSONObject> info = TypeInformation.of(JSONObject.class);
+		// TypeSerializer<JSONObject> mySerializer=info.createSerializer(env.getConfig());
+		
+		//env.getConfig().registerTypeWithKryoSerializer(JSONObject.class,TypeSerializer.class);
 		ConfigureENV.configureEnvironment(params, env);
 
 		DataFlowBuilder.generateDataStream(env, params);

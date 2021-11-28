@@ -28,17 +28,12 @@ public class PlateExtractor extends GeneralExtractor {
 
         switch (source) {
             case DataSourceJudge.entryLane:
-                modelEntity = new Plate(element.getIntValue("车牌颜色"), element.getString("车牌号"));
-
-                break;
+               
             case DataSourceJudge.exitLane:
-
-                modelEntity = new Plate(element.getIntValue("出口实际车牌颜色"), element.getString("出口实际车牌号"));
-
-                break;
+                
             case DataSourceJudge.gantryCharge:
 
-                modelEntity = new Plate(element.getIntValue("计费车牌颜色"), element.getString("计费车牌号"));
+                modelEntity = JSONObject.toJavaObject(element, Plate.class);
 
                 break;
             default:

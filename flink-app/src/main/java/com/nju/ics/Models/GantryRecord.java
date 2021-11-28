@@ -1,371 +1,186 @@
 package com.nju.ics.Models;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.nju.ics.Configs.GantryPosition;
+import com.nju.ics.FastJsonUtils.IntDeserializer;
 
 public class GantryRecord extends AbstractModel {
-    /** class Gantry */
-    public String gantryId;
-    /** 门架：计费交易编号 */
-    public String tradeId;
-    /** 门架：计费交易时间 */
-    public String transTime;
-    /** class Media */
-    public String mediaId;
+    @JSONField(name = "TRADEID")
+    private String TRADEID;
+    @JSONField(name = "TRANSTIME")
+    private long TRANSTIME;
+    @JSONField(name = "PASSID")
+    private String PASSID;
+    @JSONField(name = "GANTRYID")
+    private String GANTRYID;
+    @JSONField(name = "VEHICLEID")
+    private String VEHICLEID;
+    private int VLPC;
+    private String VLP;
+    /** 通行介质类型 */
+    @JSONField(name = "MEDIATYPE")
+    private int MEDIATYPE;
+    /** 通行介质编号 */
+    @JSONField(name = "MEDIAID")
+    private String MEDIAID;
 
-    /** v3 */
-    /** 门架拟合结果 */
-    private int gantryFitResult;
-    /** 应收金额 */
-    private int payFee;
-    /** 交易金额 */
-    private int fee;
-
-    /** 优惠金额 */
-    private int discountFee;
-    /** 识别的车型 */
-    private int identifyVehicleType;
-
-    /** TAC码 */
-    private String tac;
-    /** PSAM卡脱机交易序列号 */
-    private String terminalTransNo;
-    /** 交易的服务类型 */
-    private int serviceType;
-    /** 算法标识 */
-    private int algorithmIdentifier;
-    /** 消费密钥版本号 */
-    private String keyVersion;
-    /** 天线ID编号 */
-    private int antennaID;
-    /** 计费模块版本号 */
-    private String tollModeVer;
-    /** 计费参数版本号 */
-    private String tollParaVer;
-    /** 交易耗时（单位：ms） */
-    private int consumeTime;
-    /** 通行状态 */
-    private int passState;
-    /** 计费模块响应计费结果 */
-    private int feeCalcResult;
-    /** 节假日状态 */
-    private int holidayState;
-    /** 交易结果 */
-    private int tradeResult;
-    /** 特情类型 */
-    private int specialType;
-    /** 匹配状态 */
-    private int matchStatus;
-    /** 去重状态 */
-    private int validStatus;
-    /** 处理状态 */
-    private int dealStatus;
-    /** 计费接口特情值 */
-    private int feeCalcSpecial;
-    /** 收费特情类型 */
-    private String chargesSpecialType;
-    /** 是否修正过 */
-    private int isFixData;
-    /** 标签写入结果 */
-    private int obuTradeResult;
-    /** 交易类型 */
-    private int tradeType;
-    /** 计费里程数 */
-    private int feeMileage;
-    /** 本次计费拟合结果标识 */
-    private int pathFitFlag;
-    /** 计费特情值组合 */
-    private int feeCalcSpecials;
-    /** 更新过站信息结果 */
-    private int updateResult;
-    /** 收费单元处理标识 */
-    private String tollIntervalSign;
+    /**
+     * 通行费用 入口： 门架：交易金额 出口：总交易金额
+     */
+    @JSONField(name = "FEE")
+    private int FEE;
+    /**
+     * 通行里程 入口： 门架：计费里程数 出口：计费总里程数
+     */
+    @JSONField(name = "FEEMILEAGE")
+    private int FEEMILEAGE;
+    /** 经度 */
+    @JSONField(name = "LONGTITUDE")
+    private float LONGTITUDE;
+    /** 纬度 */
+    @JSONField(name = "LATITUDE")
+    private float LATITUDE;
+    /** 名称 */
+    @JSONField(name = "GANTRYNAME")
+    private String GANTRYNAME;
 
     @Override
     public String id() {
         // TODO Auto-generated method stub
-        return tradeId;
+        return null;
     }
 
-    public GantryRecord() {
+    public String getTRADEID() {
+        return TRADEID;
     }
 
-    public GantryRecord(String tradeId, String transTime) {
-
-        this.tradeId = tradeId == null ? null : tradeId.trim();
-        this.transTime = transTime == null ? null : transTime.trim();
-
-    }
-    
-    public String getTradeId() {
-        return tradeId;
-    }
-    @JSONField(alternateNames = {"计费交易编号"})
-    public void setTradeId(String tradeId) {
-        this.tradeId = tradeId;
+    @JSONField(name = "TRADEID")
+    public void setTRADEID(String tRADEID) {
+        TRADEID = tRADEID;
     }
 
-    public String getTransTime() {
-        return transTime;
-    }
-    @JSONField(alternateNames = {"计费交易时间"})
-    public void setTransTime(String transTime) {
-        this.transTime = transTime;
+    public long getTRANSTIME() {
+        return TRANSTIME;
     }
 
-    public int getGantryFitResult() {
-        return gantryFitResult;
-    }
-    @JSONField(alternateNames = {"门架拟合结果"})
-    public void setGantryFitResult(int gantryFitResult) {
-        this.gantryFitResult = gantryFitResult;
+    @JSONField(name = "_time")
+    public void setTRANSTIME(long tRANSTIME) {
+        TRANSTIME = tRANSTIME;
     }
 
-    public int getPayFee() {
-        return payFee;
-    }
-    @JSONField(alternateNames = {"应收金额"})
-    public void setPayFee(int payFee) {
-        this.payFee = payFee;
+    public String getPASSID() {
+        return PASSID;
     }
 
-    public int getFee() {
-        return fee;
-    }
-    @JSONField(alternateNames = {"交易金额"})
-    public void setFee(int fee) {
-        this.fee = fee;
+    @JSONField(name = "PASSID", defaultValue = "")
+    public void setPASSID(String pASSID) {
+        PASSID = pASSID==null? "":pASSID;
     }
 
-    public int getDiscountFee() {
-        return discountFee;
-    }
-    @JSONField(alternateNames = {"优惠金额"})
-    public void setDiscountFee(int discountFee) {
-        this.discountFee = discountFee;
+    public String getGANTRYID() {
+        return GANTRYID;
     }
 
-    public int getIdentifyVehicleType() {
-        return identifyVehicleType;
-    }
-    @JSONField(alternateNames = {"识别的车型"})
-    public void setIdentifyVehicleType(int identifyVehicleType) {
-        this.identifyVehicleType = identifyVehicleType;
-    }
-
-    public String getTac() {
-        return tac;
-    }
-    @JSONField(alternateNames = {"TAC码"})
-    public void setTac(String tac) {
-        this.tac = tac;
+    @JSONField(name = "GANTRYID")
+    public void setGANTRYID(String gANTRYID) {
+        GANTRYID = gANTRYID;
+        if (GantryPosition.geoMap.containsKey(GANTRYID)) {
+            this.setGANTRYNAME(GantryPosition.geoMap.get(GANTRYID).name);
+            this.setLONGTITUDE(GantryPosition.geoMap.get(GANTRYID).longtitude);
+            this.setLATITUDE(GantryPosition.geoMap.get(GANTRYID).latitude);
+        }
     }
 
-    public String getTerminalTransNo() {
-        return terminalTransNo;
-    }
-    @JSONField(alternateNames = {"PSAM卡脱机交易序列号"})
-    public void setTerminalTransNo(String terminalTransNo) {
-        this.terminalTransNo = terminalTransNo;
+    public String getVEHICLEID() {
+        return VLP + "-" + VLPC;
     }
 
-    public int getServiceType() {
-        return serviceType;
-    }
-    @JSONField(alternateNames = {"交易的服务类型"})
-    public void setServiceType(int serviceType) {
-        this.serviceType = serviceType;
+    @JSONField(deserialize = false)
+    public void setVEHICLEID(String vEHICLEID) {
+        VEHICLEID = vEHICLEID;
     }
 
-    public int getAlgorithmIdentifier() {
-        return algorithmIdentifier;
-    }
-    @JSONField(alternateNames = {"算法标识"})
-    public void setAlgorithmIdentifier(int algorithmIdentifier) {
-        this.algorithmIdentifier = algorithmIdentifier;
+    @JSONField(serialize = false)
+    public int getVLPC() {
+        return VLPC;
     }
 
-    public String getKeyVersion() {
-        return keyVersion;
-    }
-    @JSONField(alternateNames = {"消费密钥版本号"})
-    public void setKeyVersion(String keyVersion) {
-        this.keyVersion = keyVersion;
+    @JSONField(name = "VLPC", deserializeUsing = IntDeserializer.class)
+    public void setVLPC(int vLPC) {
+        VLPC = vLPC;
     }
 
-    public int getAntennaID() {
-        return antennaID;
-    }
-    @JSONField(alternateNames = {"天线ID编号"})
-    public void setAntennaID(int antennaID) {
-        this.antennaID = antennaID;
+    @JSONField(serialize = false)
+    public String getVLP() {
+        return VLP;
     }
 
-    public String getTollModeVer() {
-        return tollModeVer;
-    }
-    @JSONField(alternateNames = {"计费模块版本号"})
-    public void setTollModeVer(String tollModeVer) {
-        this.tollModeVer = tollModeVer;
+    @JSONField(name = "VLP")
+    public void setVLP(String vLP) {
+        VLP = vLP;
     }
 
-    public String getTollParaVer() {
-        return tollParaVer;
-    }
-    @JSONField(alternateNames = {"计费参数版本号"})
-    public void setTollParaVer(String tollParaVer) {
-        this.tollParaVer = tollParaVer;
+    public int getMEDIATYPE() {
+        return MEDIATYPE;
     }
 
-    public int getConsumeTime() {
-        return consumeTime;
-    }
-    @JSONField(alternateNames = {"交易耗时（单位：ms）"})
-    public void setConsumeTime(int consumeTime) {
-        this.consumeTime = consumeTime;
+    @JSONField(name = "MEDIATYPE")
+    public void setMEDIATYPE(int mEDIATYPE) {
+        MEDIATYPE = mEDIATYPE;
     }
 
-    public int getPassState() {
-        return passState;
-    }
-    @JSONField(alternateNames = {"通行状态"})
-    public void setPassState(int passState) {
-        this.passState = passState;
+    public String getMEDIAID() {
+        return MEDIAID;
     }
 
-    public int getFeeCalcResult() {
-        return feeCalcResult;
-    }
-    @JSONField(alternateNames = {"计费模块响应计费结果"})
-    public void setFeeCalcResult(int feeCalcResult) {
-        this.feeCalcResult = feeCalcResult;
+    @JSONField(name = "OBUSN")
+    public void setMEDIAID(String mEDIAID) {
+        MEDIAID = mEDIAID;
     }
 
-    public int getHolidayState() {
-        return holidayState;
-    }
-    @JSONField(alternateNames = {"节假日状态"})
-    public void setHolidayState(int holidayState) {
-        this.holidayState = holidayState;
+    public int getFEE() {
+        return FEE;
     }
 
-    public int getTradeResult() {
-        return tradeResult;
-    }
-    @JSONField(alternateNames = {"交易结果"})
-    public void setTradeResult(int tradeResult) {
-        this.tradeResult = tradeResult;
+    @JSONField(name = "FEE")
+    public void setFEE(int fEE) {
+        FEE = fEE;
     }
 
-    public int getSpecialType() {
-        return specialType;
-    }
-    @JSONField(alternateNames = {"特情类型"})
-    public void setSpecialType(int specialType) {
-        this.specialType = specialType;
+    public int getFEEMILEAGE() {
+        return FEEMILEAGE;
     }
 
-    public int getMatchStatus() {
-        return matchStatus;
-    }
-    @JSONField(alternateNames = {"匹配状态"})
-    public void setMatchStatus(int matchStatus) {
-        this.matchStatus = matchStatus;
+    @JSONField(name = "FEEMILEAGE")
+    public void setFEEMILEAGE(int fEEMILEAGE) {
+        FEEMILEAGE = fEEMILEAGE;
     }
 
-    public int getValidStatus() {
-        return validStatus;
-    }
-    @JSONField(alternateNames = {"去重状态"})
-    public void setValidStatus(int validStatus) {
-        this.validStatus = validStatus;
+    public float getLONGTITUDE() {
+        return LONGTITUDE;
     }
 
-    public int getDealStatus() {
-        return dealStatus;
-    }
-    @JSONField(alternateNames = {"处理状态"})
-    public void setDealStatus(int dealStatus) {
-        this.dealStatus = dealStatus;
+    @JSONField(deserialize = false)
+    public void setLONGTITUDE(float lONGTITUDE) {
+        LONGTITUDE = lONGTITUDE;
     }
 
-    public int getFeeCalcSpecial() {
-        return feeCalcSpecial;
-    }
-    @JSONField(alternateNames = {"计费接口特情值"})
-    public void setFeeCalcSpecial(int feeCalcSpecial) {
-        this.feeCalcSpecial = feeCalcSpecial;
+    public float getLATITUDE() {
+        return LATITUDE;
     }
 
-    public String getChargesSpecialType() {
-        return chargesSpecialType;
-    }
-    @JSONField(alternateNames = {"收费特情类型"})
-    public void setChargesSpecialType(String chargesSpecialType) {
-        this.chargesSpecialType = chargesSpecialType;
+    @JSONField(deserialize = false)
+    public void setLATITUDE(float lATITUDE) {
+        LATITUDE = lATITUDE;
     }
 
-    public int getIsFixData() {
-        return isFixData;
-    }
-    @JSONField(alternateNames = {"是否修正过"})
-    public void setIsFixData(int isFixData) {
-        this.isFixData = isFixData;
+    public String getGANTRYNAME() {
+        return GANTRYNAME;
     }
 
-    public int getObuTradeResult() {
-        return obuTradeResult;
-    }
-    @JSONField(alternateNames = {"标签写入结果"})
-    public void setObuTradeResult(int obuTradeResult) {
-        this.obuTradeResult = obuTradeResult;
+    @JSONField(deserialize = false)
+    public void setGANTRYNAME(String gANTRYNAME) {
+        GANTRYNAME = gANTRYNAME;
     }
 
-    public int getTradeType() {
-        return tradeType;
-    }
-    @JSONField(alternateNames = {"交易类型"})
-    public void setTradeType(int tradeType) {
-        this.tradeType = tradeType;
-    }
-
-    public int getFeeMileage() {
-        return feeMileage;
-    }
-    @JSONField(alternateNames = {"计费里程数"})
-    public void setFeeMileage(int feeMileage) {
-        this.feeMileage = feeMileage;
-    }
-
-    public int getPathFitFlag() {
-        return pathFitFlag;
-    }
-    @JSONField(alternateNames = {"本次计费拟合结果标识"})
-    public void setPathFitFlag(int pathFitFlag) {
-        this.pathFitFlag = pathFitFlag;
-    }
-
-    public int getFeeCalcSpecials() {
-        return feeCalcSpecials;
-    }
-    @JSONField(alternateNames = {"计费特情值组合"})
-    public void setFeeCalcSpecials(int feeCalcSpecials) {
-        this.feeCalcSpecials = feeCalcSpecials;
-    }
-
-    public int getUpdateResult() {
-        return updateResult;
-    }
-    @JSONField(alternateNames = {"更新过站信息结果"})
-    public void setUpdateResult(int updateResult) {
-        this.updateResult = updateResult;
-    }
-
-    public String getTollIntervalSign() {
-        return tollIntervalSign;
-    }
-    @JSONField(alternateNames = {"收费单元处理标识"})
-    public void setTollIntervalSign(String tollIntervalSign) {
-        this.tollIntervalSign = tollIntervalSign;
-    }
-    
 }

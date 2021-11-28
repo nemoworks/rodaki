@@ -15,7 +15,7 @@ public class DataSourceFilterFunc implements FilterFunction<JSONObject> {
     @Override
     public boolean filter(JSONObject value) throws Exception {
         // TODO Auto-generated method stub
-        int type = DataSourceJudge.typeDetect(value);
+        int type = value.getIntValue(DataSourceJudge.sourceKey);
         switch (type) {
             case DataSourceJudge.entryLane:
             case DataSourceJudge.exitLane:

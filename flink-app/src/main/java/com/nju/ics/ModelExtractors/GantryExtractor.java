@@ -32,8 +32,9 @@ public class GantryExtractor extends GeneralExtractor {
                 return null;
             case DataSourceJudge.gantryCharge:
 
-                modelEntity = new Gantry(element.getString("门架编号"), element.getIntValue("控制器序号"),
-                        element.getString("门架HEX值"), element.getString("对向门架HEX值"));
+                // modelEntity = new Gantry(element.getString("门架编号"), element.getIntValue("控制器序号"),
+                //         element.getString("门架HEX值"), element.getString("对向门架HEX值"));
+                modelEntity=JSONObject.toJavaObject(element, Gantry.class);
 
                 break;
             default:

@@ -8,20 +8,28 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import com.nju.ics.Utils.ConfigureENV;
+
+import org.apache.flink.util.OutputTag;
+
 import com.nju.ics.Configs.IotDBTypeConfig;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.nju.ics.Annotation.IotDBAnnotion.sinkIotDB;
 
 public abstract class AbstractModel {
-    private String model;
+    // private String model;
+
     @JSONField(name="_model")
     public String get_model() {
         return this.getClass().getSimpleName();
     }
-    @JSONField(deserialize=false)
-    public void set_model(String _model) {
-        this.model = model;
-    }
+    // @JSONField(deserialize=false)
+    // public void set_model(String _model) {
+    //     this.model = model;
+    // }
+    // @JSONField(name="_id")
+    // public String get_id() {
+    //     return String.format("%s-%s", this.getClass().getSimpleName(),this.id());
+    // }
 
     public abstract String id();
 
