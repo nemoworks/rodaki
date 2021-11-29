@@ -26,7 +26,7 @@ then
 elif [ $option == "--create" ]
 then
 
-  for queue in "vehicle" "gantry"
+  for queue in "highway"
   do
 
   connectionType="mqtt"
