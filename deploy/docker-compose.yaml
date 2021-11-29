@@ -92,16 +92,16 @@ services:
       - 5672:5672
     networks:
       - share_net
-  # iotdb:
-  #   image: apache/iotdb:0.12.1-node
-  #   networks:
-  #     - share_net
-  #   volumes:
-  #     - ./iotdb/data:/iotdb/data
-  #     - ./iotdb/logs:/iotdb/logs 
-  #   ports:
-  #     - 6667:6667
-  #     - 8181:8181
+  iotdb:
+    image: apache/iotdb:0.12.1-node
+    networks:
+      - share_net
+    volumes:
+      - ./iotdb/data:/iotdb/data
+      - ./iotdb/logs:/iotdb/logs 
+    ports:
+      - 6667:6667
+      - 8181:8181
   elasticsearch:
     image: elasticsearch:7.8.1
     networks:
