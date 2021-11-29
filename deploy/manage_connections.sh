@@ -8,7 +8,7 @@ option=$1
 # 执行 打开/关闭/删除/获取 连接操作
 if [ $option == "--open" ] || [ $option == "--close" ] || [ $option == "--delete" ] || [ $option == "--retrieve" ] 
 then
-  for connect in "highway" 
+  for connect in "vehicle" "gantry"
   do
   curl -X POST -i -u devops:foobar -H 'Content-Type: application/vnd.eclipse.ditto+json' -d '{
     "targetActorSelection": "/system/sharding/connection",
@@ -26,7 +26,7 @@ then
 elif [ $option == "--create" ]
 then
 
-  for queue in "highway"
+  for queue in "vehicle" "gantry"
   do
 
   connectionType="mqtt"

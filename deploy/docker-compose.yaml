@@ -56,12 +56,12 @@ services:
       # KAFKA_ADVERTISED_LISTENERS: OUTSIDE://localhost:9094
       # KAFKA_LISTENERS: OUTSIDE://kafka:9094
       # KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: OUTSIDE:PLAINTEXT
-      # KAFKA_INTER_BROKER_LISTENER_NAME: OUTSIDE
+      # KAFKA_INTER_BROKER_LISTENER_NAME: OUTSIDEc
       # KAFKA_CREATE_TOPICS: "input:2:1, output:2:1"
       # KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_BROKER_ID: 1
-      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9092,OUTSIDE://localhost:9094
-      KAFKA_LISTENERS: INSIDE://0.0.0.0:9092,OUTSIDE://0.0.0.0:9094
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9092,OUTSIDE://localhost:9096
+      KAFKA_LISTENERS: INSIDE://0.0.0.0:9092,OUTSIDE://0.0.0.0:9096
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
       KAFKA_CREATE_TOPICS: "zcinput:1:1"
@@ -69,7 +69,7 @@ services:
       KAFKA_LOG_DIRS: "/kafka"
       KAFKA_LOG_RETENTION_HOURS: 720
     ports:
-      - 9094:9094
+      - 9096:9096
     volumes:
       - ./kafka-data:/kafka
     networks:
@@ -85,22 +85,23 @@ services:
       hostname: myRabbitmq
     volumes:
       - ./rabbitmq-data:/var/lib/rabbitmq
-      - ./rabbitmq_plugins:/etc/rabbitmq/enabled_plugins
+      - ./rabbitmq_conf/rabbitmq_plugins:/etc/rabbitmq/enabled_plugins
+      - ./rabbitmq_conf/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
     ports:
       - 15672:15672
       - 5672:5672
     networks:
       - share_net
-  iotdb:
-    image: apache/iotdb:0.12.1-node
-    networks:
-      - share_net
-    volumes:
-      - ./iotdb/data:/iotdb/data
-      - ./iotdb/logs:/iotdb/logs 
-    ports:
-      - 6667:6667
-      - 8182:8181
+  # iotdb:
+  #   image: apache/iotdb:0.12.1-node
+  #   networks:
+  #     - share_net
+  #   volumes:
+  #     - ./iotdb/data:/iotdb/data
+  #     - ./iotdb/logs:/iotdb/logs 
+  #   ports:
+  #     - 6667:6667
+  #     - 8181:8181
   elasticsearch:
     image: elasticsearch:7.8.1
     networks:
@@ -154,7 +155,7 @@ services:
       - ./ditto_mongo_data:/data/db
     user: mongodb
     ports:
-      - 27017:27017
+      - 27016:27017
     environment:
        TZ: Asia/Shanghai
 
@@ -271,6 +272,8 @@ services:
       share_net:
         aliases:
           - ditto-connectivity
+    ports:
+      - "8089:8089"
     restart: "always"
     depends_on:
       - policies
@@ -286,7 +289,7 @@ services:
       # - DITTO_LOGGING_FILE_APPENDER=true
     # Set additional configuration options here
     # -Dditto.connectivity...
-    command: java -jar starter.jar
+    command: java -Djava.rmi.server.hostname=127.0.0.1 -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=8089 -Dcom.sun.management.jmxremote.rmi.port=8089 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -jar starter.jar
     # only needed if DITTO_LOGGING_FILE_APPENDER is set
     #volumes:
     #  - ditto_log_files:/var/log/ditto
