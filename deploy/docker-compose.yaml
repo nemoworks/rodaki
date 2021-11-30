@@ -352,6 +352,73 @@ services:
 
 
 
+
+  mongodb1:
+    image: mongo:5.0.3
+    restart: always
+    container_name: mongodb1
+    networks:
+      default:
+        aliases:
+          - mongodb1
+    ports:
+      - 27018:27017
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - ./data/db:/data/db
+    command: mongod --replSet testSet 
+
+  mongodb2:
+    image: mongo:5.0.3
+    restart: always
+    container_name: mongodb2
+    networks:
+      default:
+        aliases:
+          - mongodb2
+    ports:
+      - 27019:27017
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - ./data/db1:/data/db
+    command: mongod --replSet testSet
+
+
+  mongo-express:
+    image: mongo-express
+    networks:
+      default:
+        aliases:
+          - express
+    restart: always
+    ports:
+      - 8088:8081
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://mongodb1:27017,mongodb2:27017?replicaSet=testSet
+
+
+
+
+
+  # mymongo:
+  #   image: mymongo:v1
+  #   # restart: always
+  #   networks:
+  #     default:
+  #       aliases:
+  #         - mymongo
+  #     share_net:
+  #       aliases:
+  #         - mymongo
+  #   command: java -jar mymongo.jar
+
+
+
+
+
+
 networks:
   share_net:
     external:
