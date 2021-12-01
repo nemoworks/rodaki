@@ -3,7 +3,7 @@ kafka-data/
 rabbitmq-data/
 iotdb/
 es-data/
-ditto_mongo_data/*
+ditto_mongo_data/
 flink-checkpoint/*
 flink-savepoint/*
-!ditto_mongo_data/.gitkeep
+data/
