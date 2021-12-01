@@ -387,7 +387,6 @@ services:
     ports:
       - 8088:8081
     environment:
-      # ME_CONFIG_MONGODB_URL: mongodb://mongodb1:27017,mongodb2:27017?replicaSet=testSet
       ME_CONFIG_MONGODB_URL: mongodb://mymongodb:27017?replicaSet=testSet
   
 
