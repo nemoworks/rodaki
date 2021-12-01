@@ -89,18 +89,22 @@ services:
     ports:
       - 15672:15672
       - 5672:5672
-    networks:
-      - share_net
-  iotdb:
-    image: apache/iotdb:0.12.1-node
-    networks:
-      - share_net
-    volumes:
-      - ./iotdb/data:/iotdb/data
-      - ./iotdb/logs:/iotdb/logs 
-    ports:
-      - 6667:6667
-      - 8182:8181
+    networks:      
+      share_net:
+        aliases:
+          - rabbitmq
+      # - share_net
+
+  # iotdb:
+  #   image: apache/iotdb:0.12.1-node
+  #   networks:
+  #     - share_net
+  #   volumes:
+  #     - ./iotdb/data:/iotdb/data
+  #     - ./iotdb/logs:/iotdb/logs 
+  #   ports:
+  #     - 6667:6667
+  #     - 8182:8181
   elasticsearch:
     image: elasticsearch:7.8.1
     networks:
@@ -346,6 +350,70 @@ services:
     depends_on:
       - gateway
       - swagger-ui
+
+
+
+  mongodb1:
+    image: mongo:5.0.3
+    restart: always
+    container_name: mongodb1
+    networks:
+      default:
+        aliases:
+          - mongodb1
+    ports:
+      - 27018:27017
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - ./data/db:/data/db
+    environment:
+       TZ: Asia/Shanghai
+    command: mongod --replSet testSet 
+
+  mongodb2:
+    image: mongo:5.0.3
+    restart: always
+    container_name: mongodb2
+    networks:
+      default:
+        aliases:
+          - mongodb2
+    ports:
+      - 27019:27017
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - ./data/db1:/data/db
+    environment:
+       TZ: Asia/Shanghai
+    command: mongod --replSet testSet
+
+
+  mongo-express:
+    image: mongo-express
+    networks:
+      default:
+        aliases:
+          - express
+    restart: always
+    ports:
+      - 8088:8081
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://mongodb1:27017,mongodb2:27017?replicaSet=testSet
+
+  myapp:
+    image: myapp:v1
+    # restart: always
+    networks:
+      default:
+        aliases:
+          - myapp
+      share_net:
+        aliases:
+          - myapp
+    command: java -jar myapp.jar mongodb://mongodb1:27017 mongodb://mongodb2:27017 rabbitmq
+
 
 
 

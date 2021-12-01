@@ -74,3 +74,30 @@ ditto 的服务已添加进 docker-compose.yaml 文件中，执行`docker-compos
 运行结束后关闭ditto 与 rabbitmq 中所有队列的连接
 
 `./manage_connections.sh --close`
+
+
+
+
+## mongodb 副本集部署
+
+查看容器 "IPAddress"
+`docker inspect mongodb1`
+`docker inspect mongodb2`
+
+进入容器
+`docker-compose exec mongodb1 /bin/bash`
+
+命令行执行
+`mongo`
+
+初始化副本集, 将第一步查到的 ip 地址替换 host 中 "IPAddress"
+`rs.initiate({"_id": "testSet", "members": [{"_id":0, "host":  "172.19.0.3:27017"}, {"_id": 1, "host": "172.19.0.4:27017"}]})`
+
+
+## build Java 项目镜像, 消费数据、存储数据、发送数据给 ditto 队列
+
+进入 java-app 目录
+`cd java-app`
+
+build 镜像
+`docker build -t myapp:v1 .`
