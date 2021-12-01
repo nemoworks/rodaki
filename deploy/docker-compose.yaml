@@ -353,41 +353,28 @@ services:
 
 
 
-  mongodb1:
+
+
+
+  mymongodb:
     image: mongo:5.0.3
     restart: always
-    container_name: mongodb1
+    container_name: mymongodb
     networks:
       default:
         aliases:
-          - mongodb1
+          - mymongodb
     ports:
       - 27018:27017
     environment:
       TZ: Asia/Shanghai
     volumes:
-      - ./data/db:/data/db
-    environment:
-       TZ: Asia/Shanghai
-    command: mongod --replSet testSet 
-
-  mongodb2:
-    image: mongo:5.0.3
-    restart: always
-    container_name: mongodb2
-    networks:
-      default:
-        aliases:
-          - mongodb2
-    ports:
-      - 27019:27017
-    environment:
-      TZ: Asia/Shanghai
-    volumes:
-      - ./data/db1:/data/db
+      - ./mymongo_data/db:/data/db
     environment:
        TZ: Asia/Shanghai
     command: mongod --replSet testSet
+
+
 
 
   mongo-express:
@@ -400,7 +387,10 @@ services:
     ports:
       - 8088:8081
     environment:
-      ME_CONFIG_MONGODB_URL: mongodb://mongodb1:27017,mongodb2:27017?replicaSet=testSet
+      # ME_CONFIG_MONGODB_URL: mongodb://mongodb1:27017,mongodb2:27017?replicaSet=testSet
+      ME_CONFIG_MONGODB_URL: mongodb://mymongodb:27017?replicaSet=testSet
+  
+
 
   myapp:
     image: myapp:v1
@@ -412,8 +402,7 @@ services:
       share_net:
         aliases:
           - myapp
-    command: java -jar myapp.jar mongodb://mongodb1:27017 mongodb://mongodb2:27017 rabbitmq
-
+    command: java -jar myapp.jar mymongodb rabbitmq
 
 
 

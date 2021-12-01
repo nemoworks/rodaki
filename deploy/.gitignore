@@ -6,4 +6,4 @@ es-data/
 ditto_mongo_data/
 flink-checkpoint/*
 flink-savepoint/*
-data/
+mymongo_data/
