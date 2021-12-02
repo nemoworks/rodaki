@@ -85,7 +85,8 @@ services:
       hostname: myRabbitmq
     volumes:
       - ./rabbitmq-data:/var/lib/rabbitmq
-      - ./rabbitmq_plugins:/etc/rabbitmq/enabled_plugins
+      - ./rabbitmq_conf/rabbitmq_plugins:/etc/rabbitmq/enabled_plugins
+      - ./rabbitmq_conf/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
     ports:
       - 15672:15672
       - 5672:5672
@@ -153,7 +154,7 @@ services:
       default:
         aliases:
           - mongodb
-    command: mongod --storageEngine wiredTiger --noscripting
+    command: mongod --storageEngine wiredTiger --noscripting 
     volumes:
       - ./ditto_mongo_data:/data/db
     user: mongodb
@@ -372,7 +373,7 @@ services:
       - ./mymongo_data/db:/data/db
     environment:
        TZ: Asia/Shanghai
-    command: mongod --replSet testSet
+    command: mongod --replSet testSet --wiredTigerCacheSizeGB 10
 
 
 
