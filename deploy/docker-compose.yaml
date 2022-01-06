@@ -60,7 +60,7 @@ services:
       # KAFKA_CREATE_TOPICS: "input:2:1, output:2:1"
       # KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_BROKER_ID: 1
-      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9092,OUTSIDE://localhost:9094
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9092,OUTSIDE://localhost:9096
       KAFKA_LISTENERS: INSIDE://0.0.0.0:9092,OUTSIDE://0.0.0.0:9094
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
@@ -69,7 +69,7 @@ services:
       KAFKA_LOG_DIRS: "/kafka"
       KAFKA_LOG_RETENTION_HOURS: 720
     ports:
-      - 9094:9094
+      - 9096:9094
     volumes:
       - ./kafka-data:/kafka
     networks:
@@ -85,6 +85,7 @@ services:
       hostname: myRabbitmq
     volumes:
       - ./rabbitmq-data:/var/lib/rabbitmq
+      # - /zhitai/rodaki_data/rabbitmq_data:/var/lib/rabbitmq
       - ./rabbitmq_conf/rabbitmq_plugins:/etc/rabbitmq/enabled_plugins
       - ./rabbitmq_conf/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
     ports:
@@ -148,209 +149,209 @@ services:
 
 #################### ditto services #########################################
 
-  mongodb:
-    image: docker.io/mongo:4.2
-    networks:
-      default:
-        aliases:
-          - mongodb
-    command: mongod --storageEngine wiredTiger --noscripting 
-    volumes:
-      - ./ditto_mongo_data:/data/db
-    user: mongodb
-    ports:
-      - 27017:27017
-    environment:
-       TZ: Asia/Shanghai
+  # mongodb:
+  #   image: docker.io/mongo:4.2
+  #   networks:
+  #     default:
+  #       aliases:
+  #         - mongodb
+  #   command: mongod --storageEngine wiredTiger --noscripting 
+  #   volumes:
+  #     - ./ditto_mongo_data:/data/db
+  #   user: mongodb
+  #   ports:
+  #     - 27017:27017
+  #   environment:
+  #      TZ: Asia/Shanghai
 
-  policies:
-    image: docker.io/eclipse/ditto-policies:${DITTO_VERSION:-latest}
-    #mem_limit: 512m
-    networks:
-      default:
-        aliases:
-          - ditto-cluster
-    restart: "always"
-    environment:
-      - TZ=Asia/Shanghai
-      - INSTANCE_INDEX=1
-      - BIND_HOSTNAME=0.0.0.0
-      - OPENJ9_JAVA_OPTIONS=-XX:+ExitOnOutOfMemoryError -Xtune:virtualized -Xss512k -XX:MaxRAMPercentage=80 -Dakka.coordinated-shutdown.exit-jvm=on -Dakka.cluster.shutdown-after-unsuccessful-join-seed-nodes=120s
-      - MONGO_DB_HOSTNAME=mongodb
-      # in order to write logs into a file you can enable this by setting the following env variable
-      # the log file(s) can be found in /var/log/ditto directory on the host machine
-      # - DITTO_LOGGING_FILE_APPENDER=true
-    # Set additional configuration options here
-    # -Dditto.policies...
-    command: java -jar starter.jar
-    # only needed if DITTO_LOGGING_FILE_APPENDER is set
-    # volumes:
-    #  - ditto_log_files:/var/log/ditto
+  # policies:
+  #   image: docker.io/eclipse/ditto-policies:${DITTO_VERSION:-latest}
+  #   #mem_limit: 512m
+  #   networks:
+  #     default:
+  #       aliases:
+  #         - ditto-cluster
+  #   restart: "always"
+  #   environment:
+  #     - TZ=Asia/Shanghai
+  #     - INSTANCE_INDEX=1
+  #     - BIND_HOSTNAME=0.0.0.0
+  #     - OPENJ9_JAVA_OPTIONS=-XX:+ExitOnOutOfMemoryError -Xtune:virtualized -Xss512k -XX:MaxRAMPercentage=80 -Dakka.coordinated-shutdown.exit-jvm=on -Dakka.cluster.shutdown-after-unsuccessful-join-seed-nodes=120s
+  #     - MONGO_DB_HOSTNAME=mongodb
+  #     # in order to write logs into a file you can enable this by setting the following env variable
+  #     # the log file(s) can be found in /var/log/ditto directory on the host machine
+  #     # - DITTO_LOGGING_FILE_APPENDER=true
+  #   # Set additional configuration options here
+  #   # -Dditto.policies...
+  #   command: java -jar starter.jar
+  #   # only needed if DITTO_LOGGING_FILE_APPENDER is set
+  #   # volumes:
+  #   #  - ditto_log_files:/var/log/ditto
 
 
-  things:
-    image: docker.io/eclipse/ditto-things:${DITTO_VERSION:-latest}
-    # mem_limit: 4096m
-    networks:
-      default:
-        aliases:
-          - ditto-cluster
-    restart: "always"
-    depends_on:
-      - policies
-    environment:
-      - TZ=Asia/Shanghai
-      - INSTANCE_INDEX=1
-      - BIND_HOSTNAME=0.0.0.0
-      - OPENJ9_JAVA_OPTIONS=-XX:+ExitOnOutOfMemoryError -Xtune:virtualized -Xss512k -XX:MaxRAMPercentage=80 -Dakka.coordinated-shutdown.exit-jvm=on -Dakka.cluster.shutdown-after-unsuccessful-join-seed-nodes=120s
-      - MONGO_DB_HOSTNAME=mongodb
-      # in order to write logs into a file you can enable this by setting the following env variable
-      # the log file(s) can be found in /var/log/ditto directory on the host machine
-      # - DITTO_LOGGING_FILE_APPENDER=true
-    # Set additional configuration options here
-    # -Dditto.things...
-    command: java -jar starter.jar
-    # only needed if DITTO_LOGGING_FILE_APPENDER is set
-    # volumes:
-    #  - ditto_log_files:/var/log/ditto
+  # things:
+  #   image: docker.io/eclipse/ditto-things:${DITTO_VERSION:-latest}
+  #   # mem_limit: 4096m
+  #   networks:
+  #     default:
+  #       aliases:
+  #         - ditto-cluster
+  #   restart: "always"
+  #   depends_on:
+  #     - policies
+  #   environment:
+  #     - TZ=Asia/Shanghai
+  #     - INSTANCE_INDEX=1
+  #     - BIND_HOSTNAME=0.0.0.0
+  #     - OPENJ9_JAVA_OPTIONS=-XX:+ExitOnOutOfMemoryError -Xtune:virtualized -Xss512k -XX:MaxRAMPercentage=80 -Dakka.coordinated-shutdown.exit-jvm=on -Dakka.cluster.shutdown-after-unsuccessful-join-seed-nodes=120s
+  #     - MONGO_DB_HOSTNAME=mongodb
+  #     # in order to write logs into a file you can enable this by setting the following env variable
+  #     # the log file(s) can be found in /var/log/ditto directory on the host machine
+  #     # - DITTO_LOGGING_FILE_APPENDER=true
+  #   # Set additional configuration options here
+  #   # -Dditto.things...
+  #   command: java -jar starter.jar
+  #   # only needed if DITTO_LOGGING_FILE_APPENDER is set
+  #   # volumes:
+  #   #  - ditto_log_files:/var/log/ditto
 
-  things-search:
-    image: docker.io/eclipse/ditto-things-search:${DITTO_VERSION:-latest}
-    #mem_limit: 512m
-    networks:
-      default:
-        aliases:
-          - ditto-cluster
-    restart: "always"
-    depends_on:
-      - policies
-    environment:
-      - TZ=Asia/Shanghai
-      - INSTANCE_INDEX=1
-      - BIND_HOSTNAME=0.0.0.0
-      - OPENJ9_JAVA_OPTIONS=-XX:+ExitOnOutOfMemoryError -Xtune:virtualized -Xss512k -XX:MaxRAMPercentage=80 -Dakka.coordinated-shutdown.exit-jvm=on -Dakka.cluster.shutdown-after-unsuccessful-join-seed-nodes=120s
-      - MONGO_DB_HOSTNAME=mongodb
-      # in order to write logs into a file you can enable this by setting the following env variable
-      # the log file(s) can be found in /var/log/ditto directory on the host machine
-      # - DITTO_LOGGING_FILE_APPENDER=true
-    # Set additional configuration options here
-    # -Dditto.things-search...
-    command: java -jar starter.jar
-    # only needed if DITTO_LOGGING_FILE_APPENDER is set
-    # volumes:
-    #  - ditto_log_files:/var/log/ditto
+  # things-search:
+  #   image: docker.io/eclipse/ditto-things-search:${DITTO_VERSION:-latest}
+  #   #mem_limit: 512m
+  #   networks:
+  #     default:
+  #       aliases:
+  #         - ditto-cluster
+  #   restart: "always"
+  #   depends_on:
+  #     - policies
+  #   environment:
+  #     - TZ=Asia/Shanghai
+  #     - INSTANCE_INDEX=1
+  #     - BIND_HOSTNAME=0.0.0.0
+  #     - OPENJ9_JAVA_OPTIONS=-XX:+ExitOnOutOfMemoryError -Xtune:virtualized -Xss512k -XX:MaxRAMPercentage=80 -Dakka.coordinated-shutdown.exit-jvm=on -Dakka.cluster.shutdown-after-unsuccessful-join-seed-nodes=120s
+  #     - MONGO_DB_HOSTNAME=mongodb
+  #     # in order to write logs into a file you can enable this by setting the following env variable
+  #     # the log file(s) can be found in /var/log/ditto directory on the host machine
+  #     # - DITTO_LOGGING_FILE_APPENDER=true
+  #   # Set additional configuration options here
+  #   # -Dditto.things-search...
+  #   command: java -jar starter.jar
+  #   # only needed if DITTO_LOGGING_FILE_APPENDER is set
+  #   # volumes:
+  #   #  - ditto_log_files:/var/log/ditto
 
-  concierge:
-    image: docker.io/eclipse/ditto-concierge:${DITTO_VERSION:-latest}
-    #mem_limit: 512m
-    networks:
-      default:
-        aliases:
-          - ditto-cluster
-    restart: "always"
-    depends_on:
-      - policies
-    environment:
-      - TZ=Asia/Shanghai
-      - INSTANCE_INDEX=1
-      - BIND_HOSTNAME=0.0.0.0
-      - OPENJ9_JAVA_OPTIONS=-XX:+ExitOnOutOfMemoryError -Xtune:virtualized -Xss512k -XX:MaxRAMPercentage=80 -Dakka.coordinated-shutdown.exit-jvm=on -Dakka.cluster.shutdown-after-unsuccessful-join-seed-nodes=120s
-      - MONGO_DB_HOSTNAME=mongodb
-      # in order to write logs into a file you can enable this by setting the following env variable
-      # the log file(s) can be found in /var/log/ditto directory on the host machine
-      # - DITTO_LOGGING_FILE_APPENDER=true
-    # Set additional configuration options here
-    # -Dditto.concierge...
-    command: java -jar starter.jar
-    # only needed if DITTO_LOGGING_FILE_APPENDER is set
-    # volumes:
-    #  - ditto_log_files:/var/log/ditto
+  # concierge:
+  #   image: docker.io/eclipse/ditto-concierge:${DITTO_VERSION:-latest}
+  #   #mem_limit: 512m
+  #   networks:
+  #     default:
+  #       aliases:
+  #         - ditto-cluster
+  #   restart: "always"
+  #   depends_on:
+  #     - policies
+  #   environment:
+  #     - TZ=Asia/Shanghai
+  #     - INSTANCE_INDEX=1
+  #     - BIND_HOSTNAME=0.0.0.0
+  #     - OPENJ9_JAVA_OPTIONS=-XX:+ExitOnOutOfMemoryError -Xtune:virtualized -Xss512k -XX:MaxRAMPercentage=80 -Dakka.coordinated-shutdown.exit-jvm=on -Dakka.cluster.shutdown-after-unsuccessful-join-seed-nodes=120s
+  #     - MONGO_DB_HOSTNAME=mongodb
+  #     # in order to write logs into a file you can enable this by setting the following env variable
+  #     # the log file(s) can be found in /var/log/ditto directory on the host machine
+  #     # - DITTO_LOGGING_FILE_APPENDER=true
+  #   # Set additional configuration options here
+  #   # -Dditto.concierge...
+  #   command: java -jar starter.jar
+  #   # only needed if DITTO_LOGGING_FILE_APPENDER is set
+  #   # volumes:
+  #   #  - ditto_log_files:/var/log/ditto
 
-  connectivity:
-    image: docker.io/eclipse/ditto-connectivity:${DITTO_VERSION:-latest}
-    #mem_limit: 1024m
-    networks:
-      default:
-        aliases:
-          - ditto-cluster
-      share_net:
-        aliases:
-          - ditto-connectivity
-    restart: "always"
-    depends_on:
-      - policies
-      - concierge
-    environment:
-      - TZ=Asia/Shanghai
-      - INSTANCE_INDEX=1
-      - BIND_HOSTNAME=0.0.0.0
-      - OPENJ9_JAVA_OPTIONS=-XX:+ExitOnOutOfMemoryError -Xtune:virtualized -Xmx8192m  -Xss512k -XX:MaxRAMPercentage=80 -Dakka.coordinated-shutdown.exit-jvm=on -Dakka.cluster.shutdown-after-unsuccessful-join-seed-nodes=120s
-      - MONGO_DB_HOSTNAME=mongodb
-      # in order to write logs into a file you can enable this by setting the following env variable
-      # the log file(s) can be found in /var/log/ditto directory on the host machine
-      # - DITTO_LOGGING_FILE_APPENDER=true
-    # Set additional configuration options here
-    # -Dditto.connectivity...
-    command: java -jar starter.jar
-    # only needed if DITTO_LOGGING_FILE_APPENDER is set
-    #volumes:
-    #  - ditto_log_files:/var/log/ditto
+  # connectivity:
+  #   image: docker.io/eclipse/ditto-connectivity:${DITTO_VERSION:-latest}
+  #   #mem_limit: 1024m
+  #   networks:
+  #     default:
+  #       aliases:
+  #         - ditto-cluster
+  #     share_net:
+  #       aliases:
+  #         - ditto-connectivity
+  #   restart: "always"
+  #   depends_on:
+  #     - policies
+  #     - concierge
+  #   environment:
+  #     - TZ=Asia/Shanghai
+  #     - INSTANCE_INDEX=1
+  #     - BIND_HOSTNAME=0.0.0.0
+  #     - OPENJ9_JAVA_OPTIONS=-XX:+ExitOnOutOfMemoryError -Xtune:virtualized -Xmx8192m  -Xss512k -XX:MaxRAMPercentage=80 -Dakka.coordinated-shutdown.exit-jvm=on -Dakka.cluster.shutdown-after-unsuccessful-join-seed-nodes=120s
+  #     - MONGO_DB_HOSTNAME=mongodb
+  #     # in order to write logs into a file you can enable this by setting the following env variable
+  #     # the log file(s) can be found in /var/log/ditto directory on the host machine
+  #     # - DITTO_LOGGING_FILE_APPENDER=true
+  #   # Set additional configuration options here
+  #   # -Dditto.connectivity...
+  #   command: java -jar starter.jar
+  #   # only needed if DITTO_LOGGING_FILE_APPENDER is set
+  #   #volumes:
+  #   #  - ditto_log_files:/var/log/ditto
 
-  gateway:
-    image: docker.io/eclipse/ditto-gateway:${DITTO_VERSION:-latest}
-    mem_limit: 512m
-    networks:
-      default:
-        aliases:
-          - ditto-cluster
-    restart: "always"
-    depends_on:
-      - policies
-      - concierge
-    ports:
-      - "8082:8080"
-    environment:
-      - TZ=Asia/Shanghai
-      - INSTANCE_INDEX=1
-      - BIND_HOSTNAME=0.0.0.0
-      - ENABLE_PRE_AUTHENTICATION=true
-      - OPENJ9_JAVA_OPTIONS=-XX:+ExitOnOutOfMemoryError -Xtune:virtualized -Xss512k -XX:MaxRAMPercentage=80 -Dakka.coordinated-shutdown.exit-jvm=on -Dakka.cluster.shutdown-after-unsuccessful-join-seed-nodes=120s
-      # in order to write logs into a file you can enable this by setting the following env variable
-      # the log file(s) can be found in /var/log/ditto directory on the host machine
-      # - DITTO_LOGGING_FILE_APPENDER=true
-      # You may use the environment for setting the devops password
-      #- DEVOPS_PASSWORD=foobar
-    # Set additional configuration options here
-    # -Dditto.gateway...
-    # Setting the devops password via java VM environment
-    command: java -Dditto.gateway.authentication.devops.password=foobar -jar starter.jar
-    # only needed if DITTO_LOGGING_FILE_APPENDER is set
-    # volumes:
-    #  - ditto_log_files:/var/log/ditto
+  # gateway:
+  #   image: docker.io/eclipse/ditto-gateway:${DITTO_VERSION:-latest}
+  #   mem_limit: 512m
+  #   networks:
+  #     default:
+  #       aliases:
+  #         - ditto-cluster
+  #   restart: "always"
+  #   depends_on:
+  #     - policies
+  #     - concierge
+  #   ports:
+  #     - "8082:8080"
+  #   environment:
+  #     - TZ=Asia/Shanghai
+  #     - INSTANCE_INDEX=1
+  #     - BIND_HOSTNAME=0.0.0.0
+  #     - ENABLE_PRE_AUTHENTICATION=true
+  #     - OPENJ9_JAVA_OPTIONS=-XX:+ExitOnOutOfMemoryError -Xtune:virtualized -Xss512k -XX:MaxRAMPercentage=80 -Dakka.coordinated-shutdown.exit-jvm=on -Dakka.cluster.shutdown-after-unsuccessful-join-seed-nodes=120s
+  #     # in order to write logs into a file you can enable this by setting the following env variable
+  #     # the log file(s) can be found in /var/log/ditto directory on the host machine
+  #     # - DITTO_LOGGING_FILE_APPENDER=true
+  #     # You may use the environment for setting the devops password
+  #     #- DEVOPS_PASSWORD=foobar
+  #   # Set additional configuration options here
+  #   # -Dditto.gateway...
+  #   # Setting the devops password via java VM environment
+  #   command: java -Dditto.gateway.authentication.devops.password=foobar -jar starter.jar
+  #   # only needed if DITTO_LOGGING_FILE_APPENDER is set
+  #   # volumes:
+  #   #  - ditto_log_files:/var/log/ditto
 
-  swagger-ui:
-    image: docker.io/swaggerapi/swagger-ui:v3.38.0
-    volumes:
-       - ./ditto_conf/documentation/src/main/resources/openapi:/usr/share/nginx/html/openapi:ro
-       - ./ditto_conf/documentation/src/main/resources/images:/usr/share/nginx/html/images:ro
-       - ./ditto_conf/swagger3-index.html:/usr/share/nginx/html/index.html:ro
-    command: nginx -g 'daemon off;'
-    restart: "always"
+  # swagger-ui:
+  #   image: docker.io/swaggerapi/swagger-ui:v3.38.0
+  #   volumes:
+  #      - ./ditto_conf/documentation/src/main/resources/openapi:/usr/share/nginx/html/openapi:ro
+  #      - ./ditto_conf/documentation/src/main/resources/images:/usr/share/nginx/html/images:ro
+  #      - ./ditto_conf/swagger3-index.html:/usr/share/nginx/html/index.html:ro
+  #   command: nginx -g 'daemon off;'
+  #   restart: "always"
 
-  nginx:
-    image: docker.io/nginx:1.20-alpine
-    volumes:
-       - ./ditto_conf/nginx.conf:/etc/nginx/nginx.conf:ro
-       - ./ditto_conf/nginx.htpasswd:/etc/nginx/nginx.htpasswd:ro
-       - ./ditto_conf/nginx-cors.conf:/etc/nginx/nginx-cors.conf:ro
-       - ./ditto_conf/index.html:/etc/nginx/html/index.html:ro
-       - ./ditto_conf/documentation/src/main/resources/images:/etc/nginx/html/images:ro
-    ports:
-      - "${DITTO_EXTERNAL_PORT:-8080}:80"
-    restart: "always"
-    depends_on:
-      - gateway
-      - swagger-ui
+  # nginx:
+  #   image: docker.io/nginx:1.20-alpine
+  #   volumes:
+  #      - ./ditto_conf/nginx.conf:/etc/nginx/nginx.conf:ro
+  #      - ./ditto_conf/nginx.htpasswd:/etc/nginx/nginx.htpasswd:ro
+  #      - ./ditto_conf/nginx-cors.conf:/etc/nginx/nginx-cors.conf:ro
+  #      - ./ditto_conf/index.html:/etc/nginx/html/index.html:ro
+  #      - ./ditto_conf/documentation/src/main/resources/images:/etc/nginx/html/images:ro
+  #   ports:
+  #     - "${DITTO_EXTERNAL_PORT:-8080}:80"
+  #   restart: "always"
+  #   depends_on:
+  #     - gateway
+  #     - swagger-ui
 
 
 
@@ -366,11 +367,11 @@ services:
         aliases:
           - mymongodb
     ports:
-      - 27018:27017
+      - 27017:27017
     environment:
       TZ: Asia/Shanghai
     volumes:
-      - ./mymongo_data/db:/data/db
+      - /zhitai/rodaki_data/mongodb_data:/data/db
     environment:
        TZ: Asia/Shanghai
     command: mongod --replSet testSet --wiredTigerCacheSizeGB 10
@@ -392,19 +393,20 @@ services:
   
 
 
-  myapp:
-    image: myapp:v1
+  consumer:
+    image: consumer:v1
     # restart: always
+    ports:
+      - "8089:8089"
     networks:
       default:
         aliases:
-          - myapp
+          - consumer
       share_net:
         aliases:
-          - myapp
-    command: java -jar myapp.jar mymongodb rabbitmq
-
-
+          - consumer
+    command: java -Xms10g -Xmx10g -XX:NewRatio=2 -jar consumer.jar mymongodb rabbitmq EntityModel DigitalModel 
+    # command: java -Xms10g -Xmx10g -XX:NewRatio=2 -Djava.rmi.server.hostname=127.0.0.1 -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=8089 -Dcom.sun.management.jmxremote.rmi.port=8089 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -jar consumer.jar mymongodb rabbitmq EntityModel DigitalModel 
 
 networks:
   share_net:
