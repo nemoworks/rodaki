@@ -23,23 +23,31 @@ import org.apache.iotdb.flink.options.IoTDBSinkOptions;
 
 public abstract class GeneralExtractor {
     public Class modelcls;
-    public OutputTag IotDBtag;
+    public OutputTag iotDBtag;
     public OutputTag RMQtag;
 
     public String toJSONString(AbstractModel model) {
         return JSON.toJSONString(model);
     }
-
+    public Object toObject(AbstractModel model){
+        return JSON.toJSON(model);
+    }
     public GeneralExtractor(Class modelcls) {
         this.modelcls = modelcls;
+        
+    }
+    public GeneralExtractor(Class modelcls,Boolean rmqflag,Boolean iotdbflag) {
+        this.modelcls = modelcls;
+        this.RMQtag=new OutputTag<String>(String.format("%s RMQ String",modelcls.getSimpleName())){};
+        this.iotDBtag=new OutputTag<Map<String, String>>(String.format("%s IotDB String",modelcls.getSimpleName())){};
     }
 
     public OutputTag getIotDBtag() {
-        return IotDBtag;
+        return iotDBtag;
     }
 
     public void setIotDBtag(OutputTag iotDBtag) {
-        IotDBtag = iotDBtag;
+        iotDBtag = iotDBtag;
     }
 
     public OutputTag getRMQtag() {
@@ -67,10 +75,10 @@ public abstract class GeneralExtractor {
             ctx.output(this.RMQtag, this.toJSONString(modelEntity));
         }
 
-        if (this.IotDBtag != null) {
+        if (this.iotDBtag != null) {
             Map<String, String> a = modelEntity.generateIotMsg(ctx.timestamp());
             if (a != null) {
-                ctx.output(this.IotDBtag, a);
+                ctx.output(this.iotDBtag, a);
             }
 
         }

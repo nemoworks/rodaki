@@ -1,7 +1,9 @@
 package com.nju.ics.DBs;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.mongodb.ServerAddress;
 import com.mongodb.async.client.MongoClient;
@@ -49,6 +51,27 @@ public class MongoDB {
 
     }
 
+    public static Map getDBConnectConfig() {
+        Map config = new HashMap<String, String>();
+        config.put("user", ConfigureENV.prop.getProperty("mongo.user"));
+        config.put("password", ConfigureENV.prop.getProperty("mongo.password"));
+        config.put("host", ConfigureENV.prop.getProperty("mongo.host"));
+        config.put("port",ConfigureENV.prop.getProperty("mongo.port"));
+        config.put("authdb", ConfigureENV.prop.getProperty("mongo.authdb"));
+        config.put("db", ConfigureENV.prop.getProperty("mongo.db"));
+        return config;
+    }
+    public static Map getDBConnectConfig(String connectionName) {
+        Map config = new HashMap<String, String>();
+        config.put("user", ConfigureENV.prop.getProperty("mongo.user"));
+        config.put("password", ConfigureENV.prop.getProperty("mongo.password"));
+        config.put("host", ConfigureENV.prop.getProperty("mongo.host"));
+        config.put("port",ConfigureENV.prop.getProperty("mongo.port"));
+        config.put("authdb", ConfigureENV.prop.getProperty("mongo.authdb"));
+        config.put("db", ConfigureENV.prop.getProperty("mongo.db"));
+        config.put("connectionName", connectionName);
+        return config;
+    }
     public static MongoDatabase getDBConnect(MongoClient client, String db) {
         return client.getDatabase(db).withCodecRegistry(pojoCodecRegistry);
     }

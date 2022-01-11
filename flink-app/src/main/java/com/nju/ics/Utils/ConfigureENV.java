@@ -37,10 +37,12 @@ public class ConfigureENV {
         if (checkpointingEnabled) {
             env.enableCheckpointing(120000);// 设置checkpoint的保存间隔，这里是120秒
             // Checkpoint 必须在2分钟内完成，否则就会被抛弃
-            env.getCheckpointConfig().setCheckpointTimeout(120000);
+            env.getCheckpointConfig().setCheckpointTimeout(120000 * 10);
             // 同一时间只允许一个 checkpoint 进行
             env.getCheckpointConfig().setMaxConcurrentCheckpoints(1);
-            env.getCheckpointConfig().setMinPauseBetweenCheckpoints(1000);
+            env.getCheckpointConfig().setMinPauseBetweenCheckpoints(120000);
+            // enables the experimental unaligned checkpoints
+            // env.getCheckpointConfig().enableUnalignedCheckpoints();
         }
 
         if (!enableChaining) {

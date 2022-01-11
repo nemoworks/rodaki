@@ -27,7 +27,7 @@ public class TrafficTransactionExtractor extends GeneralExtractor {
         // 产生一个支付记录
         PaymentRecord payment = (PaymentRecord) OutputTagCollection.modelExtractors
                 .get(PaymentRecordExtractor.class.getSimpleName()).f0.processElement(element, ctx, source, null, null);
-        modelEntity.paymentRecordId = payment == null ? null : payment.id();
+        //modelEntity.paymentRecordId = payment == null ? null : payment.id();
         return modelEntity;
     }
 
