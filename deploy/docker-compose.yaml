@@ -370,7 +370,8 @@ services:
     environment:
       TZ: Asia/Shanghai
     volumes:
-      - /zhitai/rodaki_data/mongodb_data:/data/db
+      # - /zhitai/rodaki_data/mongodb_data:/data/db
+      - ./rodaki_data/mongodb_data:/data/db
     environment:
        TZ: Asia/Shanghai
     command: mongod --replSet testSet --wiredTigerCacheSizeGB 10
