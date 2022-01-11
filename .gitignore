@@ -3,4 +3,5 @@ datas/
 cleaneddatas/
 *.log
 /.idea
-
+apache-jmeter-5.4.1/
+flink-1.13.1/
