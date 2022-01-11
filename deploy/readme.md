@@ -1,11 +1,11 @@
 ## 环境准备
 机器安装docker、docker-compose
-## 运行说明
+<!-- ## 运行说明
 整个系统主要分为两块内容 ，一个是kafka分布时消息队列系统与flink部署，一个是elasticsearch、flink部署
 
 kafka分布时消息队列系统与flink部署负责抽取数字孪生对象，同时会把车流量预测需要的数据发送到elasticsearch
 
-elasticsearch、flink部署主要是为了进行车流量预测使用
+elasticsearch、flink部署主要是为了进行车流量预测使用 -->
 
 
 <!-- ## kafka分布时消息队列系统与flink部署
@@ -64,15 +64,15 @@ build 镜像
 `docker build -t consumer:v1 .`
 
 
+## 创建docker网络
+
+`docker network create zc_net`
+
+
 
 ## 启动容器
 `docker-compose up -d`
 
-
-
-## 创建docker网络
-
-`docker network create zc_net`
 
 
 
