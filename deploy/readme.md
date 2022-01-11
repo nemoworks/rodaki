@@ -6,7 +6,9 @@
 kafka分布时消息队列系统与flink部署负责抽取数字孪生对象，同时会把车流量预测需要的数据发送到elasticsearch
 
 elasticsearch、flink部署主要是为了进行车流量预测使用
-## kafka分布时消息队列系统与flink部署
+
+
+<!-- ## kafka分布时消息队列系统与flink部署
 
 1. 创建flink的savepoint与checkpoint目录
     ```
@@ -49,11 +51,34 @@ elasticsearch需要持久化存储数据
 然后将这个文件夹的所有者的gid和uid改为1000（1000为elasticsearch在容器中的uid），不然es程序无法写入数据，造成容器启动失败
 
 `sudo chown 1000:1000 es-data/`
+ -->
+
+
+
+## 创建 consumer 镜像, 从rabbitmq消费数据、存储数据到 mongodb
+
+进入 consumer-app 目录
+`cd consumer-app`
+
+build 镜像
+`docker build -t consumer:v1 .`
+
+
+
+## 启动容器
+`docker-compose up -d`
+
+
+
+## 创建docker网络
+
+`docker network create zc_net`
 
 
 
 
-## mongodb 副本集部署
+
+## mongodb 初始化副本集配置
 
 
 进入容器
@@ -65,11 +90,3 @@ elasticsearch需要持久化存储数据
 初始化副本集
 `rs.initiate({"_id": "testSet", "members": [{"_id":0, "host":  "mymongodb:27017"}]})`
 
-
-## build consumer镜像, 从rabbitmq消费数据、存储数据到mognodb
-
-进入 consumer-app 目录
-`cd consumer-app`
-
-build 镜像
-`docker build -t consumer:v1 .`
