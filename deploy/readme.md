@@ -52,8 +52,19 @@ elasticsearch需要持久化存储数据
 
 `sudo chown 1000:1000 es-data/`
  -->
+1. 创建flink的savepoint、checkpoint、datasource目录
+    ```
+    mkdir ./flink-checkpoint
+    mkdir ./flink-savepoint
+    mkdir ./flink-datasource
+    ```
+    
+    记得更改这两个文件夹的权限，不然无法写入文件
+    `chown 9999:9999 flink-checkpoint flink-savepoint`
 
-
+    创建kafka的数据存储文件夹
+    
+2. 把flink应用需要读取的数据文件放到flink-datasource下面，相关的路径写成/datasource/xxxx.csv
 
 ## 创建 consumer 镜像, 从rabbitmq消费数据、存储数据到 mongodb
 
