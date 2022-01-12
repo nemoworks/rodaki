@@ -1,6 +1,7 @@
 package com.nju.ics.Models;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.nju.ics.FastJsonUtils.IntDeserializer;
 
 public class ENVehicleRecord extends AbstractModel {
     /** 车辆Id */
@@ -38,7 +39,7 @@ public class ENVehicleRecord extends AbstractModel {
         return VLPC;
     }
 
-    @JSONField(name = "VLPC")
+    @JSONField(name = "VLPC",deserializeUsing =IntDeserializer.class )
     public void setVLPC(int vLPC) {
         VLPC = vLPC;
     }
@@ -56,7 +57,7 @@ public class ENVehicleRecord extends AbstractModel {
     public int getVEHICLETYPE() {
         return VEHICLETYPE;
     }
-    @JSONField(name = "VEHICLETYPE")
+    @JSONField(name = "VEHICLETYPE",deserializeUsing  = IntDeserializer.class)
     public void setVEHICLETYPE(int vEHICLETYPE) {
         VEHICLETYPE = vEHICLETYPE;
     }
@@ -72,7 +73,7 @@ public class ENVehicleRecord extends AbstractModel {
     public int getLIMITWEIGHT() {
         return LIMITWEIGHT;
     }
-    @JSONField(name = "LIMITWEIGHT")
+    @JSONField(name = "LIMITWEIGHT",deserializeUsing  = IntDeserializer.class)
     public void setLIMITWEIGHT(int lIMITWEIGHT) {
         LIMITWEIGHT = lIMITWEIGHT;
     }

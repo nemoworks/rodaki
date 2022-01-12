@@ -3,6 +3,7 @@ package com.nju.ics.Models;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.annotation.JSONType;
 import com.alibaba.fastjson.parser.Feature;
+import com.nju.ics.FastJsonUtils.IntDeserializer;
 
 /**
  * 支付记录,只在出口记录产生
@@ -39,6 +40,7 @@ public class ExitPaymentRecord extends AbstractModel {
 
     @JSONField(name = "INVOICEID")
     private String INVOICEID;
+
     @Override
     public String id() {
         // TODO Auto-generated method stub
@@ -58,7 +60,7 @@ public class ExitPaymentRecord extends AbstractModel {
         return TIME;
     }
 
-    @JSONField(deserialize = false)
+    @JSONField(alternateNames = { "_time" })
     public void setTIME(long eXTIME) {
         TIME = eXTIME;
     }
@@ -86,7 +88,7 @@ public class ExitPaymentRecord extends AbstractModel {
         return VLPC;
     }
 
-    @JSONField(name = "EXVLPC")
+    @JSONField(alternateNames = { "EXVLPC" }, deserializeUsing = IntDeserializer.class)
     public void setVLPC(int vLPC) {
         VLPC = vLPC;
     }
@@ -96,7 +98,7 @@ public class ExitPaymentRecord extends AbstractModel {
         return VLP;
     }
 
-    @JSONField(name = "EXVLP")
+    @JSONField(alternateNames = { "EXVLP" })
     public void setVLP(String vLP) {
         VLP = vLP;
     }
@@ -105,7 +107,7 @@ public class ExitPaymentRecord extends AbstractModel {
         return PAYTYPE;
     }
 
-    @JSONField(name = "PAYTYPE")
+    @JSONField(name = "PAYTYPE", deserializeUsing = IntDeserializer.class)
     public void setPAYTYPE(int pAYTYPE) {
         PAYTYPE = pAYTYPE;
     }
@@ -114,7 +116,7 @@ public class ExitPaymentRecord extends AbstractModel {
         return FEE;
     }
 
-    @JSONField(name = "FEE")
+    @JSONField(name = "FEE", deserializeUsing = IntDeserializer.class)
     public void setFEE(int fEE) {
         FEE = fEE;
     }
@@ -123,7 +125,7 @@ public class ExitPaymentRecord extends AbstractModel {
         return FEEMILEAGE;
     }
 
-    @JSONField(name = "FEEMILEAGE")
+    @JSONField(name = "FEEMILEAGE", deserializeUsing = IntDeserializer.class)
     public void setFEEMILEAGE(int fEEMILEAGE) {
         FEEMILEAGE = fEEMILEAGE;
     }
@@ -131,9 +133,10 @@ public class ExitPaymentRecord extends AbstractModel {
     public String getINVOICEID() {
         return INVOICEID;
     }
+
     @JSONField(name = "INVOICEID")
     public void setINVOICEID(String iNVOICEID) {
         INVOICEID = iNVOICEID;
     }
-    
+
 }

@@ -16,7 +16,7 @@ public class InputTimeStampAssigner implements SerializableTimestampAssigner<JSO
     public long extractTimestamp(JSONObject element, long recordTimestamp) {
         // TODO Auto-generated method stub
         long timestamp=DataSourceJudge.typeDetectAndTime(element,time);
-        element.put(DataSourceJudge.timeKey,timestamp);
+        
         return timestamp;
        
        

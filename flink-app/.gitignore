@@ -3,3 +3,4 @@ target
 .vscode
 dependency-reduced-pom.xml
 *.log
+*.tar.gz

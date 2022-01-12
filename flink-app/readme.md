@@ -17,3 +17,8 @@
     访问机器的8081端口即可，一般是localhost
 
 /usr/bin/env /home/lzm/jdks/jdk8/bin/java -Dfile.encoding=UTF-8 -cp ./target/analyse-0.1.jar com.nju.ics.StreamingJobLocal --checkpointing
+
+
+### 修改读取的csv文件目录
+
+在`src/main/java/com/nju/ics/Datastream/DataFlowBuilder.java`里面修改三个流水的csv文件，要为容器里面的目录，具体看deploy目录的readme

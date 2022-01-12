@@ -21,8 +21,11 @@ package com.nju.ics;
 import java.util.Properties;
 
 import com.alibaba.fastjson.JSONObject;
+import com.nju.ics.Datastream.AutoDataFlowBuilder;
+import com.nju.ics.Datastream.DataFlowBuilder;
+import com.nju.ics.Sql.SqlStreamBuilder;
 import com.nju.ics.Utils.ConfigureENV;
-import com.nju.ics.Utils.DataFlowBuilder;
+
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.common.typeutils.TypeSerializer;
@@ -70,12 +73,15 @@ public class StreamingJobLocal {
 		conf.setInteger("rest.port", Integer.parseInt(initparams.getProperty("flink.rest.port", "8081")));
 		StreamExecutionEnvironment env = StreamExecutionEnvironment.createLocalEnvironmentWithWebUI(conf);
 		// TypeInformation<JSONObject> info = TypeInformation.of(JSONObject.class);
-		// TypeSerializer<JSONObject> mySerializer=info.createSerializer(env.getConfig());
-		
-		//env.getConfig().registerTypeWithKryoSerializer(JSONObject.class,TypeSerializer.class);
+		// TypeSerializer<JSONObject>
+		// mySerializer=info.createSerializer(env.getConfig());
+
+		// env.getConfig().registerTypeWithKryoSerializer(JSONObject.class,TypeSerializer.class);
 		ConfigureENV.configureEnvironment(params, env);
 
 		DataFlowBuilder.generateDataStream(env, params);
+		//AutoDataFlowBuilder.generateDataStream(env, params);
+		// SqlStreamBuilder.generateDataStream(env, params);
 		// execute program
 		env.execute("highway data analyse");
 	}

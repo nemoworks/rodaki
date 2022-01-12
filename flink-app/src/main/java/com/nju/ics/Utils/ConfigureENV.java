@@ -11,6 +11,7 @@ public class ConfigureENV {
     public static final String CHECKPOINTING_OPTION = "checkpointing";
     public static final String OPERATOR_CHAINING_OPTION = "chaining";
     public static final String PARALLELISM = "parallelism";
+    public static final String EVENTTIMEOPTION="event-time";
     public static Properties prop;
 
     public static Properties initConfiguration(String url) {

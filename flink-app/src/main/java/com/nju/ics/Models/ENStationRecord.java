@@ -4,6 +4,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.nju.ics.Configs.StationPosition;
 import com.nju.ics.Utils.DataSourceJudge;
 import com.nju.ics.FastJsonUtils.IntDeserializer;
+
 public class ENStationRecord extends AbstractModel {
     /** 入口、出口： 交易流水号 */
     @JSONField(name = "ENTRYID")
@@ -49,8 +50,8 @@ public class ENStationRecord extends AbstractModel {
     private int IDENTIFYVLPC;
     private String IDENTIFYVLP;
     /** 收费站经度 */
-    @JSONField(name = "LONGTITUDE")
-    private float LONGTITUDE;
+    @JSONField(name = "LONGITUDE")
+    private float LONGITUDE;
     /** 收费站纬度 */
     @JSONField(name = "LATITUDE")
     private float LATITUDE;
@@ -80,7 +81,7 @@ public class ENStationRecord extends AbstractModel {
         return ENTIME;
     }
 
-    @JSONField(name = "_time")
+    @JSONField(alternateNames = { "_time" })
     public void setENTIME(long eNTIME) {
         ENTIME = eNTIME;
     }
@@ -89,21 +90,21 @@ public class ENStationRecord extends AbstractModel {
         return PASSID;
     }
 
-    @JSONField(alternateNames = { "PASSID" },defaultValue = "")
+    @JSONField(alternateNames = { "PASSID" }, defaultValue = "")
     public void setPASSID(String pASSID) {
-        PASSID = pASSID==null? "":pASSID;
+        PASSID = pASSID == null ? "" : pASSID;
     }
 
     public String getENTOLLSTATIONID() {
         return ENTOLLSTATIONID;
     }
 
-    @JSONField(name = "ENTOLLSTATIONID")
+    @JSONField(alternateNames = "ENTOLLSTATIONID")
     public void setENTOLLSTATIONID(String eNTOLLSTATIONID) {
         ENTOLLSTATIONID = eNTOLLSTATIONID;
         if (StationPosition.geoMap.containsKey(ENTOLLSTATIONID)) {
             this.setSTATIONNAME(StationPosition.geoMap.get(ENTOLLSTATIONID).stationName);
-            this.setLONGTITUDE(StationPosition.geoMap.get(ENTOLLSTATIONID).longtitude);
+            this.setLONGITUDE(StationPosition.geoMap.get(ENTOLLSTATIONID).longitude);
             this.setLATITUDE(StationPosition.geoMap.get(ENTOLLSTATIONID).latitude);
         }
     }
@@ -112,7 +113,7 @@ public class ENStationRecord extends AbstractModel {
         return ENTOLLLANEID;
     }
 
-    @JSONField(name = "ENTOLLLANEID")
+    @JSONField(alternateNames = { "ENTOLLLANEID" })
     public void setENTOLLLANEID(String eNTOLLLANEID) {
         ENTOLLLANEID = eNTOLLLANEID;
 
@@ -122,7 +123,7 @@ public class ENStationRecord extends AbstractModel {
         return SHIFT;
     }
 
-    @JSONField(name = "SHIFT")
+    @JSONField(alternateNames = { "SHIFT" })
     public void setSHIFT(String sHIFT) {
         SHIFT = sHIFT;
     }
@@ -131,7 +132,7 @@ public class ENStationRecord extends AbstractModel {
         return OPERID;
     }
 
-    @JSONField(name = "OPERID")
+    @JSONField(alternateNames = { "OPERID" })
     public void setOPERID(String oPERID) {
         OPERID = oPERID;
     }
@@ -149,7 +150,7 @@ public class ENStationRecord extends AbstractModel {
         return MEDIATYPE;
     }
 
-    @JSONField(name = "MEDIATYPE")
+    @JSONField(alternateNames = { "MEDIATYPE" }, deserializeUsing = IntDeserializer.class)
     public void setMEDIATYPE(int mEDIATYPE) {
         MEDIATYPE = mEDIATYPE;
     }
@@ -172,7 +173,7 @@ public class ENStationRecord extends AbstractModel {
         return OBUID;
     }
 
-    @JSONField(name = "OBUID")
+    @JSONField(alternateNames = { "OBUID" })
     public void setOBUID(String oBUID) {
         OBUID = oBUID;
     }
@@ -182,7 +183,7 @@ public class ENStationRecord extends AbstractModel {
         return CARDID;
     }
 
-    @JSONField(name = "CARDID")
+    @JSONField(alternateNames = { "CARDID" })
     public void setCARDID(String cARDID) {
         CARDID = cARDID;
     }
@@ -191,7 +192,7 @@ public class ENStationRecord extends AbstractModel {
         return ENWEIGHT;
     }
 
-    @JSONField(name = "ENWEIGHT")
+    @JSONField(alternateNames = { "ENWEIGHT" }, deserializeUsing = IntDeserializer.class)
     public void setENWEIGHT(int eNWEIGHT) {
         ENWEIGHT = eNWEIGHT;
     }
@@ -205,13 +206,13 @@ public class ENStationRecord extends AbstractModel {
         ENIDENTIFY = eNIDENTIFY;
     }
 
-    public float getLONGTITUDE() {
-        return LONGTITUDE;
+    public float getLONGITUDE() {
+        return LONGITUDE;
     }
 
     @JSONField(deserialize = false)
-    public void setLONGTITUDE(float lONGTITUDE) {
-        LONGTITUDE = lONGTITUDE;
+    public void setLONGITUDE(float lONGITUDE) {
+        LONGITUDE = lONGITUDE;
     }
 
     public float getLATITUDE() {
@@ -257,7 +258,7 @@ public class ENStationRecord extends AbstractModel {
         return IDENTIFYVLPC;
     }
 
-    @JSONField(name = "IDENTIFYVLPC")
+    @JSONField(name = "IDENTIFYVLPC", deserializeUsing = IntDeserializer.class)
     public void setIDENTIFYVLPC(int iDENTIFYVLPC) {
         IDENTIFYVLPC = iDENTIFYVLPC;
     }

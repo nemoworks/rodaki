@@ -18,32 +18,34 @@
 
 version: "2.1"
 services:
-  # jobmanager:
-  #   image: apache/flink:1.13.1-scala_2.12-java8
-  #   command: "jobmanager.sh start-foreground"
-  #   ports:
-  #     - 8081:8081
-  #   volumes:
-  #     - ./flink-conf:/opt/flink/conf
-  #     - ./flink-checkpoint:/tmp/flink-checkpoints-directory
-  #     - ./flink-savepoint:/tmp/flink-savepoints-directory
-  #   environment:
-  #     - JOB_MANAGER_RPC_ADDRESS=jobmanager
-  #   networks:
-  #     - share_net
-  # taskmanager:
-  #   image: apache/flink:1.13.1-scala_2.12-java8
-  #   depends_on:
-  #     - jobmanager
-  #   command: "taskmanager.sh start-foreground"
-  #   volumes:
-  #     - ./flink-conf:/opt/flink/conf
-  #     - ./flink-checkpoint:/tmp/flink-checkpoints-directory
-  #     - ./flink-savepoint:/tmp/flink-savepoints-directory
-  #   environment:
-  #     - JOB_MANAGER_RPC_ADDRESS=jobmanager
-  #   networks:
-  #     - share_net
+  jobmanager:
+    image: apache/flink:1.13.1-scala_2.12-java8
+    command: "jobmanager.sh start-foreground"
+    ports:
+      - 8081:8081
+    volumes:
+      - ./flink-conf:/opt/flink/conf
+      - ./flink-checkpoint:/tmp/flink-checkpoints-directory
+      - ./flink-savepoint:/tmp/flink-savepoints-directory
+      - ./flink-datasource:/datasource
+    environment:
+      - JOB_MANAGER_RPC_ADDRESS=jobmanager
+    networks:
+      - share_net
+  taskmanager:
+    image: apache/flink:1.13.1-scala_2.12-java8
+    depends_on:
+      - jobmanager
+    command: "taskmanager.sh start-foreground"
+    volumes:
+      - ./flink-conf:/opt/flink/conf
+      - ./flink-checkpoint:/tmp/flink-checkpoints-directory
+      - ./flink-savepoint:/tmp/flink-savepoints-directory
+      - ./flink-datasource:/datasource
+    environment:
+      - JOB_MANAGER_RPC_ADDRESS=jobmanager
+    networks:
+      - share_net
   # zookeeper:
   #   image: wurstmeister/zookeeper
   #   volumes:

@@ -4,10 +4,8 @@ import java.lang.String;
 
 import com.alibaba.fastjson.JSONObject;
 import com.nju.ics.Utils.DataSourceJudge;
-import com.typesafe.config.ConfigException.Null;
 
 import org.apache.flink.api.java.functions.KeySelector;
-import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.JsonNode;
 
 public class VehicleKeyByOperator implements KeySelector<JSONObject, String> {
     /** 将车牌颜色与车牌号提取出来

@@ -1,6 +1,7 @@
 package com.nju.ics.Models;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.nju.ics.FastJsonUtils.IntDeserializer;
 
 public class GantryVehicleRecord extends AbstractModel {
     /** 车辆Id */
@@ -45,7 +46,7 @@ public class GantryVehicleRecord extends AbstractModel {
         return VLPC;
     }
 
-    @JSONField(name = "VLPC")
+    @JSONField(name = "VLPC", deserializeUsing =IntDeserializer.class )
     public void setVLPC(int vLPC) {
         VLPC = vLPC;
     }

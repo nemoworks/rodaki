@@ -1,8 +1,9 @@
 package com.nju.ics.Models;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.nju.ics.FastJsonUtils.IntDeserializer;
 
-public class ExitVehicle extends AbstractModel {
+public class ExitVehicleInfo extends AbstractModel {
     /** 车辆Id */
     @JSONField(name = "VEHICLEID")
     private String VEHICLEID;
@@ -40,7 +41,7 @@ public class ExitVehicle extends AbstractModel {
         return VLPC;
     }
 
-    @JSONField(name = "EXVLPC")
+    @JSONField(alternateNames = { "EXVLPC" }, deserializeUsing = IntDeserializer.class)
     public void setVLPC(int vLPC) {
         VLPC = vLPC;
     }
@@ -50,14 +51,16 @@ public class ExitVehicle extends AbstractModel {
         return VLP;
     }
 
-    @JSONField(name = "EXVLP")
+    @JSONField(alternateNames = { "EXVLP" })
     public void setVLP(String vLP) {
         VLP = vLP;
     }
+
     public int getVEHICLETYPE() {
         return VEHICLETYPE;
     }
-    @JSONField(name = "EXVEHICLETYPE")
+
+    @JSONField(name = "EXVEHICLETYPE", deserializeUsing = IntDeserializer.class)
     public void setVEHICLETYPE(int vEHICLETYPE) {
         VEHICLETYPE = vEHICLETYPE;
     }
@@ -65,6 +68,7 @@ public class ExitVehicle extends AbstractModel {
     public String getAXISINFO() {
         return AXISINFO;
     }
+
     @JSONField(name = "AXISINFO")
     public void setAXISINFO(String aXISINFO) {
         AXISINFO = aXISINFO;
@@ -73,7 +77,8 @@ public class ExitVehicle extends AbstractModel {
     public int getLIMITWEIGHT() {
         return LIMITWEIGHT;
     }
-    @JSONField(name = "LIMITWEIGHT")
+
+    @JSONField(name = "LIMITWEIGHT", deserializeUsing = IntDeserializer.class)
     public void setLIMITWEIGHT(int lIMITWEIGHT) {
         LIMITWEIGHT = lIMITWEIGHT;
     }

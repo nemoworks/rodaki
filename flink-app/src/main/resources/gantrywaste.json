@@ -1,0 +1,312 @@
+[
+    {
+        "col": "TRADEID",
+        "type": "string",
+        "index": 0
+    },
+    {
+        "col": "GANTRYID",
+        "type": "string",
+        "index": 1
+    },
+    {
+        "col": "ORIGINALFLAG",
+        "type": "int",
+        "index": 2
+    },
+    {
+        "col": "GANTRYHEX",
+        "type": "string",
+        "index": 6
+    },
+    {
+        "col": "GANTRYHEXOPPOSITE",
+        "type": "string",
+        "index": 7
+    },
+    {
+        "col": "TRANSTIME",
+        "type": "string",
+        "index": 8
+    },
+    {
+        "col": "PAYFEE",
+        "type": "int",
+        "index": 9
+    },
+    {
+        "col": "FEE",
+        "type": "int",
+        "index": 10
+    },
+    {
+        "col": "DISCOUNTFEE",
+        "type": "int",
+        "index": 11
+    },
+    {
+        "col": "TRANSFEE",
+        "type": "int",
+        "index": 12
+    },
+    {
+        "col": "MEDIATYPE",
+        "type": "int",
+        "index": 13
+    },
+    {
+        "col": "OBUSIGN",
+        "type": "float",
+        "index": 14
+    },
+    {
+        "col": "ENWEIGHT",
+        "type": "float",
+        "index": 19
+    },
+    {
+        "col": "ENAXLECOUNT",
+        "type": "float",
+        "index": 20
+    },
+    {
+        "col": "VLP",
+        "type": "string",
+        "index": 21
+    },
+    {
+        "col": "VLPC",
+        "type": "int",
+        "index": 22
+    },
+    {
+        "col": "VEHICLETYPE",
+        "type": "int",
+        "index": 23
+    },
+    {
+        "col": "IDENTIFYVEHICLETYPE",
+        "type": "float",
+        "index": 24
+    },
+    {
+        "col": "VEHICLECLASS",
+        "type": "int",
+        "index": 25
+    },
+    {
+        "col": "CONSUMETIME",
+        "type": "int",
+        "index": 37
+    },
+    {
+        "col": "PASSSTATE",
+        "type": "int",
+        "index": 38
+    },
+    {
+        "col": "ENTOLLLANEID",
+        "type": "string",
+        "index": 39
+    },
+    {
+        "col": "ENTOLLSTATIONHEX",
+        "type": "string",
+        "index": 40
+    },
+    {
+        "col": "ENTIME",
+        "type": "string",
+        "index": 41
+    },
+    {
+        "col": "ENLANETYPE",
+        "type": "float",
+        "index": 42
+    },
+    {
+        "col": "PASSID",
+        "type": "string",
+        "index": 43
+    },
+    {
+        "col": "LASTGANTRYHEX",
+        "type": "string",
+        "index": 44
+    },
+    {
+        "col": "LASTGANTRYTIME",
+        "type": "string",
+        "index": 45
+    },
+    {
+        "col": "OBUMAC",
+        "type": "string",
+        "index": 46
+    },
+    {
+        "col": "OBUISSUEID",
+        "type": "string",
+        "index": 47
+    },
+    {
+        "col": "OBUSN",
+        "type": "string",
+        "index": 48
+    },
+    {
+        "col": "OBUVERSION",
+        "type": "int",
+        "index": 49
+    },
+    {
+        "col": "OBUSTARTDATE",
+        "type": "int",
+        "index": 50
+    },
+    {
+        "col": "OBUENDDATE",
+        "type": "int",
+        "index": 51
+    },
+    {
+        "col": "OBUELECTRICAL",
+        "type": "int",
+        "index": 52
+    },
+    {
+        "col": "OBUSTATE",
+        "type": "int",
+        "index": 53
+    },
+    {
+        "col": "OBUVLP",
+        "type": "string",
+        "index": 54
+    },
+    {
+        "col": "OBUVLPC",
+        "type": "float",
+        "index": 55
+    },
+    {
+        "col": "OBUVEHICLETYPE",
+        "type": "float",
+        "index": 56
+    },
+    {
+        "col": "VEHICLEUSERTYPE",
+        "type": "float",
+        "index": 57
+    },
+    {
+        "col": "VEHICLESEAT",
+        "type": "float",
+        "index": 58
+    },
+    {
+        "col": "AXLECOUNT",
+        "type": "int",
+        "index": 59
+    },
+    {
+        "col": "TOTALWEIGHT",
+        "type": "float",
+        "index": 60
+    },
+    {
+        "col": "VEHICLELENGTH",
+        "type": "int",
+        "index": 61
+    },
+    {
+        "col": "VEHICLEWIDTH",
+        "type": "int",
+        "index": 62
+    },
+    {
+        "col": "VEHICLEHIGHT",
+        "type": "int",
+        "index": 63
+    },
+    {
+        "col": "CPUNETID",
+        "type": "float",
+        "index": 64
+    },
+    {
+        "col": "CPUISSUEID",
+        "type": "string",
+        "index": 65
+    },
+    {
+        "col": "CPUVLP",
+        "type": "string",
+        "index": 66
+    },
+    {
+        "col": "CPUVLPC",
+        "type": "float",
+        "index": 67
+    },
+    {
+        "col": "CPUVEHICLETYPE",
+        "type": "float",
+        "index": 68
+    },
+    {
+        "col": "CPUSTARTDATE",
+        "type": "float",
+        "index": 69
+    },
+    {
+        "col": "CPUENDDATE",
+        "type": "float",
+        "index": 70
+    },
+    {
+        "col": "CPUVERSION",
+        "type": "float",
+        "index": 71
+    },
+    {
+        "col": "CPUCARDTYPE",
+        "type": "float",
+        "index": 72
+    },
+    {
+        "col": "CPUCARDID",
+        "type": "float",
+        "index": 73
+    },
+    {
+        "col": "GANTRYPASSCOUNT",
+        "type": "float",
+        "index": 76
+    },
+    {
+        "col": "SPECIALTYPE",
+        "type": "string",
+        "index": 87
+    },
+    {
+        "col": "RECEIVETIME",
+        "type": "string",
+        "index": 104
+    },
+    {
+        "col": "VEHICLESIGN",
+        "type": "string",
+        "index": 113
+    },
+    {
+        "col": "GANTRYTYPE",
+        "type": "int",
+        "index": 119
+    },
+    {
+        "col": "FEEMILEAGE",
+        "type": "int",
+        "index": 146
+    }
+]

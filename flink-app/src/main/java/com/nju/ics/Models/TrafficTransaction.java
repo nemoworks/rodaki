@@ -35,6 +35,8 @@ public class TrafficTransaction extends AbstractModel {
     @JSONField(name = "PASSEDSITES")
     private List<Map> PASSEDSITES;
 
+    @JSONField(name = "SPECIALTYPE")
+    private String SPECIALTYPE;
     @Override
     public String id() {
         // TODO Auto-generated method stub
@@ -125,6 +127,14 @@ public class TrafficTransaction extends AbstractModel {
 
     public void setPASSEDSITES(List<Map> pASSEDSITES) {
         PASSEDSITES = pASSEDSITES;
+    }
+
+    public String getSPECIALTYPE() {
+        return SPECIALTYPE;
+    }
+    @JSONField(alternateNames = { "SPECIALTYPE" })
+    public void setSPECIALTYPE(String sPECIALTYPE) {
+        SPECIALTYPE = sPECIALTYPE;
     }
     
 }

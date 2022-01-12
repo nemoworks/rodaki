@@ -14,8 +14,9 @@ import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.JsonNode;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
-
+import com.nju.ics.Utils.ConfigureENV;
 public class KafkaDataConsumer {
+    
     public static FlinkKafkaConsumer<JSONObject> generateKafkaConsumer(ParameterTool params) {
         String inputTopic = params.get("input-topic", ConfigureENV.prop.getProperty("flink.inputTopic"));
         String brokers = params.get("bootstrap.servers", ConfigureENV.prop.getProperty("kafka.bootstrap.servers"));
@@ -29,9 +30,11 @@ public class KafkaDataConsumer {
                 new JsonObjectDeserializationSchema(), kafkaProps);
         // 设置成从最早的记录开始读取，方便调试
         dataConsumer.setStartFromEarliest();
-        dataConsumer.assignTimestampsAndWatermarks(
+        if (params.has(ConfigureENV.EVENTTIMEOPTION)){
+            dataConsumer.assignTimestampsAndWatermarks(
                 WatermarkStrategy.<JSONObject>forBoundedOutOfOrderness(Duration.ofSeconds(60))
                         .withIdleness(Duration.ofMinutes(1)).withTimestampAssigner(new InputTimeStampAssigner()));
+        }
         return dataConsumer;
 
     }
