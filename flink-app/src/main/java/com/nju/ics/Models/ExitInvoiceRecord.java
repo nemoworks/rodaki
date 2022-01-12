@@ -1,6 +1,7 @@
 package com.nju.ics.Models;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.nju.ics.FastJsonUtils.IntDeserializer;
 
 /**
  * 发票记录 只在出口记录产生
@@ -19,6 +20,7 @@ public class ExitInvoiceRecord extends AbstractModel {
     private int INVOICETYPE;
     @JSONField(name = "INVOICECNT")
     private int INVOICECNT;
+
     @Override
     public String id() {
         // TODO Auto-generated method stub
@@ -38,7 +40,7 @@ public class ExitInvoiceRecord extends AbstractModel {
         return TIME;
     }
 
-    @JSONField(deserialize = false)
+    @JSONField(alternateNames = { "_time" })
     public void setTIME(long eXTIME) {
         TIME = eXTIME;
     }
@@ -58,7 +60,7 @@ public class ExitInvoiceRecord extends AbstractModel {
         return VLPC;
     }
 
-    @JSONField(name = "EXVLPC")
+    @JSONField(alternateNames = { "EXVLPC" }, deserializeUsing = IntDeserializer.class)
     public void setVLPC(int vLPC) {
         VLPC = vLPC;
     }
@@ -68,7 +70,7 @@ public class ExitInvoiceRecord extends AbstractModel {
         return VLP;
     }
 
-    @JSONField(name = "EXVLP")
+    @JSONField(alternateNames = { "EXVLP" })
     public void setVLP(String vLP) {
         VLP = vLP;
     }
@@ -77,6 +79,7 @@ public class ExitInvoiceRecord extends AbstractModel {
         return INVOICETYPE;
     }
 
+    @JSONField(deserializeUsing = IntDeserializer.class)
     public void setINVOICETYPE(int iNVOICETYPE) {
         INVOICETYPE = iNVOICETYPE;
     }
@@ -85,8 +88,9 @@ public class ExitInvoiceRecord extends AbstractModel {
         return INVOICECNT;
     }
 
+    @JSONField(deserializeUsing = IntDeserializer.class)
     public void setINVOICECNT(int iNVOICECNT) {
         INVOICECNT = iNVOICECNT;
     }
-    
+
 }

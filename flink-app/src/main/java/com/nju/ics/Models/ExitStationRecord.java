@@ -58,8 +58,8 @@ public class ExitStationRecord extends AbstractModel {
     private int IDENTIFYVLPC;
     private String IDENTIFYVLP;
     /** 收费站经度 */
-    @JSONField(name = "LONGTITUDE")
-    private float LONGTITUDE;
+    @JSONField(name = "LONGITUDE")
+    private float LONGITUDE;
     /** 收费站纬度 */
     @JSONField(name = "LATITUDE")
     private float LATITUDE;
@@ -89,7 +89,7 @@ public class ExitStationRecord extends AbstractModel {
         return EXTIME;
     }
 
-    @JSONField(name="_time")
+    @JSONField(alternateNames = { "_time" })
     public void setEXTIME(long eXTIME) {
         EXTIME = eXTIME;
     }
@@ -112,7 +112,7 @@ public class ExitStationRecord extends AbstractModel {
         EXTOLLSTATIONID = eXTOLLSTATIONID;
         if (StationPosition.geoMap.containsKey(EXTOLLSTATIONID)) {
             this.setSTATIONNAME(StationPosition.geoMap.get(EXTOLLSTATIONID).stationName);
-            this.setLONGTITUDE(StationPosition.geoMap.get(EXTOLLSTATIONID).longtitude);
+            this.setLONGITUDE(StationPosition.geoMap.get(EXTOLLSTATIONID).longitude);
             this.setLATITUDE(StationPosition.geoMap.get(EXTOLLSTATIONID).latitude);
         }
     }
@@ -158,7 +158,7 @@ public class ExitStationRecord extends AbstractModel {
         return MEDIATYPE;
     }
 
-    @JSONField(name = "MEDIATYPE")
+    @JSONField(name = "MEDIATYPE",deserializeUsing = IntDeserializer.class)
     public void setMEDIATYPE(int mEDIATYPE) {
         MEDIATYPE = mEDIATYPE;
     }
@@ -176,7 +176,7 @@ public class ExitStationRecord extends AbstractModel {
         return EXWEIGHT;
     }
 
-    @JSONField(name = "EXWEIGHT")
+    @JSONField(name = "EXWEIGHT",deserializeUsing = IntDeserializer.class)
     public void setEXWEIGHT(int eXWEIGHT) {
         EXWEIGHT = eXWEIGHT;
     }
@@ -190,13 +190,13 @@ public class ExitStationRecord extends AbstractModel {
         EXIDENTIFY = eXIDENTIFY;
     }
 
-    public float getLONGTITUDE() {
-        return LONGTITUDE;
+    public float getLONGITUDE() {
+        return LONGITUDE;
     }
 
     @JSONField(deserialize = false)
-    public void setLONGTITUDE(float lONGTITUDE) {
-        LONGTITUDE = lONGTITUDE;
+    public void setLONGITUDE(float LONGITUDE) {
+        this.LONGITUDE = LONGITUDE;
     }
 
     public float getLATITUDE() {
@@ -222,7 +222,7 @@ public class ExitStationRecord extends AbstractModel {
         return VLPC;
     }
 
-    @JSONField(name = "EXVLPC", deserializeUsing = IntDeserializer.class)
+    @JSONField(alternateNames = { "EXVLPC" }, deserializeUsing = IntDeserializer.class)
     public void setVLPC(int vLPC) {
         VLPC = vLPC;
     }
@@ -232,7 +232,7 @@ public class ExitStationRecord extends AbstractModel {
         return VLP;
     }
 
-    @JSONField(name = "EXVLP")
+    @JSONField(alternateNames = { "EXVLP" })
     public void setVLP(String vLP) {
         VLP = vLP;
     }
@@ -261,7 +261,7 @@ public class ExitStationRecord extends AbstractModel {
         return FEE;
     }
 
-    @JSONField(name = "FEE")
+    @JSONField(name = "FEE",deserializeUsing = IntDeserializer.class)
     public void setFEE(int fEE) {
         FEE = fEE;
     }
@@ -270,7 +270,7 @@ public class ExitStationRecord extends AbstractModel {
         return FEEMILEAGE;
     }
 
-    @JSONField(name = "FEEMILEAGE")
+    @JSONField(name = "FEEMILEAGE",deserializeUsing = IntDeserializer.class)
     public void setFEEMILEAGE(int fEEMILEAGE) {
         FEEMILEAGE = fEEMILEAGE;
     }

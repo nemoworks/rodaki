@@ -21,7 +21,7 @@ public class RawDatastreamPartitionProcess extends ProcessFunction<JSONObject, J
 		ExitStream=new OutputTag<JSONObject>("ExitStream"){};
     }
     @Override
-    public void processElement(JSONObject value, Context ctx, Collector out) throws Exception {
+    public void processElement(JSONObject value, Context ctx, Collector<JSONObject> out) throws Exception {
         // TODO Auto-generated method stub
         switch (value.getIntValue(DataSourceJudge.sourceKey)) {
             case DataSourceJudge.entryLane:

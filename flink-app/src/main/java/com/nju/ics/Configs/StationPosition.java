@@ -34,9 +34,9 @@ public class StationPosition {
                 //System.out.println(currentRow.getCell(10).getStringCellValue());
                 //System.out.println(currentRow.getCell(9).getStringCellValue());
                 try{
-                    value.longtitude = (Float.valueOf(currentRow.getCell(5).getStringCellValue()));// 经度
+                    value.longitude = (Float.valueOf(currentRow.getCell(5).getStringCellValue()));// 经度
                 }catch (Exception e){
-                    value.longtitude=0.0f;
+                    value.longitude=0.0f;
                 }
                 try{
                     value.latitude = (Float.valueOf(currentRow.getCell(4).getStringCellValue()));// 纬度

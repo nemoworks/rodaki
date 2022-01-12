@@ -1,0 +1,362 @@
+[
+    {
+        "col": "ID",
+        "type": "string",
+        "index": 0
+    },
+    {
+        "col": "TRANSCODE",
+        "type": "int",
+        "index": 3
+    },
+    {
+        "col": "SHIFT",
+        "type": "int",
+        "index": 5
+    },
+    {
+        "col": "LOGINTIME",
+        "type": "string",
+        "index": 7
+    },
+    {
+        "col": "TRIGGERTIME",
+        "type": "string",
+        "index": 8
+    },
+    {
+        "col": "OPERID",
+        "type": "int",
+        "index": 9
+    },
+    {
+        "col": "OPERNAME",
+        "type": "string",
+        "index": 10
+    },
+    {
+        "col": "MONITOR",
+        "type": "int",
+        "index": 11
+    },
+    {
+        "col": "MONITORNAME",
+        "type": "string",
+        "index": 12
+    },
+    {
+        "col": "MONITORTIME",
+        "type": "string",
+        "index": 13
+    },
+    {
+        "col": "ENWEIGHT",
+        "type": "int",
+        "index": 15
+    },
+    {
+        "col": "ENAXLECOUNT",
+        "type": "int",
+        "index": 16
+    },
+    {
+        "col": "ENTOLLSTATION",
+        "type": "int",
+        "index": 17
+    },
+    {
+        "col": "ENTOLLSTATIONNAME",
+        "type": "string",
+        "index": 18
+    },
+    {
+        "col": "ENTOLLLANE",
+        "type": "int",
+        "index": 19
+    },
+    {
+        "col": "ENTOLLSTATIONHEX",
+        "type": "string",
+        "index": 20
+    },
+    {
+        "col": "ENTOLLLANEHEX",
+        "type": "string",
+        "index": 21
+    },
+    {
+        "col": "ENTOLLSTATIONID",
+        "type": "string",
+        "index": 22
+    },
+    {
+        "col": "ENTOLLLANEID",
+        "type": "string",
+        "index": 23
+    },
+    {
+        "col": "ENTIME",
+        "type": "string",
+        "index": 24
+    },
+    {
+        "col": "ENTRYOPERATORID",
+        "type": "int",
+        "index": 25
+    },
+    {
+        "col": "LANETYPE",
+        "type": "int",
+        "index": 26
+    },
+    {
+        "col": "EXTOLLSTATION",
+        "type": "int",
+        "index": 27
+    },
+    {
+        "col": "EXTOLLSTATIONNAME",
+        "type": "string",
+        "index": 28
+    },
+    {
+        "col": "EXTOLLLANE",
+        "type": "int",
+        "index": 29
+    },
+    {
+        "col": "EXTOLLSTATIONHEX",
+        "type": "string",
+        "index": 30
+    },
+    {
+        "col": "EXTOLLLANEHEX",
+        "type": "string",
+        "index": 31
+    },
+    {
+        "col": "EXTOLLSTATIONID",
+        "type": "string",
+        "index": 32
+    },
+    {
+        "col": "EXTOLLLANEID",
+        "type": "string",
+        "index": 33
+    },
+    {
+        "col": "EXTIME",
+        "type": "string",
+        "index": 34
+    },
+    {
+        "col": "MEDIATYPE",
+        "type": "int",
+        "index": 37
+    },
+    {
+        "col": "MEDIANO",
+        "type": "string",
+        "index": 38
+    },
+    {
+        "col": "OBUSIGN",
+        "type": "float",
+        "index": 39
+    },
+    {
+        "col": "OBUISSUEFLAG",
+        "type": "string",
+        "index": 40
+    },
+    {
+        "col": "OBUID",
+        "type": "string",
+        "index": 41
+    },
+    {
+        "col": "ENVLP",
+        "type": "string",
+        "index": 46
+    },
+    {
+        "col": "ENVLPC",
+        "type": "int",
+        "index": 47
+    },
+    {
+        "col": "EXVLP",
+        "type": "string",
+        "index": 48
+    },
+    {
+        "col": "EXVLPC",
+        "type": "int",
+        "index": 49
+    },
+    {
+        "col": "IDENTIFYVLP",
+        "type": "string",
+        "index": 50
+    },
+    {
+        "col": "IDENTIFYVLPC",
+        "type": "int",
+        "index": 51
+    },
+    {
+        "col": "ENVEHICLETYPE",
+        "type": "int",
+        "index": 52
+    },
+    {
+        "col": "EXVEHICLETYPE",
+        "type": "int",
+        "index": 53
+    },
+    {
+        "col": "ENVEHICLECLASS",
+        "type": "int",
+        "index": 54
+    },
+    {
+        "col": "EXVEHICLECLASS",
+        "type": "int",
+        "index": 55
+    },
+    {
+        "col": "EXWEIGHT",
+        "type": "int",
+        "index": 56
+    },
+    {
+        "col": "AXISINFO",
+        "type": "string",
+        "index": 57
+    },
+    {
+        "col": "LIMITWEIGHT",
+        "type": "float",
+        "index": 58
+    },
+    {
+        "col": "OVERWEIGHTRATE",
+        "type": "int",
+        "index": 59
+    },
+    {
+        "col": "AXLECOUNT",
+        "type": "int",
+        "index": 60
+    },
+    {
+        "col": "ELECTRICALPERCENTAGE",
+        "type": "int",
+        "index": 61
+    },
+    {
+        "col": "TRANSTYPE",
+        "type": "int",
+        "index": 63
+    },
+    {
+        "col": "VSPEED",
+        "type": "int",
+        "index": 70
+    },
+    {
+        "col": "OVERTIME",
+        "type": "int",
+        "index": 71
+    },
+    {
+        "col": "FEE",
+        "type": "int",
+        "index": 76
+    },
+    {
+        "col": "PAYCARDTYPE",
+        "type": "float",
+        "index": 91
+    },
+    {
+        "col": "PAYCARDNET",
+        "type": "float",
+        "index": 92
+    },
+    {
+        "col": "PAYCODE",
+        "type": "float",
+        "index": 93
+    },
+    {
+        "col": "PAYCARDID",
+        "type": "int",
+        "index": 94
+    },
+    {
+        "col": "PAYCARDTRANSN",
+        "type": "int",
+        "index": 95
+    },
+    {
+        "col": "PAYTYPE",
+        "type": "int",
+        "index": 96
+    },
+    {
+        "col": "PAYORDERNUM",
+        "type": "float",
+        "index": 97
+    },
+    {
+        "col": "PAYREBATE",
+        "type": "int",
+        "index": 98
+    },
+    {
+        "col": "INVOICETYPE",
+        "type": "int",
+        "index": 100
+    },
+    {
+        "col": "INVOICECODE",
+        "type": "float",
+        "index": 101
+    },
+    {
+        "col": "INVOICEID",
+        "type": "float",
+        "index": 102
+    },
+    {
+        "col": "INVOICECNT",
+        "type": "int",
+        "index": 103
+    },
+    {
+        "col": "PASSID",
+        "type": "string",
+        "index": 124
+    },
+    {
+        "col": "VERIFYCODE",
+        "type": "string",
+        "index": 125
+    },
+    {
+        "col": "STATIONRECEIVETIME",
+        "type": "string",
+        "index": 126
+    },
+    {
+        "col": "RECEIVETIME",
+        "type": "string",
+        "index": 127
+    },
+    {
+        "col": "FEEMILEAGE",
+        "type": "int",
+        "index": 163
+    }
+]

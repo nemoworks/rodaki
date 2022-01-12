@@ -79,7 +79,6 @@ public class VehicleRecordProcess extends KeyedProcessFunction<String, JSONObjec
 		// new VehicleExtractor(Vehicle.class,
 		// extrctors.get(VehicleExtractor.class.getSimpleName()).f0,
 		// extrctors.get(VehicleExtractor.class.getSimpleName()).f1));
-
 	}
 
 	@Override
@@ -107,7 +106,6 @@ public class VehicleRecordProcess extends KeyedProcessFunction<String, JSONObjec
 			default:
 				break;
 		}
-
 	}
 
 	public void clear() {
