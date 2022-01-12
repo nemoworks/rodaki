@@ -6,6 +6,8 @@ es-data/
 ditto_mongo_data/
 flink-checkpoint/*
 flink-savepoint/*
+flink-datasource/*
+rodaki_data/*
 mymongo_data/
 flink-conf/
 ditto_conf/

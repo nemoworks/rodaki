@@ -52,7 +52,7 @@ elasticsearch需要持久化存储数据
 
 `sudo chown 1000:1000 es-data/`
  -->
-1. 创建flink的savepoint、checkpoint、datasource目录
+1. 在当前目录创建flink的savepoint、checkpoint、datasource目录
     ```
     mkdir ./flink-checkpoint
     mkdir ./flink-savepoint
