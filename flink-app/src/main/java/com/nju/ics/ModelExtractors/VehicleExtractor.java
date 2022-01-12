@@ -41,13 +41,13 @@ public class VehicleExtractor extends GeneralExtractor {
         } else {
             return null;
         }
-        modelEntity.setLastPassTimes(ctx.timestamp());
+        // modelEntity.setLastPassTimes(ctx.timestamp());
         // 将车辆的位置提取出来
-		if (modelEntity.lastPassStation != null) {
+		// if (modelEntity.lastPassStation != null) {
 			// modelEntity.location = GantryPosition.geoMap.containsKey(modelEntity.lastPassStation)
 			// 		? GantryPosition.geoMap.get(modelEntity.lastPassStation).toIotDBString()
 			// 		: null;
-		}
+		// }
         this.sinkEntity(modelEntity, ctx);
         return modelEntity;
     }

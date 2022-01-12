@@ -1,0 +1,222 @@
+[
+    {
+        "col": "ID",
+        "type": "string",
+        "index": 0
+    },
+    {
+        "col": "SHIFT",
+        "type": "int",
+        "index": 5
+    },
+    {
+        "col": "TRIGGERTIME",
+        "type": "string",
+        "index": 8
+    },
+    {
+        "col": "OPERID",
+        "type": "int",
+        "index": 9
+    },
+    {
+        "col": "OPERNAME",
+        "type": "string",
+        "index": 10
+    },
+    {
+        "col": "MONITOR",
+        "type": "int",
+        "index": 11
+    },
+    {
+        "col": "MONITORNAME",
+        "type": "string",
+        "index": 12
+    },
+    {
+        "col": "MONITORTIME",
+        "type": "string",
+        "index": 13
+    },
+    {
+        "col": "LANETYPE",
+        "type": "int",
+        "index": 15
+    },
+    {
+        "col": "ENTOLLSTATION",
+        "type": "int",
+        "index": 16
+    },
+    {
+        "col": "ENTOLLLANE",
+        "type": "int",
+        "index": 17
+    },
+    {
+        "col": "ENTOLLSTATIONHEX",
+        "type": "string",
+        "index": 18
+    },
+    {
+        "col": "ENTOLLLANEHEX",
+        "type": "string",
+        "index": 19
+    },
+    {
+        "col": "ENTOLLSTATIONID",
+        "type": "string",
+        "index": 20
+    },
+    {
+        "col": "ENTOLLLANEID",
+        "type": "string",
+        "index": 21
+    },
+    {
+        "col": "ENTIME",
+        "type": "string",
+        "index": 22
+    },
+    {
+        "col": "MEDIATYPE",
+        "type": "int",
+        "index": 23
+    },
+    {
+        "col": "OBUID",
+        "type": "string",
+        "index": 26
+    },
+    {
+        "col": "TRANSFEE",
+        "type": "int",
+        "index": 30
+    },
+    {
+        "col": "CARDID",
+        "type": "int",
+        "index": 33
+    },
+    {
+        "col": "VLP",
+        "type": "string",
+        "index": 39
+    },
+    {
+        "col": "VLPC",
+        "type": "int",
+        "index": 40
+    },
+    {
+        "col": "IDENTIFYVLP",
+        "type": "string",
+        "index": 41
+    },
+    {
+        "col": "IDENTIFYVLPC",
+        "type": "int",
+        "index": 42
+    },
+    {
+        "col": "VEHICLETYPE",
+        "type": "int",
+        "index": 43
+    },
+    {
+        "col": "VEHICLECLASS",
+        "type": "int",
+        "index": 44
+    },
+    {
+        "col": "ENWEIGHT",
+        "type": "int",
+        "index": 48
+    },
+    {
+        "col": "AXISINFO",
+        "type": "int",
+        "index": 49
+    },
+    {
+        "col": "LIMITWEIGHT",
+        "type": "int",
+        "index": 50
+    },
+    {
+        "col": "ELECTRICALPERCENTAGE",
+        "type": "int",
+        "index": 53
+    },
+    {
+        "col": "CARDVERSION",
+        "type": "int",
+        "index": 58
+    },
+    {
+        "col": "PASSID",
+        "type": "string",
+        "index": 65
+    },
+    {
+        "col": "OBUMAC",
+        "type": "string",
+        "index": 67
+    },
+    {
+        "col": "OBUSN",
+        "type": "string",
+        "index": 68
+    },
+    {
+        "col": "STATIONRECEIVETIME",
+        "type": "string",
+        "index": 71
+    },
+    {
+        "col": "VERIFYFLAG",
+        "type": "int",
+        "index": 72
+    },
+    {
+        "col": "TRANSFLAG",
+        "type": "int",
+        "index": 73
+    },
+    {
+        "col": "REMARKS",
+        "type": "float",
+        "index": 74
+    },
+    {
+        "col": "RECEIVETIME",
+        "type": "string",
+        "index": 75
+    },
+    {
+        "col": "VERIFYPASSTIME",
+        "type": "string",
+        "index": 81
+    },
+    {
+        "col": "VEHICLESIGN",
+        "type": "string",
+        "index": 82
+    },
+    {
+        "col": "OBUVERSION",
+        "type": "int",
+        "index": 83
+    },
+    {
+        "col": "OPERATIONMEDIA",
+        "type": "int",
+        "index": 84
+    },
+    {
+        "col": "CHARGEMODE",
+        "type": "int",
+        "index": 85
+    }
+]

@@ -54,7 +54,7 @@ public class DataSourceJudge {
             element.put(sourceKey, exitLane);
             return exitLane;
 
-        } else if (element.containsKey("ENWEIGHT")) {
+        } else if (element.containsKey("CHARGEMODE")) {
             // System.out.println("入口");入口重量
             element.put(sourceKey, entryLane);
             return entryLane;
@@ -72,22 +72,23 @@ public class DataSourceJudge {
     }
 
     public static long typeDetectAndTime(JSONObject element, SimpleDateFormat time) {
+        long timestamp = 0;
         if (element.containsKey("POINTTIME")) {
             // 车道牌识数据 识别时间
             element.put(sourceKey, laneDetect);
             try {
-                return time.parse(element.getString("POINTTIME")).getTime();
+                timestamp = time.parse(element.getString("POINTTIME")).getTime();
             } catch (Exception e) {
-                System.out.println(laneDetect);
+                // System.out.println(laneDetect);
             }
 
         } else if (element.containsKey("EXTOLLSTATIONHEX")) {
             // 说明是出口车道数据 出口站HEX编码
             element.put(sourceKey, exitLane);
             try {
-                return time.parse(element.getString("TRIGGERTIME")).getTime();
+                timestamp = time.parse(element.getString("TRIGGERTIME")).getTime();
             } catch (Exception e) {
-                System.out.println(exitLane);
+                // System.out.println(exitLane);
             }
 
         } else if (element.containsKey("TRANSTIME")) {
@@ -95,28 +96,28 @@ public class DataSourceJudge {
             // 说明是门架计费扣费数据
             element.put(sourceKey, gantryCharge);
             try {
-                return time.parse(element.getString("TRANSTIME")).getTime();
+                timestamp = time.parse(element.getString("TRANSTIME")).getTime();
             } catch (Exception e) {
-                System.out.println(gantryCharge);
+                // System.out.println(gantryCharge);
             }
         } else if (element.containsKey("CAMERANUM")) {
             // 说明是门架牌识数据，因为 牌识编号
             element.put(sourceKey, gantryDetect);
             try {
-                return time.parse(element.getString("STATIONMATCHTIME")).getTime();
+                timestamp = time.parse(element.getString("STATIONMATCHTIME")).getTime();
             } catch (Exception e) {
-                System.out.println(gantryDetect);
+                // System.out.println(gantryDetect);
             }
         } else if (element.containsKey("CARDID")) {
-            // System.out.println("入口");入口重量 
+            // System.out.println("入口");入口重量
             element.put(sourceKey, entryLane);
             try {
-                return time.parse(element.getString("TRIGGERTIME")).getTime();
+                timestamp = time.parse(element.getString("ENTIME")).getTime();
             } catch (Exception e) {
-                System.out.println(element);
-                System.exit(0);
+                // System.out.println(element);
             }
         }
-        return 0;
+        element.put(DataSourceJudge.timeKey, timestamp);
+        return timestamp;
     }
 }

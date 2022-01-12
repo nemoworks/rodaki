@@ -17,6 +17,9 @@ public class GantryRecord extends AbstractModel {
     private String VEHICLEID;
     private int VLPC;
     private String VLP;
+    /** 车型 */
+    @JSONField(name = "VEHICLETYPE")
+    private int VEHICLETYPE;
     /** 通行介质类型 */
     @JSONField(name = "MEDIATYPE")
     private int MEDIATYPE;
@@ -35,14 +38,23 @@ public class GantryRecord extends AbstractModel {
     @JSONField(name = "FEEMILEAGE")
     private int FEEMILEAGE;
     /** 经度 */
-    @JSONField(name = "LONGTITUDE")
-    private float LONGTITUDE;
+    @JSONField(name = "LONGITUDE")
+    private float LONGITUDE;
     /** 纬度 */
     @JSONField(name = "LATITUDE")
     private float LATITUDE;
+
+    /** 省入口、省出口、普通 */
+    @JSONField(name = "GANTRYPOSITIONFLAG")
+    private String GANTRYPOSITIONFLAG;
+
     /** 名称 */
     @JSONField(name = "GANTRYNAME")
     private String GANTRYNAME;
+    @JSONField(name = "SPECIALTYPE")
+    private String SPECIALTYPE;
+    @JSONField(name = "ORIGINALFLAG")
+    private String ORIGINALFLAG;
 
     @Override
     public String id() {
@@ -63,7 +75,7 @@ public class GantryRecord extends AbstractModel {
         return TRANSTIME;
     }
 
-    @JSONField(name = "_time")
+    @JSONField(alternateNames = { "_time" })
     public void setTRANSTIME(long tRANSTIME) {
         TRANSTIME = tRANSTIME;
     }
@@ -74,7 +86,7 @@ public class GantryRecord extends AbstractModel {
 
     @JSONField(name = "PASSID", defaultValue = "")
     public void setPASSID(String pASSID) {
-        PASSID = pASSID==null? "":pASSID;
+        PASSID = pASSID == null ? "" : pASSID;
     }
 
     public String getGANTRYID() {
@@ -86,8 +98,9 @@ public class GantryRecord extends AbstractModel {
         GANTRYID = gANTRYID;
         if (GantryPosition.geoMap.containsKey(GANTRYID)) {
             this.setGANTRYNAME(GantryPosition.geoMap.get(GANTRYID).name);
-            this.setLONGTITUDE(GantryPosition.geoMap.get(GANTRYID).longtitude);
+            this.setLONGITUDE(GantryPosition.geoMap.get(GANTRYID).longitude);
             this.setLATITUDE(GantryPosition.geoMap.get(GANTRYID).latitude);
+            this.setGANTRYPOSITIONFLAG(GantryPosition.geoMap.get(GANTRYID).gantryPositionFlag);
         }
     }
 
@@ -133,7 +146,7 @@ public class GantryRecord extends AbstractModel {
         return MEDIAID;
     }
 
-    @JSONField(name = "OBUSN")
+    @JSONField(alternateNames = { "OBUSN" })
     public void setMEDIAID(String mEDIAID) {
         MEDIAID = mEDIAID;
     }
@@ -142,7 +155,7 @@ public class GantryRecord extends AbstractModel {
         return FEE;
     }
 
-    @JSONField(name = "FEE")
+    @JSONField(name = "FEE", deserializeUsing = IntDeserializer.class)
     public void setFEE(int fEE) {
         FEE = fEE;
     }
@@ -156,13 +169,13 @@ public class GantryRecord extends AbstractModel {
         FEEMILEAGE = fEEMILEAGE;
     }
 
-    public float getLONGTITUDE() {
-        return LONGTITUDE;
+    public float getLONGITUDE() {
+        return LONGITUDE;
     }
 
     @JSONField(deserialize = false)
-    public void setLONGTITUDE(float lONGTITUDE) {
-        LONGTITUDE = lONGTITUDE;
+    public void setLONGITUDE(float LONGITUDE) {
+        this.LONGITUDE = LONGITUDE;
     }
 
     public float getLATITUDE() {
@@ -183,4 +196,39 @@ public class GantryRecord extends AbstractModel {
         GANTRYNAME = gANTRYNAME;
     }
 
+    public String getSPECIALTYPE() {
+        return SPECIALTYPE;
+    }
+
+    @JSONField(alternateNames = { "SPECIALTYPE" })
+    public void setSPECIALTYPE(String sPECIALTYPE) {
+        SPECIALTYPE = sPECIALTYPE;
+    }
+
+    public String getORIGINALFLAG() {
+        return ORIGINALFLAG;
+    }
+
+    @JSONField(alternateNames = { "ORIGINALFLAG" })
+    public void setORIGINALFLAG(String oRIGINALFLAG) {
+        ORIGINALFLAG = oRIGINALFLAG;
+    }
+
+    public String getGANTRYPOSITIONFLAG() {
+        return GANTRYPOSITIONFLAG;
+    }
+
+    @JSONField(deserialize = false)
+    public void setGANTRYPOSITIONFLAG(String gANTRYPOSITIONFLAG) {
+        GANTRYPOSITIONFLAG = gANTRYPOSITIONFLAG;
+    }
+
+    public int getVEHICLETYPE() {
+        return VEHICLETYPE;
+    }
+
+    @JSONField(name = "VEHICLETYPE", deserializeUsing = IntDeserializer.class)
+    public void setVEHICLETYPE(int vEHICLETYPE) {
+        VEHICLETYPE = vEHICLETYPE;
+    }
 }

@@ -13,7 +13,7 @@ public class TollStation extends AbstractModel {
     public String hex;
 
     /** 经度 */
-    public float longtitude;
+    public float LONGITUDE;
     /** 纬度 */
     public float latitude;
 
@@ -32,7 +32,7 @@ public class TollStation extends AbstractModel {
         this.hex =hex==null?null: hex.trim();
         this.latitude = (GantryPosition.geoMap.containsKey(numberId) ? GantryPosition.geoMap.get(numberId).latitude
                 : 0.0f);
-        this.longtitude = (GantryPosition.geoMap.containsKey(numberId) ? GantryPosition.geoMap.get(numberId).longtitude
+        this.LONGITUDE = (GantryPosition.geoMap.containsKey(numberId) ? GantryPosition.geoMap.get(numberId).longitude
                 : 0.0f);
     }
 
