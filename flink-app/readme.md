@@ -16,7 +16,6 @@
 
     访问机器的8081端口即可，一般是localhost
 
-/usr/bin/env /home/lzm/jdks/jdk8/bin/java -Dfile.encoding=UTF-8 -cp ./target/analyse-0.1.jar com.nju.ics.StreamingJobLocal --checkpointing
 
 
 ### 修改读取的csv文件目录

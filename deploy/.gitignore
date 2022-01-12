@@ -7,5 +7,4 @@ ditto_mongo_data/
 flink-checkpoint/*
 flink-savepoint/*
 mymongo_data/
-flink-conf/
 ditto_conf/
