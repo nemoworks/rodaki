@@ -81,7 +81,7 @@ public class DataFlowBuilder {
 		// OutputTagCollection.initCollection();
 		// 输入文件路径
 		String gantrycsv = "/datasource/gantrywastetest.csv";
-		String entrycsv = "/datasource/enwaste.csv";
+		String entrycsv = "/datasource/enwastetest.csv";
 		String exitcsv = "/datasource/exitwastetest.csv";
 		// 使用 RowCsvInputFormat 把每一行记录解析为一个 Row
 		RowCsvInputFormat csvGantryInput = new RowCsvInputFormat(
