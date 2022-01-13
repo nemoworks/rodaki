@@ -129,7 +129,7 @@ public class DataFlowBuilder {
 				.map(new Row2JSONObject(GetColInfo.getColNames("/exitwaste.json")));
 		DataStream<JSONObject> stream = rawGantry.union(rawEntry, rawExit);
 		// DataStream<JSONObject> stream = env.addSource(dataConsumer);
-		if (!params.has(ConfigureENV.EVENTTIMEOPTION)) {
+		if (params.has(ConfigureENV.EVENTTIMEOPTION)) {
 			stream = stream.map(new MapFunction<JSONObject, JSONObject>() {
 				SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -137,6 +137,17 @@ public class DataFlowBuilder {
 				public JSONObject map(JSONObject value) throws Exception {
 					// TODO Auto-generated method stub
 					DataSourceJudge.typeDetectAndTime(value, time);
+					return value;
+				}
+
+			});
+		}else{
+			stream = stream.map(new MapFunction<JSONObject, JSONObject>() {
+
+				@Override
+				public JSONObject map(JSONObject value) throws Exception {
+					// TODO Auto-generated method stub
+					DataSourceJudge.typeDetect(value);
 					return value;
 				}
 
