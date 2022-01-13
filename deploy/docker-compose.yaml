@@ -382,7 +382,7 @@ services:
 
 
   mongo-express:
-    image: mongo-express
+    image: mongo-express:0.54 
     networks:
       default:
         aliases:
@@ -391,7 +391,8 @@ services:
     ports:
       - 8088:8081
     environment:
-      ME_CONFIG_MONGODB_URL: mongodb://mymongodb:27017?replicaSet=testSet
+      # ME_CONFIG_MONGODB_URL: mongodb://mymongodb:27017?replicaSet=testSet
+      ME_CONFIG_MONGODB_SERVER : mymongodb
   
 
 
