@@ -64,7 +64,11 @@ elasticsearch需要持久化存储数据
 
     创建kafka的数据存储文件夹
     
-2. 把flink应用需要读取的数据文件放到flink-datasource下面（该目录在flink对应docker中挂载在/datasource下，详见[docker-compose.yaml](docker-compose.yaml)），相关的数据文件的路径写成/datasource/xxxx.csv（记得参考flink-app目录下[readme](../flink-app/readme.md) 同时更新flink-app目录下的[com.nju.ics.Datastream.DataFlowBuilder.java](../flink-app/src/main/java/com/nju/ics/Datastream/DataFlowBuilder.java)
+2. 准备数据文件
+   1. 把flink应用需要读取的数据文件放到flink-datasource下面（该目录在flink对应docker中挂载在/datasource下，详见[docker-compose.yaml](docker-compose.yaml)）。
+   2. 修改数据文件的权限
+        `chmod 644 flink-datasource/*`
+   3. 相关的数据文件的路径写成/datasource/xxxx.csv（记得参考flink-app目录下[readme](../flink-app/readme.md) 同时更新flink-app目录下的[com.nju.ics.Datastream.DataFlowBuilder.java](../flink-app/src/main/java/com/nju/ics/Datastream/DataFlowBuilder.java)
 
 ## 创建 consumer 镜像, 从rabbitmq消费数据、存储数据到 mongodb
 
