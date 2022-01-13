@@ -44,6 +44,7 @@ public class DataSourceJudge {
      * 
      */
     public static int typeDetect(JSONObject element) {
+
         if (element.containsKey("POINTTIME")) {
             // 车道牌识数据 识别时间
             element.put(sourceKey, laneDetect);
@@ -54,10 +55,6 @@ public class DataSourceJudge {
             element.put(sourceKey, exitLane);
             return exitLane;
 
-        } else if (element.containsKey("CHARGEMODE")) {
-            // System.out.println("入口");入口重量
-            element.put(sourceKey, entryLane);
-            return entryLane;
         } else if (element.containsKey("TRANSTIME")) {
             // System.out.println("门架"); 计费交易时间
             // 说明是门架计费扣费数据
@@ -67,6 +64,10 @@ public class DataSourceJudge {
             // 说明是门架牌识数据，因为 牌识编号
             element.put(sourceKey, gantryDetect);
             return gantryDetect;
+        } else if (element.containsKey("CARDID")) {
+            // System.out.println("入口");入口重量
+            element.put(sourceKey, entryLane);
+            return entryLane;
         }
         return unknown;
     }
