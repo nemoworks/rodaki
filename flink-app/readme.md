@@ -1,7 +1,7 @@
 
 ### 先打包，再发送给远程flink集群
 
-首先完成webflux接受程序的运行、以及flink-deploy文件夹里的文档部署
+首先完成webflux接受程序的运行（注：若flink直接从csv文件中读取数据测试，则可不启动webflux）、以及flink-deploy文件夹里的文档部署
 
 1. 项目打包
 
@@ -16,9 +16,7 @@
 
     访问机器的8081端口即可，一般是localhost
 
-/usr/bin/env /home/lzm/jdks/jdk8/bin/java -Dfile.encoding=UTF-8 -cp ./target/analyse-0.1.jar com.nju.ics.StreamingJobLocal --checkpointing
-
 
 ### 修改读取的csv文件目录
 
-在`src/main/java/com/nju/ics/Datastream/DataFlowBuilder.java`里面修改三个流水的csv文件，要为容器里面的目录，具体看deploy目录的readme
+在`src/main/java/com/nju/ics/Datastream/DataFlowBuilder.java`里面修改三个流水的csv文件，要为容器里面的目录以及相应文件，具体看deploy目录的[readme](../deploy/readme.md)
