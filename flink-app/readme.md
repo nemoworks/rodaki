@@ -1,7 +1,7 @@
 
 ### 先打包，再发送给远程flink集群
 
-首先完成webflux接受程序的运行（注：若flink直接从csv文件中读取数据测试，则可不启动webflux）、以及flink-deploy文件夹里的文档部署
+首先完成webflux接受程序的运行（注：当前为了验证，flink直接从csv文件中读取数据测试，可不启动webflux）、以及flink-deploy文件夹里的文档部署
 
 1. 项目打包
 
