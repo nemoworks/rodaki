@@ -1,3 +1,6 @@
 [submodule "map"]
 	path = map
 	url = https://github.com/NoBugzzZ/map
+[submodule "mapbackend"]
+	path = mapbackend
+	url = https://github.com/NoBugzzZ/mapbackend
