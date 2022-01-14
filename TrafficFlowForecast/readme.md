@@ -1,6 +1,6 @@
 # 门架车流量预测
 该部分代码用来对高速路网上的门架做车流量预测
-
+依赖elasticsearch,目前暂停使用
 ## 处理流程
 
 1. 高速路网上的门架设备、站点设备将数据传送至webflux接收程序
@@ -13,7 +13,17 @@
 
 5. 门架车流量预测部分会定期训练、校验模型；同时也会每天0点预测出当天的各个hex节点的24小时车流量（粒度为小时）
 
+
+## 环境配置
+
+1.  python3.7 环境安装，建议使用Minicoda3
+    1.  下载   `wget https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda3-py37_4.9.2-Linux-x86_64.sh`
+    2.  添加执行权限
+    3.  执行下载的脚本完成安装，安装过程选择默认设置即可
+2.  
 ## 代码执行
+
+进入conda环境执行下列代码:
 
 `pip install -r requirements.txt`安装依赖
 
