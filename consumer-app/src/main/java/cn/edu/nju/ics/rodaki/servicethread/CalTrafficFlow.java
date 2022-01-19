@@ -47,7 +47,7 @@ public class CalTrafficFlow extends TimerTask{
         this.fromdb = mongoClient.getDatabase("EntityModel");
         this.fromcol = this.fromdb.getCollection("GantryRecord");
 
-        this.todb = mongoClient.getDatabase("TestDigitalModel");
+        this.todb = mongoClient.getDatabase("DigitalModel");
         this.tocol = this.todb.getCollection("GantryDigital");
 
 

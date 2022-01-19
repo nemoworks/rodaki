@@ -1,5 +1,4 @@
 cn/edu/nju/ics/rodaki/rabbitmq/RabbitmqPublisher.class
-cn/edu/nju/ics/rodaki/servicethread/CalTrafficFlowThread$1.class
 cn/edu/nju/ics/rodaki/pipelinethread/RabbitmqConsumerThread.class
 cn/edu/nju/ics/rodaki/mongodbwriter/MongodbClient.class
 cn/edu/nju/ics/rodaki/mongodblistener/MongodbListener.class
@@ -12,7 +11,6 @@ cn/edu/nju/ics/rodaki/rabbitmq/RabbitmqConsumer.class
 cn/edu/nju/ics/rodaki/mongodbwriter/GanToGanDigTwinWriter.class
 cn/edu/nju/ics/rodaki/myapp/Service.class
 cn/edu/nju/ics/rodaki/mongodblistener/TranListenToRabbitmq.class
-cn/edu/nju/ics/rodaki/servicethread/CalTrafficFlowThread.class
 cn/edu/nju/ics/rodaki/mongodbwriter/GantryWriter.class
 cn/edu/nju/ics/rodaki/mongodbwriter/TranToVehDigTwinWriter.class
 cn/edu/nju/ics/rodaki/myapp/Consumer.class

@@ -8,7 +8,6 @@
 /home/cz/rodaki/consumer-app/src/main/java/cn/edu/nju/ics/rodaki/mongodbwriter/VehToVehDigTwinWriter.java
 /home/cz/rodaki/consumer-app/src/main/java/cn/edu/nju/ics/rodaki/rabbitmq/RabbitmqPublisher.java
 /home/cz/rodaki/consumer-app/src/main/java/cn/edu/nju/ics/rodaki/mongodbwriter/GanToGanDigTwinWriter.java
-/home/cz/rodaki/consumer-app/src/main/java/cn/edu/nju/ics/rodaki/servicethread/CalTrafficFlowThread.java
 /home/cz/rodaki/consumer-app/src/main/java/cn/edu/nju/ics/rodaki/mongodblistener/MongodbListener.java
 /home/cz/rodaki/consumer-app/src/main/java/cn/edu/nju/ics/rodaki/mongodbwriter/ExitRecordWriter.java
 /home/cz/rodaki/consumer-app/src/main/java/cn/edu/nju/ics/rodaki/mongodbwriter/MongodbWriter.java
