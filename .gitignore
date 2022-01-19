@@ -5,4 +5,3 @@ cleaneddatas/
 /.idea
 apache-jmeter-5.4.1/
 flink-1.13.1/
-service-app/target
