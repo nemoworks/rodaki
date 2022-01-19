@@ -70,13 +70,18 @@ elasticsearch需要持久化存储数据
         `chmod 644 flink-datasource/*`
    3. 相关的数据文件的路径写成/datasource/xxxx.csv（记得参考flink-app目录下[readme](../flink-app/readme.md) 同时更新flink-app目录下的[com.nju.ics.Datastream.DataFlowBuilder.java](../flink-app/src/main/java/com/nju/ics/Datastream/DataFlowBuilder.java)
 
-## 创建 consumer 镜像, 从rabbitmq消费数据、存储数据到 mongodb
+## 创建 consumer 镜像, 从rabbitmq消费数据、存储数据到 mongodb, 创建 service 镜像, 实时统计车流量 
 
-进入 consumer-app 目录
-`cd consumer-app`
+进入 /rodaki/consumer-app 目录
+`cd ../consumer-app`
+
+maven 打jar包 
+`mvn clean package`
+
 
 build 镜像
-`docker build -t consumer:v1 .`
+`docker build -f ConsumerDockerfile -t consumer:v1 .`
+`docker build -f ServiceDockerfile -t service:v1 .`
 
 
 ## 创建docker网络
@@ -89,6 +94,9 @@ build 镜像
 `docker-compose up -d`
 
 
+## 关于service中的车流量统计任务
+service容器command中的后三个参数分别为：开始计算车流量的时间戳(默认为11月1日1时)、统计时间段(默认一小时内)、任务频率(默认1分钟一次)，第一次会统计0时-1时间每个门架的车流量，第二次统计任务在第一次任务开始1分钟后启动，以此往复，当所有门架在该时间段无数据时，暂停10分钟后再次统计该时段
+`command: java -Xms10g -Xmx10g -XX:NewRatio=2 -jar service.jar 1635699600000 3600000 60000`
 
 
 
