@@ -88,10 +88,10 @@ public class TranToVehDigTwinWriter implements MongodbWriter{
         // cal mileage
 
         // 如果最后一个站点记录是出口，那么车辆不在高速上，此次通行总费用为出口费用，此次通行里程为出口里程
-        if (lastStationInfo.getString("STYPE").equals(3)) {
+        if (lastStationInfo.getInteger("STYPE").equals(3)) {
             ISINHIGHWAY = false;
 
-        } else if(lastStationInfo.getString("STYPE").equals(2) && lastStationInfo.getString("ORIGINALFLAG").equals("2")){
+        } else if(lastStationInfo.getInteger("STYPE").equals(2) && lastStationInfo.getString("ORIGINALFLAG").equals("2")){
 
             ISINHIGHWAY = false;
         }
