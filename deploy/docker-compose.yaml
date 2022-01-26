@@ -421,6 +421,18 @@ services:
     command: java -Xms10g -Xmx10g -XX:NewRatio=2 -jar service.jar 1635699600000 3600000 60000
 
 
+  vehicletypechecker:
+    image: vehicletypechecker:v1
+    networks:
+      default:
+        aliases:
+          - vehicletypechecker
+      share_net:
+        aliases:
+          - vehicletypechecker
+    command: java -Xms10g -Xmx10g -XX:NewRatio=2 -jar vehicletypechecker.jar
+
+
 networks:
   share_net:
     external:

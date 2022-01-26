@@ -83,6 +83,8 @@ build 镜像
 `docker build -f ConsumerDockerfile -t consumer:v1 .`
 `docker build -f ServiceDockerfile -t service:v1 .`
 
+稽查 "大车小标"
+`docker build -f VehicleTypeCheckerDockerfile -t vehicletypechecker:v1 .`
 
 ## 创建docker网络
 
