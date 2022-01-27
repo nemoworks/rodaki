@@ -1,7 +1,7 @@
 
 ### 先打包，再发送给远程flink集群
 
-首先完成webflux接受程序的运行、以及flink-deploy文件夹里的文档部署
+首先完成webflux接受程序的运行（注：若flink直接从csv文件中读取数据测试，则可不启动webflux）、以及flink-deploy文件夹里的文档部署
 
 1. 项目打包
 
@@ -17,11 +17,9 @@
     访问机器的8081端口即可，一般是localhost
 
 
-
 ### 修改读取的csv文件目录
 
-在`src/main/java/com/nju/ics/Datastream/DataFlowBuilder.java`里面修改三个流水的csv文件
-
+在`src/main/java/com/nju/ics/Datastream/DataFlowBuilder.java`里面修改三个流水的csv文件，要为容器里面的目录以及相应文件，具体看deploy目录的[readme](../deploy/readme.md)
 ### 同时在途与有入无出（超时）的稽查
 跟上面部署app命令类似，但是要指定main class，因为要用到排序好的数据文件,排序文件的数据结构不一样，使用的datastream代码不一样
 1. 首先修改下pom.xml里面的main class，将246行的mainClass改为`com.nju.ics.Funcs.GantryTimerRemoteTest`
@@ -31,4 +29,5 @@
     `mvn package`
 
     `../flink-1.13.1/bin/flink run -m 127.0.0.1:8081 -d target/analyse-0.1.jar  --bootstrap.servers kafka:9092 --input-topic zcinput --checkpointing --event-time`
+
 

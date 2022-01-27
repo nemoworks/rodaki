@@ -398,9 +398,6 @@ services:
 
   consumer:
     image: consumer:v1
-    # restart: always
-    ports:
-      - "8089:8089"
     networks:
       default:
         aliases:
@@ -408,8 +405,34 @@ services:
       share_net:
         aliases:
           - consumer
-    # command: java -Xms10g -Xmx10g -XX:NewRatio=2 -jar consumer.jar mymongodb rabbitmq EntityModel DigitalModel 
-    command: java -Xms8g -Xmx8g -XX:NewRatio=2 -Djava.rmi.server.hostname=127.0.0.1 -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=8089 -Dcom.sun.management.jmxremote.rmi.port=8089 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -jar consumer.jar mymongodb rabbitmq EntityModel DigitalModel 
+    command: java -Xms10g -Xmx10g -XX:NewRatio=2 -jar consumer.jar EntityModel DigitalModel 
+
+
+
+  service:
+    image: service:v1
+    networks:
+      default:
+        aliases:
+          - consumer
+      share_net:
+        aliases:
+          - consumer
+    command: java -Xms10g -Xmx10g -XX:NewRatio=2 -jar service.jar 1635699600000 3600000 60000
+
+
+  vehicletypechecker:
+    image: vehicletypechecker:v1
+    networks:
+      default:
+        aliases:
+          - vehicletypechecker
+      share_net:
+        aliases:
+          - vehicletypechecker
+    command: java -Xms10g -Xmx10g -XX:NewRatio=2 -jar vehicletypechecker.jar
+
+
 networks:
   share_net:
     external:
