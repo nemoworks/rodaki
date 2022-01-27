@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -39,16 +40,15 @@ import org.apache.flink.streaming.api.functions.ProcessFunction;
 import org.apache.flink.types.Row;
 import org.apache.flink.util.Collector;
 
-public class GantryTimerTest {
+public class GantryTimerRemoteTest {
         public static void main(String[] args) throws Exception {
                 // set up the streaming execution environment
                 final ParameterTool params = ParameterTool.fromArgs(args);
+                Properties initparams = ConfigureENV.initConfiguration("/application.properties");
 
-                Configuration conf = new Configuration();
-                ConfigureENV.initConfiguration("/applicationdebug.properties");
-                conf.setInteger("rest.port", 9000);
-                StreamExecutionEnvironment env = StreamExecutionEnvironment.createLocalEnvironmentWithWebUI(conf);
+                StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
                 ConfigureENV.configureEnvironment(params, env);
+
                 // 输入文件路径
                 String gantrycsv = "/hdd/data/1101/1101_addFields_sort.csv";
                 // 使用 RowCsvInputFormat 把每一行记录解析为一个 Row
@@ -67,7 +67,7 @@ public class GantryTimerTest {
                                 .assignTimestampsAndWatermarks(WatermarkStrategy.<Row>forBoundedOutOfOrderness(
                                                 Duration.ofSeconds(60)).withIdleness(Duration.ofMinutes(1))
                                                 .withTimestampAssigner(
-                                                                new GantryTimerTest.timestampAssigner()))
+                                                                new GantryTimerRemoteTest.timestampAssigner()))
                                 .map(new Row2JSONObject(new String[] { "FLOWTYPE", "TIME", "STATIONID", "VLP", "VLPC",
                                                 "VEHICLETYPE", "PASSID", "TIMESTRING", "ORIGINALFLAG",
                                                 "PROVINCEBOUND", "MEDIATYPE", "SPECIALTYPE", "TRANSCODE"

@@ -1,23 +1,23 @@
 package com.nju.ics.Fields;
 
-public class AbnormalVehicle {
+public class MultiPassIdVehicle {
     private String vehicleid;
     private String stationid;
     private int stationtype;
-    private long triggertime;
     private String passid;
     private long time;
+    private String oldpassid;
 
-    public AbnormalVehicle() {
+    public MultiPassIdVehicle() {
     }
 
-    public AbnormalVehicle(String vehicleid, String stationid, int stationtype, long triggertime, String passid,
+    public MultiPassIdVehicle(String vehicleid, String stationid, int stationtype, String passid, String oldpassid,
             long time) {
         this.vehicleid = vehicleid;
         this.stationid = stationid;
         this.stationtype = stationtype;
-        this.triggertime = triggertime;
         this.passid = passid;
+        this.oldpassid = oldpassid;
         this.time = time;
     }
 
@@ -45,14 +45,6 @@ public class AbnormalVehicle {
         this.stationtype = stationtype;
     }
 
-    public long getTriggertime() {
-        return triggertime;
-    }
-
-    public void setTriggertime(long triggertime) {
-        this.triggertime = triggertime;
-    }
-
     public String getPassid() {
         return passid;
     }
@@ -67,6 +59,14 @@ public class AbnormalVehicle {
 
     public void setTime(long time) {
         this.time = time;
+    }
+
+    public String getOldpassid() {
+        return oldpassid;
+    }
+
+    public void setOldpassid(String oldpassid) {
+        this.oldpassid = oldpassid;
     }
 
 }
