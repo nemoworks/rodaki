@@ -6,9 +6,19 @@
 ## build 镜像
 
 ### 消费者,消费数据并写入数据库
+
+* 从rabbitmq中消费flink数据，写入 mongodb 中的 EntityModel 中
+* 监听 EntityModel 中 TrafficTransaction、Vehicle、Gantry 的变更，发送变更的内容到 rabbitmq 中
+* 消费变更消息，更新 DigitalModel 中的 VehicleDigital 和 GantryDigital
+
 `docker build -f ConsumerDockerfile -t consumer:v1 .`
 
+
+
 ### 车流统计任务，定时统计门架车流量
+
+* 从门架记录中统计结果写入 GantryDigital 中
+
 `docker build -f ServiceDockerfile -t service:v1 .`
 
 ### 稽查"大车小标"任务，发送出口流水指定字段到队列

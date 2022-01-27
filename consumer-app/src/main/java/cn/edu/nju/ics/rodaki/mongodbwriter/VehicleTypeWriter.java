@@ -27,7 +27,7 @@ public class VehicleTypeWriter implements MongodbWriter {
     MongoCollection<Document> vehType;
 
     List<WriteModel<Document>> vehTypeBulkOperations = new ArrayList<>();
-
+    BulkWriteOptions bulkOptions = new BulkWriteOptions().ordered(false);
 
     Bson filter;
     Bson update;
@@ -76,7 +76,7 @@ public class VehicleTypeWriter implements MongodbWriter {
 
             if (vehTypeBulkOperations.size() >= 500) {
                 try {
-                    vehType.bulkWrite(vehTypeBulkOperations);
+                    vehType.bulkWrite(vehTypeBulkOperations,bulkOptions);
                     vehTypeBulkOperations.clear();
                 } catch (MongoBulkWriteException e) {
                     System.out.println("A MongoBulkWriteException occured with the following message: " + e.getMessage());

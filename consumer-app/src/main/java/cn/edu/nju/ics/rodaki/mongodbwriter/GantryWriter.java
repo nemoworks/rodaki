@@ -18,6 +18,8 @@ public class GantryWriter implements MongodbWriter {
     MongoDatabase database;
     MongoCollection<Document> collection;
     List<WriteModel<Document>> BulkOperations = new ArrayList<>();
+    BulkWriteOptions bulkOptions = new BulkWriteOptions().ordered(false);
+
 
     Bson filter;
     Bson update;
@@ -45,7 +47,7 @@ public class GantryWriter implements MongodbWriter {
 
         if (BulkOperations.size() >= 900){
             try {
-                collection.bulkWrite(BulkOperations);
+                collection.bulkWrite(BulkOperations,bulkOptions);
                 BulkOperations.clear();
             } catch (MongoBulkWriteException e){
                 System.out.println("A MongoBulkWriteException occured with the following message: " + e.getMessage());
@@ -54,18 +56,6 @@ public class GantryWriter implements MongodbWriter {
 
     }
 
-    public void writerExit(){
-        if(BulkOperations.size()!=0){
-            try {
-                collection.bulkWrite(BulkOperations);
-                BulkOperations.clear();
-            } catch (MongoBulkWriteException e){
-                System.out.println("A MongoBulkWriteException occured with the following message: " + e.getMessage());
-            }
 
-
-        }
-
-    }
 
 }

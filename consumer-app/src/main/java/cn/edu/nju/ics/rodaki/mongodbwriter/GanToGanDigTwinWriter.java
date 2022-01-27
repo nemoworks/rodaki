@@ -18,6 +18,7 @@ public class GanToGanDigTwinWriter implements MongodbWriter{
     MongoDatabase database;
     MongoCollection<Document> gantryDigital;
     List<WriteModel<Document>> BulkOperations = new ArrayList<>();
+    BulkWriteOptions bulkOptions = new BulkWriteOptions().ordered(false);
 
     Bson filter;
     Bson update;
@@ -48,7 +49,7 @@ public class GanToGanDigTwinWriter implements MongodbWriter{
 
         if (BulkOperations.size() >= 500) {
             try {
-                gantryDigital.bulkWrite(BulkOperations);
+                gantryDigital.bulkWrite(BulkOperations,bulkOptions);
                 BulkOperations.clear();
             } catch (MongoBulkWriteException e) {
                 System.out.println("A MongoBulkWriteException occured with the following message: " + e.getMessage());

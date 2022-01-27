@@ -17,7 +17,8 @@ public class VehToVehDigTwinWriter implements MongodbWriter{
     MongoDatabase database;
     MongoCollection<Document> vehicleDigital;
     List<WriteModel<Document>> BulkOperations = new ArrayList<>();
-
+    BulkWriteOptions bulkOptions = new BulkWriteOptions().ordered(false);
+    
     Bson filter;
     Bson update;
     UpdateOptions options = new UpdateOptions().upsert(true);
@@ -53,7 +54,7 @@ public class VehToVehDigTwinWriter implements MongodbWriter{
 
         if (BulkOperations.size() >= 500){
             try {
-                vehicleDigital.bulkWrite(BulkOperations);
+                vehicleDigital.bulkWrite(BulkOperations,bulkOptions);
                 BulkOperations.clear();
             } catch (MongoBulkWriteException e){
                 System.out.println("A MongoBulkWriteException occured with the following message: " + e.getMessage());
