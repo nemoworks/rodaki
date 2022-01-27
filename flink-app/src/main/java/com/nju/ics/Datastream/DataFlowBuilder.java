@@ -80,9 +80,9 @@ public class DataFlowBuilder {
 		// OutputTagCollection.initCollection();
 		// OutputTagCollection.initCollection();
 		// 输入文件路径
-		String gantrycsv = "/hdd/data/1111/gantrywaste_fix.csv";
-		String entrycsv = "/hdd/data/1111/enwaste.csv";
-		String exitcsv = "/hdd/data/1111/exitwaste.csv";
+		String gantrycsv = "/hdd/data/1103/gantrywaste_fix.csv";
+		String entrycsv = "/hdd/data/1103/enwaste.csv";
+		String exitcsv = "/hdd/data/1103/exitwaste.csv";
 		// 使用 RowCsvInputFormat 把每一行记录解析为一个 Row
 		RowCsvInputFormat csvGantryInput = new RowCsvInputFormat(
 				new Path(gantrycsv), // 文件路径

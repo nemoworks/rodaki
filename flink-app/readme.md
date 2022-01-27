@@ -20,4 +20,15 @@
 
 ### 修改读取的csv文件目录
 
-在`src/main/java/com/nju/ics/Datastream/DataFlowBuilder.java`里面修改三个流水的csv文件，要为容器里面的目录，具体看deploy目录的readme
+在`src/main/java/com/nju/ics/Datastream/DataFlowBuilder.java`里面修改三个流水的csv文件
+
+### 同时在途与有入无出（超时）的稽查
+跟上面部署app命令类似，但是要指定main class，因为要用到排序好的数据文件,排序文件的数据结构不一样，使用的datastream代码不一样
+1. 首先修改下pom.xml里面的main class，将246行的mainClass改为`com.nju.ics.Funcs.GantryTimerRemoteTest`
+同时也要修改排序好的csv的文件路径，在`src/main/java/com/nju/ics/Funcs/GantryTimerRemoteTest.java`里面更改相应路径
+2. 再执行上面的项目打包与项目上传操作：
+
+    `mvn package`
+
+    `../flink-1.13.1/bin/flink run -m 127.0.0.1:8081 -d target/analyse-0.1.jar  --bootstrap.servers kafka:9092 --input-topic zcinput --checkpointing --event-time`
+

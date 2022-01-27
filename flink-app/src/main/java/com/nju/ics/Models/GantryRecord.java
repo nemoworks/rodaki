@@ -46,7 +46,7 @@ public class GantryRecord extends AbstractModel {
 
     /** 省入口、省出口、普通 */
     @JSONField(name = "GANTRYPOSITIONFLAG")
-    private String GANTRYPOSITIONFLAG;
+    private int GANTRYPOSITIONFLAG;
 
     /** 名称 */
     @JSONField(name = "GANTRYNAME")
@@ -214,12 +214,12 @@ public class GantryRecord extends AbstractModel {
         ORIGINALFLAG = oRIGINALFLAG;
     }
 
-    public String getGANTRYPOSITIONFLAG() {
+    public int getGANTRYPOSITIONFLAG() {
         return GANTRYPOSITIONFLAG;
     }
 
     @JSONField(deserialize = false)
-    public void setGANTRYPOSITIONFLAG(String gANTRYPOSITIONFLAG) {
+    public void setGANTRYPOSITIONFLAG(int gANTRYPOSITIONFLAG) {
         GANTRYPOSITIONFLAG = gANTRYPOSITIONFLAG;
     }
 

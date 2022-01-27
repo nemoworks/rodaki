@@ -12,7 +12,7 @@ public class IntDeserializer implements ObjectDeserializer{
             return parser.lexer.intValue();
         }
         catch (Exception e){
-            return 0;
+            return -1;
         }
         
     }
