@@ -398,6 +398,9 @@ services:
 
   consumer:
     image: consumer:v1
+    depends_on:
+      - mymongodb
+      - rabbitmq
     networks:
       default:
         aliases:
@@ -405,12 +408,15 @@ services:
       share_net:
         aliases:
           - consumer
-    command: java -Xms10g -Xmx10g -XX:NewRatio=2 -jar consumer.jar EntityModel DigitalModel 
+    command: java -Xms10g -Xmx10g -XX:NewRatio=2 -jar consumer.jar TestEntityModel TestDigitalModel 
 
 
 
   service:
     image: service:v1
+    depends_on:
+      - mymongodb
+      - rabbitmq
     networks:
       default:
         aliases:
@@ -423,6 +429,9 @@ services:
 
   vehicletypechecker:
     image: vehicletypechecker:v1
+    depends_on:
+      - mymongodb
+      - rabbitmq
     networks:
       default:
         aliases:
