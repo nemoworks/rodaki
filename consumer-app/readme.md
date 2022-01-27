@@ -26,15 +26,16 @@
 * 判断逻辑
     - 判断 TRANSPAYTYPE, 如果不是 1，则为人工通道，将该记录中的车型作为该 VEHICLEID 的真实车型，存入数据库
     - 判断 TRANSPAYTYPE, 如果是 1， 则认为不是人工通道，对比当前车型与数据库中真实车型，若当前车型小于真实车型，则发送消息到 rabbitmq 队列
+    - 注：当前逻辑对于获得车辆真实车型之前收到的通行记录不会复查，而只会处理后续的通行，后面会添加补查的功能）
 
 `docker build -f VehicleTypeCheckerDockerfile -t vehicletypechecker:v1 .`
 
 
-发送稽查任务数据到rabbitmq队列中
+发送稽查任务数据到rabbitmq队列中（当前实现是验证性质的，直接从文件读取数据放入队列，后期将数据获取改为flink端向rabbitmq发送即可整合）
 
 `python SendData2Rabbitmq.py`
 
-其中 exitFilePath 指定出口流水路径
+其中 exitFilePath 指定出口流水路径（原始的出口流水即可）
 `exitFilePath = "/hdd/data/1101/exitwaste.csv"`
 
 
