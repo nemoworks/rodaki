@@ -119,3 +119,8 @@ service容器command中的后三个参数分别为：开始计算车流量的时
 初始化副本集
 `rs.initiate({"_id": "testSet", "members": [{"_id":0, "host":  "mymongodb:27017"}]})`
 
+创建 Time Series 集合, EntryRecord,GantryRecord,ExitRecord
+`use EntityModel`
+`db.createCollection("EntryRecord",{timeseries: {timeField: "TIMESTRING",metaField: "SID",granularity: "seconds"}})`
+`db.createCollection("GantryRecord",{timeseries: {timeField: "TIMESTRING",metaField: "SID",granularity: "seconds"}})`
+`db.createCollection("ExitRecord",{timeseries: {timeField: "TIMESTRING",metaField: "SID",granularity: "seconds"}})`

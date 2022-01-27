@@ -22,7 +22,7 @@ public class TranToVehDigTwinWriter implements MongodbWriter{
     MongoDatabase database;
     MongoCollection<Document> vehicleDigital;
     List<WriteModel<Document>> BulkOperations = new ArrayList<>();
-
+    BulkWriteOptions bulkOptions = new BulkWriteOptions().ordered(false);
     Bson filter;
     Bson update;
     UpdateOptions options = new UpdateOptions().upsert(true);
@@ -116,7 +116,7 @@ public class TranToVehDigTwinWriter implements MongodbWriter{
             for (int i = 0; i < stationInfoSize-1; i++) {
 
                 // 时间为两个站点间时间
-                rtime = stationInfo.getJSONOb78ject(i+1).getLong("TIME") - stationInfo.getJSONObject(i).getLong("TIME");
+                rtime = stationInfo.getJSONObject(i+1).getLong("TIME") - stationInfo.getJSONObject(i).getLong("TIME");
 
                 // 取两个站点坐标
                 l1 = stationInfo.getJSONObject(i).getJSONArray("LOCATION");
@@ -224,27 +224,43 @@ public class TranToVehDigTwinWriter implements MongodbWriter{
 
 
         // 使用以上字段，更新车辆的 digitaltwin 模型
-        filter = Filters.eq("_id", obj.get("VEHICLEID"));
 
-        update = Updates.combine(
-                    Updates.set("TIME", TIME),
-                Updates.set("CURRENTPASSID", obj.get("PASSID")),
-                Updates.set("PASSLIST." + obj.get("PASSID"), new Document()
-                        .append("STIME",tranStartTime)
-                        .append("ETIME",tranEndTime)),
-                Updates.set("ISINHIGHWAY", ISINHIGHWAY),
-                Updates.set("CURRENTSPEED", CURRENTSPEED),
-                Updates.set("CURRENTAVGSPEED", CURRENTAVGSPEED),
-                Updates.set("MEDIATYPE", MEDIATYPE),
-                Updates.set("MEDIAID",  obj.get("MEDIAID")),
-                Updates.set("PASSSTATION", stations),
-                Updates.set("CURRENTSPEEDLIST", CURRENTSPEEDLIST));
+        if(!("".equals(obj.get("PASSID")))){
+
+            filter = Filters.eq("_id", obj.get("VEHICLEID"));
+
+            update = Updates.combine(
+                        Updates.set("TIME", TIME),
+                    Updates.set("CURRENTPASSID", obj.get("PASSID")),
+                    Updates.set("PASSLIST." + obj.get("PASSID"), new Document()
+                            .append("STIME",tranStartTime)
+                            .append("ETIME",tranEndTime)),
+                    Updates.set("ISINHIGHWAY", ISINHIGHWAY),
+                    Updates.set("CURRENTSPEED", CURRENTSPEED),
+                    Updates.set("CURRENTAVGSPEED", CURRENTAVGSPEED),
+                    Updates.set("MEDIATYPE", MEDIATYPE),
+                    Updates.set("MEDIAID",  obj.get("MEDIAID")),
+                    Updates.set("PASSSTATION", stations),
+                    Updates.set("CURRENTSPEEDLIST", CURRENTSPEEDLIST));
+    
+            BulkOperations.add(new UpdateOneModel<>(filter, update, options));
+    
+    
+
+        }
+    
+    
+    
 
 
-        BulkOperations.add(new UpdateOneModel<>(filter, update, options));
+
+
+
+
         if (BulkOperations.size() >= 500){
             try {
-                vehicleDigital.bulkWrite(BulkOperations);
+
+                vehicleDigital.bulkWrite(BulkOperations,bulkOptions);
                 BulkOperations.clear();
             } catch (MongoBulkWriteException e){
                 System.out.println("A MongoBulkWriteException occured with the following message: " + e.getMessage());

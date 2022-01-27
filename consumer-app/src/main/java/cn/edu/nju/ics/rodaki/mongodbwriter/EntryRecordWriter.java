@@ -11,7 +11,9 @@ import org.bson.conversions.Bson;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Date;
 
 public class EntryRecordWriter implements MongodbWriter {
 
@@ -22,7 +24,7 @@ public class EntryRecordWriter implements MongodbWriter {
 
     List<WriteModel<Document>> enRecBulkOperations = new ArrayList<>();
     List<WriteModel<Document>> traTranBulkOperations = new ArrayList<>();
-
+    BulkWriteOptions bulkOptions = new BulkWriteOptions().ordered(false);
 
     Bson filter;
     Bson update;
@@ -41,10 +43,11 @@ public class EntryRecordWriter implements MongodbWriter {
 
     @Override
     public void insertData(JSONObject obj) {
-
+        Date date = new Date(obj.getLong("ENTIME"));
 
         enRecBulkOperations.add(new InsertOneModel<>(new Document()
                 .append("_id", obj.get("ENTRYID"))
+                .append("TIMESTRING", date)
                 .append("TIME", obj.getLong("ENTIME"))
                 .append("PID", obj.get("PASSID"))
                 .append("SID", obj.get("ENTOLLSTATIONID"))
@@ -52,7 +55,7 @@ public class EntryRecordWriter implements MongodbWriter {
 
         if (enRecBulkOperations.size() >= 500){
             try {
-                enCol.bulkWrite(enRecBulkOperations);
+                enCol.bulkWrite(enRecBulkOperations,bulkOptions);
                 enRecBulkOperations.clear();
             } catch (MongoBulkWriteException e){
                 System.out.println("A MongoBulkWriteException occured with the following message: " + e.getMessage());
@@ -81,7 +84,7 @@ public class EntryRecordWriter implements MongodbWriter {
 
         if (traTranBulkOperations.size() >= 500){
             try {
-                traTran.bulkWrite(traTranBulkOperations);
+                traTran.bulkWrite(traTranBulkOperations,bulkOptions);
                 traTranBulkOperations.clear();
             } catch (MongoBulkWriteException e){
                 System.out.println("A MongoBulkWriteException occured with the following message: " + e.getMessage());
@@ -89,33 +92,6 @@ public class EntryRecordWriter implements MongodbWriter {
         }
 
 
-
-    }
-
-
-    public void writerExit(){
-        if(enRecBulkOperations.size()!=0){
-            try {
-                enCol.bulkWrite(enRecBulkOperations);
-                enRecBulkOperations.clear();
-
-            } catch (MongoBulkWriteException e){
-                System.out.println("A MongoBulkWriteException occured with the following message: " + e.getMessage());
-            }
-
-        }
-        if(traTranBulkOperations.size()!=0){
-            try {
-
-                traTran.bulkWrite(traTranBulkOperations);
-                traTranBulkOperations.clear();
-
-            } catch (MongoBulkWriteException e){
-                System.out.println("A MongoBulkWriteException occured with the following message: " + e.getMessage());
-            }
-
-
-        }
 
     }
 

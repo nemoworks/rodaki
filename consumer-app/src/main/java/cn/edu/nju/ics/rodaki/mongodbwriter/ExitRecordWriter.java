@@ -12,6 +12,7 @@ import org.bson.conversions.Bson;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 public class ExitRecordWriter implements MongodbWriter {
 
@@ -23,7 +24,7 @@ public class ExitRecordWriter implements MongodbWriter {
 
     List<WriteModel<Document>> exRecBulkOperations = new ArrayList<>();
     List<WriteModel<Document>> traTranBulkOperations = new ArrayList<>();
-
+    BulkWriteOptions bulkOptions = new BulkWriteOptions().ordered(false);
 
     Bson filter;
     Bson update;
@@ -45,10 +46,11 @@ public class ExitRecordWriter implements MongodbWriter {
     public void insertData(JSONObject obj) {
 
 
-
+        Date date = new Date(obj.getLong("EXTIME"));
 
         exRecBulkOperations.add(new InsertOneModel<>(new Document()
                 .append("_id", obj.get("EXITID"))
+                .append("TIMESTRING", date)
                 .append("TIME", obj.getLong("EXTIME"))
                 .append("PID", obj.get("PASSID"))
                 .append("SID", obj.get("EXTOLLSTATIONID"))
@@ -57,7 +59,7 @@ public class ExitRecordWriter implements MongodbWriter {
 
         if (exRecBulkOperations.size() >= 500) {
             try {
-                exCol.bulkWrite(exRecBulkOperations);
+                exCol.bulkWrite(exRecBulkOperations,bulkOptions);
                 exRecBulkOperations.clear();
             } catch (MongoBulkWriteException e) {
                 System.out.println("A MongoBulkWriteException occured with the following message: " + e.getMessage());
@@ -82,7 +84,7 @@ public class ExitRecordWriter implements MongodbWriter {
 
         if (traTranBulkOperations.size() >= 500) {
             try {
-                traTran.bulkWrite(traTranBulkOperations);
+                traTran.bulkWrite(traTranBulkOperations,bulkOptions);
                 traTranBulkOperations.clear();
             } catch (MongoBulkWriteException e) {
                 System.out.println("A MongoBulkWriteException occured with the following message: " + e.getMessage());
@@ -92,31 +94,6 @@ public class ExitRecordWriter implements MongodbWriter {
     }
 
 
-
-    public void writerExit(){
-        if(exRecBulkOperations.size()!=0){
-            try {
-
-                exCol.bulkWrite(exRecBulkOperations);
-                exRecBulkOperations.clear();
-            } catch (MongoBulkWriteException e){
-                System.out.println("A MongoBulkWriteException occured with the following message: " + e.getMessage());
-            }
-
-        }
-
-        if(traTranBulkOperations.size()!=0){
-            try {
-
-                traTran.bulkWrite(traTranBulkOperations);
-                traTranBulkOperations.clear();
-            } catch (MongoBulkWriteException e){
-                System.out.println("A MongoBulkWriteException occured with the following message: " + e.getMessage());
-            }
-
-        }
-
-    }
 
 
 

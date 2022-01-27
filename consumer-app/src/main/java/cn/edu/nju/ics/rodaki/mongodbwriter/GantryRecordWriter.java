@@ -12,6 +12,7 @@ import org.bson.conversions.Bson;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 public class GantryRecordWriter implements MongodbWriter {
 
@@ -22,7 +23,7 @@ public class GantryRecordWriter implements MongodbWriter {
 
     List<WriteModel<Document>> ganRecBulkOperations = new ArrayList<>();
     List<WriteModel<Document>> traTranBulkOperations = new ArrayList<>();
-
+    BulkWriteOptions bulkOptions = new BulkWriteOptions().ordered(false);
 
     Bson filter;
     Bson update;
@@ -45,10 +46,11 @@ public class GantryRecordWriter implements MongodbWriter {
     public void insertData(JSONObject obj) {
 
 
-
+        Date date = new Date(obj.getLong("TRANSTIME"));
 
         ganRecBulkOperations.add(new InsertOneModel<>(new Document()
                 .append("_id", obj.get("TRADEID"))
+                .append("TIMESTRING", date)
                 .append("TIME", obj.getLong("TRANSTIME"))
                 .append("PID", obj.get("PASSID"))
                 .append("SID", obj.get("GANTRYID"))
@@ -57,7 +59,7 @@ public class GantryRecordWriter implements MongodbWriter {
 
         if (ganRecBulkOperations.size() >= 500){
             try {
-                ganCol.bulkWrite(ganRecBulkOperations);
+                ganCol.bulkWrite(ganRecBulkOperations,bulkOptions);
                 ganRecBulkOperations.clear();
             } catch (MongoBulkWriteException e){
                 System.out.println("A MongoBulkWriteException occured with the following message: " + e.getMessage());
@@ -92,7 +94,7 @@ public class GantryRecordWriter implements MongodbWriter {
 
         if (traTranBulkOperations.size() >= 500){
             try {
-                traTran.bulkWrite(traTranBulkOperations);
+                traTran.bulkWrite(traTranBulkOperations,bulkOptions);
                 traTranBulkOperations.clear();
             } catch (MongoBulkWriteException e){
                 System.out.println("A MongoBulkWriteException occured with the following message: " + e.getMessage());
@@ -102,28 +104,5 @@ public class GantryRecordWriter implements MongodbWriter {
 
     }
 
-    public void writerExit(){
 
-        if(ganRecBulkOperations.size()!=0){
-            try {
-
-                ganCol.bulkWrite(ganRecBulkOperations);
-                ganRecBulkOperations.clear();
-            } catch (MongoBulkWriteException e){
-                System.out.println("A MongoBulkWriteException occured with the following message: " + e.getMessage());
-            }
-
-        }
-        if(traTranBulkOperations.size()!=0){
-            try {
-                traTran.bulkWrite(traTranBulkOperations);
-                traTranBulkOperations.clear();
-            } catch (MongoBulkWriteException e){
-                System.out.println("A MongoBulkWriteException occured with the following message: " + e.getMessage());
-            }
-
-        }
-    }
-
-
-    }
+}
