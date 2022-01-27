@@ -401,6 +401,7 @@ services:
     depends_on:
       - mymongodb
       - rabbitmq
+    restart: always
     networks:
       default:
         aliases:
@@ -414,6 +415,7 @@ services:
 
   service:
     image: service:v1
+    restart: always
     depends_on:
       - mymongodb
       - rabbitmq
@@ -429,6 +431,7 @@ services:
 
   vehicletypechecker:
     image: vehicletypechecker:v1
+    restart: always
     depends_on:
       - mymongodb
       - rabbitmq
