@@ -87,6 +87,24 @@
                                 <goal>assembly</goal>
                             </goals>
                         </execution>
+                        <execution>
+                            <id>vehicletypechecker</id>
+                            <configuration>
+                                <finalName>vehicletypechecker</finalName>
+                                <archive>
+                                    <manifest>
+                                        <mainClass>cn.edu.nju.ics.rodaki.myapp.VehicleTypeChecker</mainClass>
+                                    </manifest>
+                                </archive>
+                                <descriptorRefs>
+                                    <descriptorRef>jar-with-dependencies</descriptorRef>
+                                </descriptorRefs>
+                            </configuration>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>assembly</goal>
+                            </goals>
+                        </execution>
                     </executions>
                 </plugin>
         </plugins>
