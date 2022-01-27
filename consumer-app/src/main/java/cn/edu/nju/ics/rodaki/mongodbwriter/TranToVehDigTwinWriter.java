@@ -73,9 +73,7 @@ public class TranToVehDigTwinWriter implements MongodbWriter{
 
         stationInfo =  obj.getJSONArray("STATIONINFO");
 
-        // 按时间和站点类型排序
-
-
+        // 按时间和站点类型排序，站点类型1，2，3分别为入口，门架，出口
         stationInfo = BubbleSort(stationInfo);
 
 
@@ -85,17 +83,17 @@ public class TranToVehDigTwinWriter implements MongodbWriter{
         TIME = lastStationInfo.getLong("TIME");
 
 
-        // cal mileage
 
-        // 如果最后一个站点记录是出口，那么车辆不在高速上，此次通行总费用为出口费用，此次通行里程为出口里程
+
+        // 如果最后一个站点记录是出口，那么车辆不在高速上
         if (lastStationInfo.getInteger("STYPE").equals(3)) {
             ISINHIGHWAY = false;
-
+        // 如果最后一个站点记录是虚门架，那么车辆不在高速上
         } else if(lastStationInfo.getInteger("STYPE").equals(2) && lastStationInfo.getString("ORIGINALFLAG").equals("2")){
 
             ISINHIGHWAY = false;
         }
-        else {  // 如果最后一个站点记录不是出口，那么车辆在高速上，此次通行总费用为所有站点费用之和，此次通行里程为所有站点里程之和
+        else {  // 如果最后一个站点记录不是出口也不是虚门架，那么车辆在高速上
 
             ISINHIGHWAY = true;
 
@@ -105,75 +103,72 @@ public class TranToVehDigTwinWriter implements MongodbWriter{
 
 
 
-        // 如果有2条以上的站点记录，此次通行时间为最后一条记录的时间减去第一条记录的时间，最近速度为最近两个站点间里程除以最近站点间时间，此次行程平均速度为总里程除以总时间
+        // 计算速度
 
         CURRENTSPEEDLIST = new ArrayList();
         stationInfoSize = stationInfo.size();
         totalrmileage = 0.0;
+
+        // 如果有2条以上的站点记录，此次通行时间为最后一条记录的时间减去第一条记录的时间，最近速度为最近两个站点间里程除以最近站点间时间，此次行程平均速度为总里程除以总时间
+
+        // 如果有2条以上的站点记录，计算两两站点间的速度，组成当前通行的速度列表
         if (stationInfoSize >= 2) {
             for (int i = 0; i < stationInfoSize-1; i++) {
-                rtime = stationInfo.getJSONObject(i+1).getLong("TIME") - stationInfo.getJSONObject(i).getLong("TIME");
 
+                // 时间为两个站点间时间
+                rtime = stationInfo.getJSONOb78ject(i+1).getLong("TIME") - stationInfo.getJSONObject(i).getLong("TIME");
+
+                // 取两个站点坐标
                 l1 = stationInfo.getJSONObject(i).getJSONArray("LOCATION");
                 l2 = stationInfo.getJSONObject(i+1).getJSONArray("LOCATION");
 
 
-
+                // 根据坐标计算大致距离
                 rmileage = GetShortDistance(l1.getJSONObject(0).getDouble("$numberDecimal"),
                         l1.getJSONObject(1).getDouble("$numberDecimal"),
                         l2.getJSONObject(0).getDouble("$numberDecimal"),
                         l2.getJSONObject(1).getDouble("$numberDecimal"));
 
-                // 最后一段站点间的处理
+                // 总里程累加
                 totalrmileage += rmileage;
-
 
                 temp = new ArrayList();
                 // 计算速度
+                // 若里程和时间都为有效值，大于零，计算速度
                 if (rtime>0 && rmileage>0){
-
+                    // 里程除以时间，单位为 km/h
                     temp.add((float) (rmileage / (rtime/1000) * 3.6));
+                    // 添用后一个站点的时间作为该速度的时间戳
                     temp.add(stationInfo.getJSONObject(i+1).getLong("TIME"));
-
                     CURRENTSPEEDLIST.add(temp);
 
                 }
 
-//                else {
-//                    temp.add(0.0F);
-//                    temp.add(stationInfo.getJSONObject(i+1).getLong("TIME") );
-//
-//                    CURRENTSPEEDLIST.add(temp);
-//                }
-
-
             }
+
+
+            // 如果速度列表不为空，则将最后一个速度作为当前速度
             if(CURRENTSPEEDLIST.size()>0){
                 CURRENTSPEED = (float) ((ArrayList) CURRENTSPEEDLIST.get(CURRENTSPEEDLIST.size()-1)).get(0);
             } else {
                 CURRENTSPEED = 0.0F;
             }
 
-
+            // 计算当前通行的平均速度，取第一个和最后一个记录的时间作为总通行时间，累加的里程为总里程
             firstStationInfo = stationInfo.getJSONObject(0);
             tranStartTime = firstStationInfo.getLong("TIME");
             tranEndTime = lastStationInfo.getLong("TIME");
 
             TOTALPASSTIME = tranEndTime - tranStartTime;
-
+            // 若总时间和总里程都为有效值，计算平均速度，单位是 km/h
             if (TOTALPASSTIME>0 && totalrmileage>0){
                 CURRENTAVGSPEED = (float) (totalrmileage / (TOTALPASSTIME/1000) * 3.6);
             } else {
                 CURRENTAVGSPEED = 0.0F;
             }
 
+        // 若只有一个站点记录，不能求速度
         } else {
-//            temp = new ArrayList();
-//            temp.add(0.0F);
-//            temp.add(lastStationInfo.get("TIME"));
-//
-//            CURRENTSPEEDLIST.add(temp);
-
 
             CURRENTSPEED = 0.0F;
             CURRENTAVGSPEED = 0.0F;
@@ -184,7 +179,7 @@ public class TranToVehDigTwinWriter implements MongodbWriter{
 
 
 
-
+        // 根据 MEDIATYPE 判断通行介质是 OBU 或 CPC
         if(obj.get("MEDIATYPE").equals(1)){
             MEDIATYPE = "OBU";
         } else if(obj.get("MEDIATYPE").equals(2)){
@@ -196,7 +191,7 @@ public class TranToVehDigTwinWriter implements MongodbWriter{
 
 
 
-
+        // 添加所有站点信息到列表
         stations = new ArrayList();
         it = stationInfo.iterator();
 
@@ -228,21 +223,7 @@ public class TranToVehDigTwinWriter implements MongodbWriter{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        // 使用以上字段，更新车辆的 digitaltwin 模型
         filter = Filters.eq("_id", obj.get("VEHICLEID"));
 
         update = Updates.combine(
