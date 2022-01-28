@@ -15,6 +15,20 @@ public class RabbitmqClient {
     Channel channel;
 
 
+    public RabbitmqClient() throws IOException, TimeoutException {
+        ConnectionFactory factory = new ConnectionFactory();
+
+        factory.setHost("rabbitmq");
+        factory.setPort(5672);
+        factory.setVirtualHost("/");
+        factory.setUsername("admin");
+        factory.setPassword("admin");
+        connection = factory.newConnection();
+        channel = connection.createChannel();
+        channel.basicQos(prefetchCount);
+    }
+
+
     public RabbitmqClient(int prefetchCount, String routingKey) throws IOException, TimeoutException {
         this.prefetchCount = prefetchCount;
         this.routingKey = routingKey;
@@ -33,5 +47,10 @@ public class RabbitmqClient {
 
     public Channel getChannel() {
         return channel;
+    }
+
+    public void createQueue(String queue) throws IOException {
+        this.channel.queueDeclare(queue,true,false,false,null);
+
     }
 }

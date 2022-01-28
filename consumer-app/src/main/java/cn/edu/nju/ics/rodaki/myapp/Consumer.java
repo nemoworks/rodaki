@@ -42,6 +42,9 @@ public class Consumer {
 
 
 
+
+        Thread.sleep(10000);
+
         // First, construct a MyThread object.
         TranListenToRabbitmq traTranListener = new TranListenToRabbitmq(entitydb, "TrafficTransaction");
         GanListenToRabbitmq ganListener = new GanListenToRabbitmq(entitydb, "Gantry");
@@ -142,7 +145,24 @@ public class Consumer {
         RThrd13.start();
         RThrd14.start();
 
-        while(true) {
+        while(  RThrd1.isAlive() == true && 
+                RThrd2.isAlive() == true && 
+                RThrd3.isAlive() == true && 
+                RThrd4.isAlive() == true && 
+                RThrd5.isAlive() == true && 
+                RThrd6.isAlive() == true && 
+                RThrd7.isAlive() == true && 
+                RThrd8.isAlive() == true && 
+                RThrd9.isAlive() == true && 
+                RThrd10.isAlive() == true && 
+                RThrd11.isAlive() == true && 
+                RThrd12.isAlive() == true && 
+                RThrd13.isAlive() == true && 
+                RThrd14.isAlive() == true && 
+                MThrd1.isAlive() == true && 
+                MThrd2.isAlive() == true &&
+                MThrd3.isAlive() == true
+        ) {
             try {
                 Thread.sleep(300000);
             } catch (InterruptedException e) {
