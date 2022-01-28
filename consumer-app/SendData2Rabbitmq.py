@@ -14,7 +14,7 @@ auth = pika.PlainCredentials('admin','admin')
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost', port='5672', virtual_host='/', credentials=auth))
 
 channel = connection.channel()
-channel.queue_declare(queue='CheckVehicleType')
+# channel.queue_declare(queue='CheckVehicleType')
 
 
 
