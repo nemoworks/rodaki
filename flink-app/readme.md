@@ -30,4 +30,6 @@
 
     `../flink-1.13.1/bin/flink run -m 127.0.0.1:8081 -d target/analyse-0.1.jar  --bootstrap.servers kafka:9092 --input-topic zcinput --checkpointing --event-time`
 
-
+文件：
+1. 有入无出、超时的文件对应`flink-app/src/main/java/com/nju/ics/Funcs/GantryTimer.java`
+2. 同时在途对应`flink-app/src/main/java/com/nju/ics/Funcs/MultiPassid.java`
