@@ -27,7 +27,7 @@ public class VehicleTypeWriter implements MongodbWriter {
     MongoCollection<Document> vehType;
 
     List<WriteModel<Document>> vehTypeBulkOperations = new ArrayList<>();
-    BulkWriteOptions bulkOptions = new BulkWriteOptions().ordered(false);
+
 
     Bson filter;
     Bson update;
@@ -37,9 +37,13 @@ public class VehicleTypeWriter implements MongodbWriter {
     int vehicleType;
     String transPayType;
     int trueVehicleType;
+    String passId;
+    String exitId;
+
 
     RabbitmqPublisher vehTypePublisher;
-    Map m1;
+    Map batchQueryMap;
+    Map temp;
 
     public VehicleTypeWriter(String db, String vehCol) throws IOException, TimeoutException {
 
@@ -48,8 +52,7 @@ public class VehicleTypeWriter implements MongodbWriter {
         this.vehType = database.getCollection(vehCol);
 
         this.vehTypePublisher = new RabbitmqPublisher("ErrorVehicleType");
-
-        m1 = new HashMap();
+        batchQueryMap = new HashMap();
 
 //        输出到文件，添加列名
 //        writeResult("./ErrorVehicleType.txt","PASSID,VEHICLEID,VEHICLETYPE,TRUEVEHICLETYPE,EXITID\n");
@@ -66,17 +69,23 @@ public class VehicleTypeWriter implements MongodbWriter {
         vehicleId = obj.getString("VEHICLEID");
         vehicleType = obj.getInteger("VEHICLETYPE");
         transPayType = obj.getString("TRANSPAYTYPE");
+        passId = obj.getString("PASSID");
+        exitId = obj.getString("EXITID");
+
+
 
 //      判断 TRANSPAYTYPE, 如果不是 1，则为人工通道，将该记录中的车型作为该 VEHICLEID 的真实车型，存入数据库
         if (!(transPayType.equals("1"))) {
             filter = Filters.eq("_id", vehicleId);
             update = Updates.combine(Updates.set("VEHICLETYPE", vehicleType),
-                    Updates.set("TRANSPAYTYPE", transPayType));
+                    Updates.set("TRANSPAYTYPE", transPayType),
+                    Updates.set("PASSID", passId),
+                    Updates.set("EXITID", exitId));
             vehTypeBulkOperations.add(new UpdateOneModel<>(filter, update, options));
 
             if (vehTypeBulkOperations.size() >= 500) {
                 try {
-                    vehType.bulkWrite(vehTypeBulkOperations,bulkOptions);
+                    vehType.bulkWrite(vehTypeBulkOperations);
                     vehTypeBulkOperations.clear();
                 } catch (MongoBulkWriteException e) {
                     System.out.println("A MongoBulkWriteException occured with the following message: " + e.getMessage());
@@ -85,22 +94,39 @@ public class VehicleTypeWriter implements MongodbWriter {
 
 //      判断 TRANSPAYTYPE, 如果是 1， 则认为不是人工通道，对比当前车型与数据库中真实车型，若当前车型小于真实车型，则发送消息到 rabbitmq 队列
         } else {
-            m1.put(vehicleId, vehicleType);
-            if (m1.size() >= 200) {
-                Bson filter = Filters.in("_id", m1.keySet());
+
+            Map vehinfo = new HashMap();
+            vehinfo.put("VEHICLEID", vehicleId);
+            vehinfo.put("VEHICLETYPE", vehicleType);
+            vehinfo.put("TRANSPAYTYPE", transPayType);
+            vehinfo.put("PASSID", passId);
+            vehinfo.put("EXITID", exitId);
+
+            batchQueryMap.put(vehicleId, vehinfo);
+
+            if (batchQueryMap.size() >= 200) {
+                Bson filter = Filters.in("_id", batchQueryMap.keySet());
                 vehType.find(filter).forEach(doc -> {
                     trueVehicleType = doc.getInteger("VEHICLETYPE");
 
+                    temp = (Map) batchQueryMap.get(doc.getString("_id"));
 
-                    if ((int) m1.get(doc.getString("_id")) < trueVehicleType) {
-//                      发送消息到 rabbitmq 队列
+                    System.out.println(batchQueryMap.get(doc.getString("_id")) + doc.getString("_id"));
+
+                    if ((int) temp.get("VEHICLETYPE") < trueVehicleType) {
+                    //  发送消息到 rabbitmq 队列
+//                        System.out.println(doc.toJson());
+//                        System.out.println(temp);
+
                         try {
                             vehTypePublisher.pushMassage(new Document()
-                                    .append("PASSID", obj.get("PASSID"))
-                                    .append("VEHICLEID", vehicleId)
-                                    .append("VEHICLETYPE", vehicleType)
+                                    .append("VEHICLEID", doc.getString("_id"))
+                                    .append("PASSID", temp.get("PASSID"))
+                                    .append("VEHICLETYPE", temp.get("VEHICLETYPE"))
+                                    .append("EXITID", temp.get("EXITID"))
                                     .append("TRUEVEHICLETYPE", trueVehicleType)
-                                    .append("EXITID", obj.get("EXITID")).toJson());
+                                    .append("TRUEPASSID", doc.getString("PASSID"))
+                                    .append("TRUEEXITID", doc.getString("EXITID")).toJson());
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -111,7 +137,7 @@ public class VehicleTypeWriter implements MongodbWriter {
 
                 });
 
-                m1.clear();
+                batchQueryMap.clear();
 
             }
 
