@@ -6,9 +6,11 @@ import com.nju.ics.FastJsonUtils.IntDeserializer;
 public class TimerRecord {
     @JSONField(name = "FLOWTYPE")
     private int FLOWTYPE;
+    /** 1: 实体门架 2:虚拟门架 */
     @JSONField(name = "ORIGINALFLAG")
     private int ORIGINALFLAG;
     @JSONField(name = "PASSID")
+    /**1:省界入口门架 2:省界出口门架 */
     private String PASSID;
     @JSONField(name = "PROVINCEBOUND")
     private int PROVINCEBOUND;
@@ -31,6 +33,9 @@ public class TimerRecord {
     private String SPECIALTYPE;
     @JSONField(name = "TRANSCODE")
     private String TRANSCODE;
+    // 特情类型
+    @JSONField(name = "LANESPINFO")
+    private String LANESPINFO;
 
     public String getVEHICLEID() {
         return VLP + "-" + VLPC;
@@ -125,6 +130,7 @@ public class TimerRecord {
     public int getMEDIATYPE() {
         return MEDIATYPE;
     }
+
     @JSONField(deserializeUsing = IntDeserializer.class)
     public void setMEDIATYPE(int mEDIATYPE) {
         MEDIATYPE = mEDIATYPE;
@@ -144,6 +150,14 @@ public class TimerRecord {
 
     public void setTRANSCODE(String tRANSCODE) {
         TRANSCODE = tRANSCODE;
+    }
+
+    public String getLANESPINFO() {
+        return LANESPINFO;
+    }
+
+    public void setLANESPINFO(String lANESPINFO) {
+        LANESPINFO = lANESPINFO;
     }
     
 }

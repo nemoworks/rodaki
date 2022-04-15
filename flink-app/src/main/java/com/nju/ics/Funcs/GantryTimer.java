@@ -49,7 +49,8 @@ public class GantryTimer extends KeyedProcessFunction<String, TimerRecord, Abnor
     private List<Tuple2<Long, Map<String, AbnormalVehicle>>> currenTimers;
     private Map<Long, Integer> timerPosIncurrenTimers;
     private Map<String, Long> vehicleTimer;
-
+    private Map<String, Integer> serviceArea;
+    private Map<String, String> gantryid2hex;
     private Map<String, Integer> siteTime;
     private static long defaulttime;
     private static long fiveminutes = 1000 * 60 * 5;
@@ -68,10 +69,12 @@ public class GantryTimer extends KeyedProcessFunction<String, TimerRecord, Abnor
     };
 
     public GantryTimer(String gantryfile) throws FileNotFoundException, IOException {
-        this.siteTime = JSON.parseObject(new FileInputStream(gantryfile), Map.class);
-        GantryTimer.defaulttime = this.siteTime.get("avg");
+        // this.siteTime = JSON.parseObject(new FileInputStream(gantryfile), Map.class);
+        // GantryTimer.defaulttime = this.siteTime.get("avg");
         GantryTimer.defaulttime = fiveminutes * 60;
         this.siteTime = new HashMap<>();
+        this.serviceArea = JSON.parseObject(new FileInputStream("/home/lzm/zc/simulate/serviceArea.json"), Map.class);
+        this.gantryid2hex = JSON.parseObject(new FileInputStream("/home/lzm/zc/simulate/gantryid2hex.json"), Map.class);
     }
 
     @Override
@@ -109,9 +112,16 @@ public class GantryTimer extends KeyedProcessFunction<String, TimerRecord, Abnor
             }
             // 需要清楚timer的车牌，下面进行矫正
             String timervehicleid = value.getVEHICLEID();
+            // if (value.getPASSID().equals("020000320101610167125820211101151055")) {
+            // System.out.printf("1. %s->%s\n", value.getPASSID(), value.getVEHICLEID());
+            // System.out.println(passid2vehicle.get(value.getPASSID()));
+            // }
             // 如果是省界入口门架或者入口站点记录，认为passid与车牌是对应的，需要记录一下
             if (!value.getPASSID().startsWith("000000") && (value.getFLOWTYPE() == 1
                     || value.getPROVINCEBOUND() == 1)) {
+                // if (value.getPASSID().equals("020000320101610167125820211101151055")) {
+                // System.out.printf("2. %s->%s\n", value.getPASSID(), value.getVEHICLEID());
+                // }
                 passid2vehicle.put(value.getPASSID(), value.getVEHICLEID());
                 // vehicle2passid.put(value.getVEHICLEID(), value.getPASSID());
             } else if (value.getORIGINALFLAG() == 2
@@ -128,10 +138,18 @@ public class GantryTimer extends KeyedProcessFunction<String, TimerRecord, Abnor
                     }
                 } else if (value.getMEDIATYPE() == 2) {
                     // 如果是cpc卡，认为出口的车牌是正确的，这个时候通过passid，将要设置timer的车牌号重新设置成原先错误的车牌，保证其timer能够删除
+                    // if (value.getVEHICLEID().equals("冀GE5391-1")) {
+                    // System.out.printf("3. %s->%s->%s\n", value.getVEHICLEID(), value.getPASSID(),
+                    // passid2vehicle.get(value.getPASSID()));
+                    // }
                     if (passid2vehicle.contains(value.getPASSID())
                             && !passid2vehicle.get(value.getPASSID()).equals(value.getVEHICLEID())) {
-                        // System.out.printf("%s->%s\n", passid2vehicle.get(value.getPASSID()),
-                        // value.getVEHICLEID());
+                        // if (value.getVEHICLEID().equals("冀GE5391-1")) {
+                        // System.out.printf("4. %s->%s\n", value.getVEHICLEID(),
+                        // passid2vehicle.get(value.getPASSID()));
+                        // }
+                        // System.out.printf("4. %s->%s\n", value.getVEHICLEID(),
+                        // passid2vehicle.get(value.getPASSID()));
                         timervehicleid = passid2vehicle.get(value.getPASSID());
                     }
                 }
@@ -155,9 +173,12 @@ public class GantryTimer extends KeyedProcessFunction<String, TimerRecord, Abnor
                 }
                 vehicleTimer.remove(timervehicleid);
             }
-            // 2. 判断是否是省界出口或者虚门架，如果是，则直接return
-            if (value.getORIGINALFLAG() == 2
-                    || value.getPROVINCEBOUND() == 2) {
+            // 判断是否是虚门架
+            if (value.getORIGINALFLAG() == 2) {
+                return;
+            }
+            // 2. 判断是否是省界出口，如果是，则直接return
+            if (value.getPROVINCEBOUND() == 2) {
                 passid2vehicle.remove(value.getPASSID());
                 return;
             }
@@ -305,6 +326,11 @@ public class GantryTimer extends KeyedProcessFunction<String, TimerRecord, Abnor
                 for (Entry<String, AbnormalVehicle> vehicle : tmp.f1.entrySet()) {
                     // 先将车辆的timer记录删除，不删除也行
                     vehicleTimer.remove(vehicle.getKey());
+                    // 判断下是否最近一次记录的站点id是否存在服务区
+                    if (this.serviceArea
+                            .containsKey(this.gantryid2hex.getOrDefault(vehicle.getValue().getStationid(), ""))) {
+                        continue;
+                    }
                     out.collect(vehicle.getValue());
                 }
 

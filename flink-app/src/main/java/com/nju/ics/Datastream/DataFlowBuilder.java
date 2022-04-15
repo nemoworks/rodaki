@@ -17,8 +17,10 @@ import com.nju.ics.Configs.GantryPosition;
 import com.nju.ics.Configs.StationPosition;
 import com.nju.ics.Connectors.KafkaDataConsumer;
 import com.nju.ics.Connectors.RabbitMQDataSink;
+import com.nju.ics.Fields.AbnormalVehicle;
 import com.nju.ics.Funcs.RawDatastreamPartitionProcess;
 import com.nju.ics.Funcs.Row2JSONObject;
+import com.nju.ics.Funcs.WrongVehicleType;
 import com.nju.ics.ModelExtractors.*;
 import com.nju.ics.Models.*;
 
@@ -80,9 +82,9 @@ public class DataFlowBuilder {
 		// OutputTagCollection.initCollection();
 		// OutputTagCollection.initCollection();
 		// 输入文件路径
-		String gantrycsv = "/datasource/gantrywastetest.csv";
-		String entrycsv = "/datasource/enwastetest.csv";
-		String exitcsv = "/datasource/exitwastetest.csv";
+		String gantrycsv = "/hdd/data/1101/gantrywaste_fix.csv";
+		String entrycsv = "/hdd/data/1101/enwaste.csv";
+		String exitcsv = "/hdd/data/1101/exitwaste.csv";
 		// 使用 RowCsvInputFormat 把每一行记录解析为一个 Row
 		RowCsvInputFormat csvGantryInput = new RowCsvInputFormat(
 				new Path(gantrycsv), // 文件路径
@@ -141,7 +143,7 @@ public class DataFlowBuilder {
 				}
 
 			});
-		}else{
+		} else {
 			stream = stream.map(new MapFunction<JSONObject, JSONObject>() {
 
 				@Override
@@ -304,12 +306,12 @@ public class DataFlowBuilder {
 					}
 				});
 
-		ENStationRecordStream.addSink(RabbitMQDataSink.generateRMQSink("ENStationRecord"))//SiteRecord
-				.name(String.format("RMQ:%s", "ENStationRecordStream"));
-		ENVehicleRecordStream.addSink(RabbitMQDataSink.generateRMQSink("ENVehicleRecord"))
-				.name(String.format("RMQ:%s", "ENVehicleRecordStream"));
-		GantryRecordStream.addSink(RabbitMQDataSink.generateRMQSink("GantryRecord"))
-				.name(String.format("RMQ:%s", "GantryRecordStream"));
+		// ENStationRecordStream.addSink(RabbitMQDataSink.generateRMQSink("ENStationRecord"))//SiteRecord
+		// .name(String.format("RMQ:%s", "ENStationRecordStream"));
+		// ENVehicleRecordStream.addSink(RabbitMQDataSink.generateRMQSink("ENVehicleRecord"))
+		// .name(String.format("RMQ:%s", "ENVehicleRecordStream"));
+		// GantryRecordStream.addSink(RabbitMQDataSink.generateRMQSink("GantryRecord"))
+		// .name(String.format("RMQ:%s", "GantryRecordStream"));
 		// GantryRecordStream.map( new MapFunction<GantryRecord,String>() {
 
 		// @Override
@@ -320,19 +322,22 @@ public class DataFlowBuilder {
 		// }
 
 		// });
-		GantryInfoStream.addSink(RabbitMQDataSink.generateRMQSink("GantryInfo"))
-				.name(String.format("RMQ:%s", "GantryInfoStream"));
-		GantryVehicleRecordStream.addSink(RabbitMQDataSink.generateRMQSink("GantryVehicleRecord"))
-				.name(String.format("RMQ:%s", "GantryVehicleRecord"));
-		ExitStationRecordStream.addSink(RabbitMQDataSink.generateRMQSink("ExitStationRecord"))
-				.name(String.format("RMQ:%s", "ExitStationRecordStream"));
+		// GantryInfoStream.addSink(RabbitMQDataSink.generateRMQSink("GantryInfo"))
+		// .name(String.format("RMQ:%s", "GantryInfoStream"));
+		// GantryVehicleRecordStream.addSink(RabbitMQDataSink.generateRMQSink("GantryVehicleRecord"))
+		// .name(String.format("RMQ:%s", "GantryVehicleRecord"));
+		// ExitStationRecordStream.addSink(RabbitMQDataSink.generateRMQSink("ExitStationRecord"))
+		// .name(String.format("RMQ:%s", "ExitStationRecordStream"));
 		// ExitPaymentRecordStream.addSink(RabbitMQDataSink.generateRMQSink("ExitPaymentRecord"))
-		// 		.name(String.format("RMQ:%s", "ExitPaymentRecord"));
+		// .name(String.format("RMQ:%s", "ExitPaymentRecord"));
 		// ExitInvoiceRecordStream.addSink(RabbitMQDataSink.generateRMQSink("ExitInvoiceRecord"))
-		// 		.name(String.format("RMQ:%s", "ExitInvoiceRecord"));
-		ExitVehicleInfoStream.addSink(RabbitMQDataSink.generateRMQSink("ExitVehicleInfo"))
-				.name(String.format("RMQ:%s", "ExitVehicleInfo"));
-		
+		// .name(String.format("RMQ:%s", "ExitInvoiceRecord"));
+		// ExitVehicleInfoStream.addSink(RabbitMQDataSink.generateRMQSink("ExitVehicleInfo"))
+		// .name(String.format("RMQ:%s", "ExitVehicleInfo"));
+		SingleOutputStreamOperator<AbnormalVehicle> abnormalVehicle = ExitPaymentRecordStream
+				.keyBy(x -> x.getVEHICLEID()).process(new WrongVehicleType());
+		abnormalVehicle.addSink(RabbitMQDataSink.generateRMQSink("WrongVehicleType"))
+				.name(String.format("RMQ:%s", "WrongVehicleType"));
 		/**
 		 * 第二层模型
 		 * 1 <- ENStationRecord:3
@@ -513,7 +518,7 @@ public class DataFlowBuilder {
 				.union(TrafficTransactionStreamGantry, TrafficTransactionStreamExit);
 
 		// TrafficTransactionStream.addSink(RabbitMQDataSink.generateRMQSink("TrafficTransaction"))
-		// 		.name(String.format("RMQ:%s", "TrafficTransactionStream"));
+		// .name(String.format("RMQ:%s", "TrafficTransactionStream"));
 
 		// 第二层模型 Gantry
 		// SingleOutputStreamOperator<Gantry> GantryStreamGantryInfo=
@@ -617,6 +622,6 @@ public class DataFlowBuilder {
 		DataStream<Vehicle> VehicleModelStream = VehicleStreamPart1.union(VehicleStreamPart2, VehicleStreamPart3,
 				VehicleStreamPart4);
 		// VehicleModelStream.addSink(RabbitMQDataSink.generateRMQSink("Vehicle"))
-		// 		.name(String.format("RMQ:%s", "VehicleModelStream"));
+		// .name(String.format("RMQ:%s", "VehicleModelStream"));
 	}
 }

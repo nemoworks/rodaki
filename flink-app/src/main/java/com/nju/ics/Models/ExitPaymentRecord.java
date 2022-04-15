@@ -41,6 +41,11 @@ public class ExitPaymentRecord extends AbstractModel {
     @JSONField(name = "INVOICEID")
     private String INVOICEID;
 
+    @JSONField(name = "TRANSPAYTYPE")
+    private int TRANSPAYTYPE;
+    @JSONField(name = "EXVEHICLETYPE")
+    private int VEHICLETYPE;
+
     @Override
     public String id() {
         // TODO Auto-generated method stub
@@ -137,6 +142,24 @@ public class ExitPaymentRecord extends AbstractModel {
     @JSONField(name = "INVOICEID")
     public void setINVOICEID(String iNVOICEID) {
         INVOICEID = iNVOICEID;
+    }
+
+    public int getTRANSPAYTYPE() {
+        return TRANSPAYTYPE;
+    }
+
+    @JSONField(name = "TRANSPAYTYPE", deserializeUsing = IntDeserializer.class)
+    public void setTRANSPAYTYPE(int tRANSPAYTYPE) {
+        TRANSPAYTYPE = tRANSPAYTYPE;
+    }
+
+    public int getVEHICLETYPE() {
+        return VEHICLETYPE;
+    }
+
+    @JSONField(name = "EXVEHICLETYPE", deserializeUsing = IntDeserializer.class)
+    public void setVEHICLETYPE(int vEHICLETYPE) {
+        VEHICLETYPE = vEHICLETYPE;
     }
 
 }

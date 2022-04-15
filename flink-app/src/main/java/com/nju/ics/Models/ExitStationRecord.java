@@ -66,7 +66,7 @@ public class ExitStationRecord extends AbstractModel {
     /** 收费站名称 */
     @JSONField(name = "STATIONNAME")
     private String STATIONNAME;
-
+    
     @Override
     public String id() {
         // TODO Auto-generated method stub

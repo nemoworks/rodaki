@@ -355,6 +355,11 @@
         "index": 127
     },
     {
+        "col": "TRANSPAYTYPE",
+        "type": "int",
+        "index": 162
+    },
+    {
         "col": "FEEMILEAGE",
         "type": "int",
         "index": 163

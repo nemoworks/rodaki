@@ -4,3 +4,6 @@ target
 dependency-reduced-pom.xml
 *.log
 *.tar.gz
+test/
+Cassandra.sql
+docker-compose.yaml

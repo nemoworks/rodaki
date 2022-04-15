@@ -51,7 +51,7 @@ public class GantryPosition {
                 value.name = currentRow.getCell(2).getStringCellValue();// name
                 if (currentRow.getCell(6).getStringCellValue().trim().equals("省界出口")) {// 省界入/出口标识
                     value.gantryPositionFlag = 2;
-                } else if (currentRow.getCell(6).getStringCellValue().trim().equals("省界入口") ) {
+                } else if (currentRow.getCell(6).getStringCellValue().trim().equals("省界入口")) {
                     value.gantryPositionFlag = 1;
                 }
                 if (currentRow.getCell(4).getStringCellValue().trim().equals("实体门架")) {// 门架类型
@@ -62,7 +62,7 @@ public class GantryPosition {
 
                 // System.out.println(value);
                 geoMap.put(key, value);
-                // geoMapHex.put(hex, value);
+                geoMapHex.put(hex, value);
             }
             // System.out.println(geoMap);
         } catch (FileNotFoundException e) {
@@ -73,5 +73,21 @@ public class GantryPosition {
         // System.out.println("*******************");
         // System.out.println(geoMap.size());
         // System.out.println("*******************");
+    }
+
+    public static float getLatitude(String id) {
+        if (GantryPosition.geoMap.containsKey(id)) {
+            return GantryPosition.geoMap.get(id).latitude;
+        } else {
+            return 0.0f;
+        }
+    }
+
+    public static float getLongitude(String id) {
+        if (GantryPosition.geoMap.containsKey(id)) {
+            return GantryPosition.geoMap.get(id).longitude;
+        } else {
+            return 0.0f;
+        }
     }
 }
