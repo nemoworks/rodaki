@@ -361,7 +361,7 @@ services:
 
   mymongodb:
     image: mongo:5.0.3
-    restart: always
+    restart: on-failure
     container_name: mymongodb
     networks:
       default:
@@ -372,8 +372,8 @@ services:
     environment:
       TZ: Asia/Shanghai
     volumes:
-      # - /zhitai/rodaki_data/mongodb_data:/data/db
-      - ./rodaki_data/mongodb_data:/data/db
+      - /zhitai/rodaki_data/mongodb_data:/data/db
+      # - ./rodaki_data/mongodb_data:/data/db
     environment:
        TZ: Asia/Shanghai
     command: mongod --replSet testSet --wiredTigerCacheSizeGB 10
@@ -387,7 +387,7 @@ services:
       default:
         aliases:
           - express
-    restart: always
+    restart: on-failure
     ports:
       - 8088:8081
     environment:
@@ -396,12 +396,58 @@ services:
   
 
 
+
+  # postgres:
+  #   image: postgres:14.1
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - ./postgres-data/:/var/lib/postgresql/data
+  #   environment:
+  #     - POSTGRES_PASSWORD=123456
+
+    
+
+  postgis:
+    image: postgis/postgis
+    ports:
+      - 5432:5432
+    restart: on-failure
+    volumes:
+      - ./postgres-data/:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=123456
+
+
+  pgadmin4:
+    image: dpage/pgadmin4
+    restart: on-failure
+    ports:
+      - 5433:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=test@123.com
+      - PGADMIN_DEFAULT_PASSWORD=123456
+
+    
+  neo4j:
+    image: neo4j:4.2
+    restart: on-failure
+    ports:
+      - 7474:7474
+      - 7687:7687
+    environment:
+      - NEO4J_AUTH=neo4j/123456
+    volumes:
+      - ./neo4j-data/:/data
+    
+
+
   consumer:
     image: consumer:v1
     depends_on:
       - mymongodb
       - rabbitmq
-    restart: always
+    restart: on-failure
     networks:
       default:
         aliases:
@@ -415,7 +461,7 @@ services:
 
   service:
     image: service:v1
-    restart: always
+    restart: on-failure
     depends_on:
       - mymongodb
       - rabbitmq
@@ -431,7 +477,7 @@ services:
 
   vehicletypechecker:
     image: vehicletypechecker:v1
-    restart: always
+    restart: on-failure
     depends_on:
       - mymongodb
       - rabbitmq
