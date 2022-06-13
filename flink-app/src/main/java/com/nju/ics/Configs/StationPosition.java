@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.nju.ics.Fields.StationPositionMsg;
+import com.nju.ics.RawType.StationPositionMsg;
 
 public class StationPosition {
     public static Map<String, StationPositionMsg> geoMap = new HashMap<>();

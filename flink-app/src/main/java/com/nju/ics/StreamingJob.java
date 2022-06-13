@@ -21,10 +21,10 @@ package com.nju.ics;
 import java.time.Duration;
 import java.util.Properties;
 
-import com.nju.ics.Datastream.DataFlowBuilder;
 import com.nju.ics.Utils.ConfigureENV;
 import com.nju.ics.Utils.InputTimeStampAssigner;
 import com.nju.ics.Utils.JsonObjectDeserializationSchema;
+import com.nju.ics.Utils.ModelExtractor;
 
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
@@ -71,7 +71,7 @@ public class StreamingJob {
 		StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 		ConfigureENV.configureEnvironment(params, env);
 
-		DataFlowBuilder.generateDataStream(env, params);
+		ModelExtractor.generateDataStream(env, params);
 		// execute program
 		env.execute("highway data analyse");
 	}

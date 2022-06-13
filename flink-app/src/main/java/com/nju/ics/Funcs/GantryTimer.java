@@ -14,10 +14,10 @@ import java.util.HashSet;
 import java.util.Set;
 import com.alibaba.fastjson.JSON;
 import com.nju.ics.Configs.GantryPosition;
-import com.nju.ics.Fields.AbnormalVehicle;
 import com.nju.ics.Models.GantryRecord;
 import com.nju.ics.Models.GantryRecordSimple;
 import com.nju.ics.Models.TimerRecord;
+import com.nju.ics.RawType.AbnormalVehicle;
 
 import org.apache.flink.api.common.state.ListState;
 import org.apache.flink.api.common.state.ListStateDescriptor;
@@ -73,8 +73,8 @@ public class GantryTimer extends KeyedProcessFunction<String, TimerRecord, Abnor
         // GantryTimer.defaulttime = this.siteTime.get("avg");
         GantryTimer.defaulttime = fiveminutes * 60;
         this.siteTime = new HashMap<>();
-        this.serviceArea = JSON.parseObject(new FileInputStream("/home/lzm/zc/simulate/serviceArea.json"), Map.class);
-        this.gantryid2hex = JSON.parseObject(new FileInputStream("/home/lzm/zc/simulate/gantryid2hex.json"), Map.class);
+        this.serviceArea = JSON.parseObject(new FileInputStream("/hdd/users/lzm/zc/simulate/serviceArea.json"), Map.class);
+        this.gantryid2hex = JSON.parseObject(new FileInputStream("/hdd/users/lzm/zc/simulate/gantryid2hex.json"), Map.class);
     }
 
     @Override
@@ -283,7 +283,6 @@ public class GantryTimer extends KeyedProcessFunction<String, TimerRecord, Abnor
                 TypeInformation.of(new TypeHint<Tuple2<Long, Map<String, AbnormalVehicle>>>() {
                 }));
         checkpointedTimers = context.getOperatorStateStore().getUnionListState(descriptor);
-
         if (context.isRestored()) {
             currenTimers.clear();
             vehicleTimer.clear();

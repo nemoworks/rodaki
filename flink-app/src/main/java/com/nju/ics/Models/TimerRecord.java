@@ -10,7 +10,7 @@ public class TimerRecord {
     @JSONField(name = "ORIGINALFLAG")
     private int ORIGINALFLAG;
     @JSONField(name = "PASSID")
-    /**1:省界入口门架 2:省界出口门架 */
+    /** 1:省界入口门架 2:省界出口门架 */
     private String PASSID;
     @JSONField(name = "PROVINCEBOUND")
     private int PROVINCEBOUND;
@@ -36,6 +36,9 @@ public class TimerRecord {
     // 特情类型
     @JSONField(name = "LANESPINFO")
     private String LANESPINFO;
+    // 频繁兜底
+    @JSONField(name = "ACTUALFEECLASS")
+    private int ACTUALFEECLASS;
 
     public String getVEHICLEID() {
         return VLP + "-" + VLPC;
@@ -43,7 +46,10 @@ public class TimerRecord {
 
     @JSONField(deserialize = false)
     public void setVEHICLEID(String vEHICLEID) {
-        VEHICLEID = vEHICLEID;
+        String[] tmp = vEHICLEID.split("-");
+        this.VLP = tmp[0];
+        this.VLPC = Integer.parseInt(tmp[1]);
+        this.VEHICLEID = vEHICLEID;
     }
 
     @JSONField(serialize = false)
@@ -159,5 +165,14 @@ public class TimerRecord {
     public void setLANESPINFO(String lANESPINFO) {
         LANESPINFO = lANESPINFO;
     }
-    
+
+    public int getACTUALFEECLASS() {
+        return ACTUALFEECLASS;
+    }
+
+    @JSONField(deserializeUsing = IntDeserializer.class)
+    public void setACTUALFEECLASS(int aCTUALFEECLASS) {
+        ACTUALFEECLASS = aCTUALFEECLASS;
+    }
+
 }

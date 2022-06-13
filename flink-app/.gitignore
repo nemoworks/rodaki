@@ -7,3 +7,6 @@ dependency-reduced-pom.xml
 test/
 Cassandra.sql
 docker-compose.yaml
+rabbitmq-data
+src/main/java/com/nju/ics/Dummy
+.idea

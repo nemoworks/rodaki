@@ -21,10 +21,10 @@ package com.nju.ics;
 import java.util.Properties;
 
 import com.alibaba.fastjson.JSONObject;
-import com.nju.ics.Datastream.AutoDataFlowBuilder;
-import com.nju.ics.Datastream.DataFlowBuilder;
-import com.nju.ics.Sql.SqlStreamBuilder;
+import com.nju.ics.StreamJobsLocal.SqlStreamJob;
 import com.nju.ics.Utils.ConfigureENV;
+import com.nju.ics.Utils.ModelExtractor;
+import com.nju.ics.Utils.ModelExtractor2;
 
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
@@ -79,7 +79,7 @@ public class StreamingJobLocal {
 		// env.getConfig().registerTypeWithKryoSerializer(JSONObject.class,TypeSerializer.class);
 		ConfigureENV.configureEnvironment(params, env);
 
-		DataFlowBuilder.generateDataStream(env, params);
+		ModelExtractor.generateDataStream(env, params);
 		//AutoDataFlowBuilder.generateDataStream(env, params);
 		// SqlStreamBuilder.generateDataStream(env, params);
 		// execute program
