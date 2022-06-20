@@ -51,9 +51,9 @@ public class SqlStreamJob {
                 StreamTableEnvironment tenv = StreamTableEnvironment.create(env);
 
                 // 输入文件路径
-                String gantrycsv = "/hdd/data/1101/gantrywaste_fix.csv";
-                String entrycsv = "/hdd/data/1101/enwaste.csv";
-                String exitcsv = "/hdd/data/1101/exitwaste.csv";
+                String gantrycsv = "/home/mj/data/1101/gantrywaste_fix.csv";
+                String entrycsv = "/home/mj/data/1101/enwaste.csv";
+                String exitcsv = "/home/mj/data/1101/exitwaste.csv";
                 // 使用 RowCsvInputFormat 把每一行记录解析为一个 Row
                 FixedRowCSV csvGantryInput = new FixedRowCSV(
                                 (Path) new Path(gantrycsv), // 文件路径

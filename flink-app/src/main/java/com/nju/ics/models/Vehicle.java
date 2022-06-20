@@ -1,7 +1,7 @@
 package com.nju.ics.models;
 
 import com.nju.ics.annotation.IotDBAnnotion.sinkIotDB;
-import com.nju.ics.fastJsonutils.IntDeserializer;
+import com.nju.ics.fastjsonutils.IntDeserializer;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.parser.Feature;
 

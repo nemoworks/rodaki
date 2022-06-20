@@ -2,7 +2,7 @@ package com.nju.ics.models;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.nju.ics.configs.StationPosition;
-import com.nju.ics.fastJsonutils.IntDeserializer;
+import com.nju.ics.fastjsonutils.IntDeserializer;
 import com.nju.ics.utils.DataSourceJudge;
 
 public class ENStationRecord extends AbstractModel {

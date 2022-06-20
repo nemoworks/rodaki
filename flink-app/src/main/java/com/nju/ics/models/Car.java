@@ -3,7 +3,7 @@ package com.nju.ics.models;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.datastax.driver.mapping.annotations.Field;
 import com.datastax.driver.mapping.annotations.UDT;
-import com.nju.ics.fastJsonutils.IntDeserializer;
+import com.nju.ics.fastjsonutils.IntDeserializer;
 
 @UDT(keyspace = "test", name = "Car")
 public class Car extends AbstractModel {

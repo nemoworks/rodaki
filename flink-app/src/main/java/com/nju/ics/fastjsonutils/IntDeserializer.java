@@ -1,4 +1,4 @@
-package com.nju.ics.fastJsonutils;
+package com.nju.ics.fastjsonutils;
 
 import java.lang.reflect.Type;
 

@@ -1,45 +1,31 @@
 package com.nju.ics.streamjobslocal;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.nju.ics.connectors.RabbitMQDataSink;
-import com.nju.ics.funcs.GantryTimer;
-import com.nju.ics.funcs.MultiPassid;
-import com.nju.ics.funcs.Row2JSONObject;
-import com.nju.ics.models.GantryRecordSimple;
-import com.nju.ics.models.TimerRecord;
-import com.nju.ics.rawtype.AbnormalVehicle;
-import com.nju.ics.rawtype.MultiPassIdVehicle;
-import com.nju.ics.utils.ConfigureENV;
-import com.nju.ics.utils.DataSourceJudge;
-import com.nju.ics.utils.GetColInfo;
-
-import org.apache.flink.core.fs.Path;
 import org.apache.flink.api.common.eventtime.SerializableTimestampAssigner;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
-import org.apache.flink.api.common.functions.MapFunction;
-import org.apache.flink.api.common.functions.RichFilterFunction;
-import org.apache.flink.api.common.functions.RichMapFunction;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.common.typeinfo.Types;
 import org.apache.flink.api.java.io.RowCsvInputFormat;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.configuration.Configuration;
+import org.apache.flink.core.fs.Path;
 import org.apache.flink.streaming.api.datastream.DataStream;
-import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
 import org.apache.flink.streaming.api.functions.ProcessFunction;
 import org.apache.flink.types.Row;
 import org.apache.flink.util.Collector;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.nju.ics.connectors.RabbitMQDataSink;
+import com.nju.ics.funcs.GantryTimer;
+import com.nju.ics.funcs.Row2JSONObject;
+import com.nju.ics.models.TimerRecord;
+import com.nju.ics.rawtype.AbnormalVehicle;
+import com.nju.ics.utils.ConfigureENV;
+import com.nju.ics.utils.DataSourceJudge;
 
 public class GantryTimerTest {
         public static void main(String[] args) throws Exception {
@@ -52,7 +38,7 @@ public class GantryTimerTest {
                 StreamExecutionEnvironment env = StreamExecutionEnvironment.createLocalEnvironmentWithWebUI(conf);
                 ConfigureENV.configureEnvironment(params, env);
                 // 输入文件路径
-                String gantrycsv = "/hdd/data/1101/1101_sort.csv";
+                String gantrycsv = "/home/mj/data/1101/1101_sort.csv";
                 // 使用 RowCsvInputFormat 把每一行记录解析为一个 Row
                 RowCsvInputFormat csvGantryInput = new RowCsvInputFormat(
                                 new Path(gantrycsv), // 文件路径

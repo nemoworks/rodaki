@@ -21,10 +21,10 @@ package com.nju.ics;
 import java.util.Properties;
 
 import com.alibaba.fastjson.JSONObject;
-import com.nju.ics.StreamJobsLocal.SqlStreamJob;
-import com.nju.ics.Utils.ConfigureENV;
-import com.nju.ics.Utils.ModelExtractor;
-import com.nju.ics.Utils.ModelExtractor2;
+import com.nju.ics.streamjobslocal.SqlStreamJob;
+import com.nju.ics.utils.ConfigureENV;
+import com.nju.ics.utils.ModelExtractor;
+import com.nju.ics.utils.ModelExtractor2;
 
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.common.typeinfo.TypeInformation;

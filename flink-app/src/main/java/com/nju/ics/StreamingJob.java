@@ -21,11 +21,6 @@ package com.nju.ics;
 import java.time.Duration;
 import java.util.Properties;
 
-import com.nju.ics.Utils.ConfigureENV;
-import com.nju.ics.Utils.InputTimeStampAssigner;
-import com.nju.ics.Utils.JsonObjectDeserializationSchema;
-import com.nju.ics.Utils.ModelExtractor;
-
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.java.utils.ParameterTool;
@@ -38,6 +33,11 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
+
+import com.nju.ics.utils.ConfigureENV;
+import com.nju.ics.utils.InputTimeStampAssigner;
+import com.nju.ics.utils.JsonObjectDeserializationSchema;
+import com.nju.ics.utils.ModelExtractor;
 
 /**
  * Skeleton for a Flink Streaming Job.

@@ -2,24 +2,24 @@
 目前，项目工程的结构如下所示：
 ```bash
 ./src/main/java/com/nju/ics/
-├── AbnormalSituation   //各种异常情况监测的datastream
-├── Annotation          //注解
-├── Configs             //静态数据文件解析，例如站点数据、门架数据
-├── Connectors          //各种外部系统的sink算子
-├── DBs                 //一些数据库的连接参数
-├── FastJsonUtils       //fastjson的序列化反序列化
-├── RawType             //一些不重要的数据类型              
-├── Funcs               //各种算子以及算子使用的process处理函数
-├── Mappers             //mapstruct工具的mapper
-├── ModelExtractors     //model的提取器
-├── Models              //建模的model         
-├── Snapshots           //snapshot模型
-├── StreamingJob.java   //remote模式的任务
-├── StreamingJobLocal.java  //local模式的任务
-├── StreamJobsLocal          // 一些本地执行下的任务，包括使用CEP监测异常、model提取等各种任务
-├── StreamJobsRemote          // 一些远程提交的任务
-├── Utils               //各种工具类
-└── Watermark           //生成watermark的操作
+├── abnormalsituation   //各种异常情况监测的datastream
+├── annotation          //注解
+├── configs             //静态数据文件解析，例如站点数据、门架数据
+├── connectors          //各种外部系统的sink算子
+├── dbs                 //一些数据库的连接参数
+├── fastjsonutils       //fastjson的序列化反序列化
+├── rawtype             //一些不重要的数据类型              
+├── funcs               //各种算子以及算子使用的process处理函数
+├── mappers             //mapstruct工具的mapper
+├── modelextractors     //model的提取器
+├── models              //建模的model         
+├── snapshots           //snapshot模型
+├── streamingjob.java   //remote模式的任务
+├── streamingjoblocal.java  //local模式的任务
+├── streamjobslocal          // 一些本地执行下的任务，包括使用CEP监测异常、model提取等各种任务
+├── streamjobsremote          // 一些远程提交的任务
+├── utils               //各种工具类
+└── watermark           //生成watermark的操作
 ```
 # 运行
 ## 本地测试运行

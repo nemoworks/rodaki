@@ -1,7 +1,7 @@
 package com.nju.ics.models;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.nju.ics.fastJsonutils.IntDeserializer;
+import com.nju.ics.fastjsonutils.IntDeserializer;
 
 public class Plate extends AbstractModel {
     /**入口：车牌颜色  出口： 出口实际车牌颜色 门架：计费车牌颜色*/

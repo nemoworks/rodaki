@@ -72,7 +72,7 @@ import org.apache.flink.api.java.io.RowCsvInputFormat;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.commons.beanutils.BeanUtils;
 
-public class autodataflowbuilder {
+public class AutoDataflowBuilder {
 	public static void generateDataStream(StreamExecutionEnvironment env, ParameterTool params) {
 
 		// Map<String, Tuple3<String,Boolean, Boolean>> extrctors =

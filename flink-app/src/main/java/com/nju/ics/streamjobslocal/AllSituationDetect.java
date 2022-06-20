@@ -44,7 +44,7 @@ public class AllSituationDetect {
         env.setRuntimeMode(RuntimeExecutionMode.STREAMING);
         ConfigureENV.configureEnvironment(params, env);
         // 输入文件路径
-        String gantrycsv = "/hdd/data/1101/1101_sort_new.csv";
+        String gantrycsv = "/home/mj/data/1101/1101_sort_new.csv";
         // 使用 RowCsvInputFormat 把每一行记录解析为一个 Row
         RowCsvInputFormat csvGantryInput = new RowCsvInputFormat(
                 new Path(gantrycsv), // 文件路径

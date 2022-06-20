@@ -2,7 +2,7 @@ package com.nju.ics.models;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.nju.ics.configs.GantryPosition;
-import com.nju.ics.fastJsonutils.IntDeserializer;
+import com.nju.ics.fastjsonutils.IntDeserializer;
 
 public class GantryRecordSimple extends AbstractModel {
     @JSONField(name = "TRANSTIME")

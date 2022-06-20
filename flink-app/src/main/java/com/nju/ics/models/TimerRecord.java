@@ -1,7 +1,7 @@
 package com.nju.ics.models;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.nju.ics.fastJsonutils.IntDeserializer;
+import com.nju.ics.fastjsonutils.IntDeserializer;
 
 public class TimerRecord {
     @JSONField(name = "FLOWTYPE")
