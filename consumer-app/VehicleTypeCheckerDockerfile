@@ -1,7 +1,0 @@
-FROM adoptopenjdk/openjdk11:debian
-MAINTAINER cz
-
-ADD ./target/vehicletypechecker-jar-with-dependencies.jar vehicletypechecker.jar
-
-
-

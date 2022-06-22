@@ -1,7 +1,0 @@
-FROM adoptopenjdk/openjdk11:debian
-MAINTAINER cz
-
-ADD ./target/consumer-jar-with-dependencies.jar consumer.jar
-
-
-
