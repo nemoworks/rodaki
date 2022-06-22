@@ -6,7 +6,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.nju.ics.rawtype.StationPositionMsg;
+import com.nju.ics.fields.StationPositionMsg;
 
 import java.io.InputStream;
 import java.io.FileNotFoundException;

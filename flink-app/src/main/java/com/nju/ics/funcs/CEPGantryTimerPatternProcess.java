@@ -8,7 +8,7 @@ import com.nju.ics.mappers.TimeoutEventMapper;
 import com.nju.ics.models.HeartBeatAndRecord;
 import com.nju.ics.models.TimeoutEvent;
 import com.nju.ics.models.TimerRecord;
-import com.nju.ics.rawtype.AbnormalVehicle;
+import com.nju.ics.fields.AbnormalVehicle;
 
 import org.apache.flink.cep.functions.PatternProcessFunction;
 import org.apache.flink.cep.functions.TimedOutPartialMatchHandler;

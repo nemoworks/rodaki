@@ -18,7 +18,7 @@ import com.nju.ics.funcs.Row2JSONObject;
 import com.nju.ics.models.HeartBeatAndRecord;
 import com.nju.ics.models.TimeoutEvent;
 import com.nju.ics.models.TimerRecord;
-import com.nju.ics.rawtype.AbnormalVehicle;
+import com.nju.ics.fields.AbnormalVehicle;
 import com.nju.ics.snapshots.CarSnapshot;
 import com.nju.ics.utils.ConfigureENV;
 import com.nju.ics.utils.DataSourceJudge;

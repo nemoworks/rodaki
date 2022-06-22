@@ -1,7 +1,7 @@
 package com.nju.ics.funcs;
 
 import com.nju.ics.models.TimerRecord;
-import com.nju.ics.rawtype.MultiPassIdVehicle;
+import com.nju.ics.fields.MultiPassIdVehicle;
 
 import org.apache.flink.api.common.state.StateTtlConfig;
 import org.apache.flink.api.common.state.ValueState;

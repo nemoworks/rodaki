@@ -23,7 +23,7 @@ import com.nju.ics.connectors.RabbitMQDataSink;
 import com.nju.ics.funcs.GantryTimer;
 import com.nju.ics.funcs.Row2JSONObject;
 import com.nju.ics.models.TimerRecord;
-import com.nju.ics.rawtype.AbnormalVehicle;
+import com.nju.ics.fields.AbnormalVehicle;
 import com.nju.ics.utils.ConfigureENV;
 import com.nju.ics.utils.DataSourceJudge;
 
@@ -80,7 +80,7 @@ public class GantryTimerTest {
 
                                 });
                 DataStream<AbnormalVehicle> abnormalVehicle = gantryRecordSimple.keyBy(x -> "default")
-                                .process(new GantryTimer("/hdd/users/lzm/zc/simulate/gantrytime_site.json"));
+                                .process(new GantryTimer("/home/mj/data/simulate/gantrytime_site.json"));
 
                 abnormalVehicle.addSink(RabbitMQDataSink.generateRMQSink("AbnormalVehicle"))
                                 .name(String.format("RMQ:%s", "AbnormalVehicle"));

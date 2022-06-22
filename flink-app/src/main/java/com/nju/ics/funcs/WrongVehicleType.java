@@ -2,7 +2,7 @@ package com.nju.ics.funcs;
 
 import com.nju.ics.models.ExitPaymentRecord;
 import com.nju.ics.models.TimerRecord;
-import com.nju.ics.rawtype.AbnormalVehicle;
+import com.nju.ics.fields.AbnormalVehicle;
 
 import org.apache.flink.api.common.state.MapState;
 import org.apache.flink.api.common.state.MapStateDescriptor;

@@ -29,7 +29,7 @@ import com.nju.ics.funcs.VehicleWindowsTrigger;
 import com.nju.ics.funcs.WrongVehicleType;
 import com.nju.ics.modelextractors.*;
 import com.nju.ics.models.*;
-import com.nju.ics.rawtype.AbnormalVehicle;
+import com.nju.ics.fields.AbnormalVehicle;
 
 import org.apache.flink.api.java.tuple.Tuple3;
 import org.apache.flink.api.java.utils.ParameterTool;

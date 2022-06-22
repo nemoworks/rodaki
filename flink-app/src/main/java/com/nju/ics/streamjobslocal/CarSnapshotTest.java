@@ -102,7 +102,7 @@ public class CarSnapshotTest {
                                         }
 
                                 });
-                hadoopResult.sinkTo(HadoopFS.generateHadoopSink("/hdd/data/hadooptest"));
+                hadoopResult.sinkTo(HadoopFS.generateHadoopSink("/home/mj/data/hadooptest"));
                 // CassandraSink.addSink(carSnapshot)
                 // .setHost("127.0.0.1", 17000)
                 // .setMapperOptions(() -> new Mapper.Option[] {

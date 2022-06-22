@@ -20,7 +20,7 @@ import com.nju.ics.models.ExitVehicleInfo;
 import com.nju.ics.models.GantryInfo;
 import com.nju.ics.models.GantryRecord;
 import com.nju.ics.models.GantryVehicleRecord;
-import com.nju.ics.rawtype.TrafficTransactionPASSEDSITES;
+import com.nju.ics.fields.TrafficTransactionPASSEDSITES;
 import com.nju.ics.utils.ConfigureENV;
 import com.nju.ics.utils.DataSourceJudge;
 import com.nju.ics.utils.GetColInfo;
