@@ -1,19 +1,10 @@
 package com.nju.ics.utils;
 
 import java.io.Serializable;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
-import com.nju.ics.funcs.UniversalDataStreamOpsFieldChange;
-import com.nju.ics.models.FrequentLeastFeeEvent;
-import com.nju.ics.models.TimerRecord;
-
 import org.apache.flink.api.common.functions.FilterFunction;
-import org.apache.flink.api.common.state.ValueState;
-import org.apache.flink.api.common.state.ValueStateDescriptor;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.java.functions.KeySelector;
 import org.apache.flink.cep.CEP;
@@ -22,13 +13,12 @@ import org.apache.flink.cep.functions.PatternProcessFunction;
 import org.apache.flink.cep.nfa.aftermatch.AfterMatchSkipStrategy;
 import org.apache.flink.cep.pattern.Pattern;
 import org.apache.flink.cep.pattern.conditions.SimpleCondition;
-import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.datastream.DataStream;
-import org.apache.flink.streaming.api.datastream.KeyedStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
-import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.util.Collector;
+
+import com.nju.ics.funcs.UniversalDataStreamOpsFieldChange;
 
 /**
  * 为DataStream生成一些通用的操作

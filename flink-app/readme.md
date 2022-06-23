@@ -8,7 +8,7 @@
 ├── connectors          //各种外部系统的sink算子
 ├── dbs                 //一些数据库的连接参数
 ├── fastjsonutils       //fastjson的序列化反序列化
-├── rawtype             //一些不重要的数据类型              
+├── fields              //一些不重要的数据类型              
 ├── funcs               //各种算子以及算子使用的process处理函数
 ├── mappers             //mapstruct工具的mapper
 ├── modelextractors     //model的提取器
@@ -30,7 +30,7 @@
 ### 2. 运行main函数
 ### 3. web ui查看任务
     绝大数的local任务访问机器的9000端口即可，少数是9001，具体的可以查看文件里的编码
-## 远程集群运行
+## 远程集群运行（tbd）
 这个一般是用于正式环境，StreamJobsRemote目录下才是可以远程提交的任务。
 ### 1. 修改数据源
 1. 如果任务是以csv文件作为数据源，则需要在相应的文件里修改（目前没有使用命令行传参的方式，且以csv文件作为数据源的代码只有local模式，下面的项目提交部分只有kafka数据源的任务）

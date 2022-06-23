@@ -30,7 +30,10 @@ import org.apache.flink.streaming.api.functions.ProcessFunction;
 import org.apache.flink.util.Collector;
 
 /**
- * 将所有的异常情况监测放在一起
+ * 将所有的异常情况监测放在一起，目前包括以下几类：
+ * 1. 超时情况（更接近有进无出）
+ * 2. 同时在途
+ * 3. 频繁兜底
  */
 public class AllSituationDetect {
     public static void main(String[] args) throws Exception {
@@ -44,10 +47,10 @@ public class AllSituationDetect {
         env.setRuntimeMode(RuntimeExecutionMode.STREAMING);
         ConfigureENV.configureEnvironment(params, env);
         // 输入文件路径
-        String gantrycsv = "/home/mj/data/1101/1101_sort_new.csv";
+        String csvfile = "/home/mj/data/1101/1101_sort_new_head1000000.csv";
         // 使用 RowCsvInputFormat 把每一行记录解析为一个 Row
-        RowCsvInputFormat csvGantryInput = new RowCsvInputFormat(
-                new Path(gantrycsv), // 文件路径
+        RowCsvInputFormat csvRecordInput = new RowCsvInputFormat(
+                new Path(csvfile), // 文件路径
                 new TypeInformation[] { Types.STRING, Types.STRING, Types.STRING, Types.STRING,
                         Types.STRING, Types.STRING, Types.STRING, Types.STRING, Types.STRING,
                         Types.STRING, Types.STRING, Types.STRING, Types.STRING, Types.STRING, Types.STRING }, // 字段类型
@@ -55,9 +58,10 @@ public class AllSituationDetect {
                 ",",
                 new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 },
                 false); // 字段分隔符
-        csvGantryInput.setSkipFirstLineAsHeader(true);
-        csvGantryInput.setLenient(true);
-        DataStream<JSONObject> rawGantry = env.readFile(csvGantryInput, gantrycsv)
+        csvRecordInput.setSkipFirstLineAsHeader(true);
+        csvRecordInput.setLenient(true);
+        // 从文件中创建初始数据流rawRecord
+        DataStream<JSONObject> rawRecord = env.readFile(csvRecordInput, csvfile)
                 .map(new Row2JSONObject(
                         new String[] { "FLOWTYPE", "LANESPINFO", "MEDIATYPE", "ORIGINALFLAG",
                                 "PASSID", "PROVINCEBOUND", "SPECIALTYPE", "STATIONID",
@@ -67,9 +71,9 @@ public class AllSituationDetect {
                 .assignTimestampsAndWatermarks(WatermarkStrategy.<JSONObject>forBoundedOutOfOrderness(
                         Duration.ofSeconds(10)).withIdleness(Duration.ofMinutes(1))
                         .withTimestampAssigner(
-                                new CEPGantryTimerTest.JSONObjectTimestampAssigner()));
+                                new TimestampAssigners.JSONObjectTimestampAssigner()));
 
-        // DataStream<JSONObject> rawGantry = env.fromElements(
+        // DataStream<JSONObject> rawRecord = env.fromElements(
         // JSON.parseObject(
         // "{\"TRANSCODE\":\"\",\"VLPC\":\"1\",\"FLOWTYPE\":\"2\",\"MEDIATYPE\":\"1\",\"STATIONID\":\"G003537001001610150\",\"TIME\":\"1635696000000\",\"ORIGINALFLAG\":\"1\",\"PROVINCEBOUND\":\"0\",\"SPECIALTYPE\":\"\",\"PASSID\":\"014101202423180300098320211031204024\",\"TIMESTRING\":\"2021-11-01
         // 00:00:00\",\"LANESPINFO\":\"\",\"VLP\":\"豫RVR363\",\"VEHICLETYPE\":\"13\"}"),
@@ -84,7 +88,7 @@ public class AllSituationDetect {
         // 09:00:00\",\"LANESPINFO\":\"\",\"VLP\":\"豫RVR363\",\"VEHICLETYPE\":\"13\"}"))
         // .assignTimestampsAndWatermarks(new JSONObjectWatermark());
         //
-        DataStream<TimerRecord> stationRecordSimple = rawGantry
+        DataStream<TimerRecord> recordSimple = rawRecord
                 .process(new ProcessFunction<JSONObject, TimerRecord>() {
 
                     @Override
@@ -95,22 +99,23 @@ public class AllSituationDetect {
                         value.put(DataSourceJudge.timeKey, ctx.timestamp());
                         out.collect(JSON.toJavaObject(value, TimerRecord.class));
                     }
-
                 });
-        stationRecordSimple = stationRecordSimple
+        recordSimple = recordSimple
                 .filter(new FilterFunction<TimerRecord>() {
-
+                    // 对数据做预处理，过滤不考虑的数据
                     @Override
                     public boolean filter(TimerRecord value) throws Exception {
-                        // TODO Auto-generated method stub
+                        // 过滤非货车数据
                         if (!(value.getVEHICLETYPE() >= 11 && value.getVEHICLETYPE() <= 16)) {
                             return false;
                         }
+                        // 过滤两类特情数据
                         if (value.getPROVINCEBOUND() == 1
                                 && (value.getSPECIALTYPE().contains("154") || value
                                         .getSPECIALTYPE().contains("186"))) {
                             return false;
                         }
+                        // 过滤passid=000000的异常数据
                         if (value.getPASSID().startsWith("000000")) {
                             return false;
                         }
@@ -118,15 +123,15 @@ public class AllSituationDetect {
                     }
 
                 });
-        DataStream<TimerRecord> stationRecordFixed = stationRecordSimple.keyBy(x -> "default")
+        DataStream<TimerRecord> recordFixed = recordSimple.keyBy(x -> "default")
                 .process(new FixTimerRecord());
         // 通用过程结束，最后一步为修复记录
         // 1.超时情况
-        TimeoutSituation.generateStream(stationRecordFixed);
+        TimeoutSituation.generateStream(recordFixed);
         // 2.同时在途
-        OverlapPassid.generateStream(stationRecordFixed);
+        OverlapPassid.generateStream(recordFixed);
         // 3.频繁兜底
-        FrequentLeast.generateStream(stationRecordFixed);
+        FrequentLeast.generateStream(recordFixed);
         env.execute();
     }
 

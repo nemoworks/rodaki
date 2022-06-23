@@ -22,7 +22,7 @@ public class FixTimerRecord extends KeyedProcessFunction<String, TimerRecord, Ti
     private MapState<String, String> passid2vehicle;
     MapStateDescriptor<String, String> passid2vehicleMapStateDescriptor = new MapStateDescriptor<String, String>(
             "passid2vehicle", String.class, String.class);
-    private static Set<String> ignoresations = new HashSet<String>() {
+    private static Set<String> ignoresations = new HashSet<String>() {// 忽略5个已知的会经过休息区的情况
         {
             add("G00203700500132013");
             add("G03213700600071003");

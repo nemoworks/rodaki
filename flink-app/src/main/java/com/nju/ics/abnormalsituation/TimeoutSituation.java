@@ -8,8 +8,8 @@ import com.nju.ics.funcs.GenerateHeartBeatProcess;
 import com.nju.ics.models.HeartBeatAndRecord;
 import com.nju.ics.models.TimeoutEvent;
 import com.nju.ics.models.TimerRecord;
+import com.nju.ics.streamjobslocal.TimestampAssigners;
 
-import org.apache.flink.api.common.eventtime.SerializableTimestampAssigner;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.java.functions.KeySelector;
 import org.apache.flink.cep.CEP;
@@ -27,17 +27,17 @@ public class TimeoutSituation {
     /**
      * 使用cep规则来监测超时问题
      * 
-     * @param stationRecordFixed
+     * @param recordFixed
      */
-    public static void generateStream(DataStream<TimerRecord> stationRecordFixed) {
-        DataStream<HeartBeatAndRecord> timeoutEvent = stationRecordFixed.keyBy(x -> x.getVEHICLEID())
+    public static void generateStream(DataStream<TimerRecord> recordFixed) {
+        DataStream<HeartBeatAndRecord> timeoutEvent = recordFixed.keyBy(x -> x.getVEHICLEID())
                 .process(new GenerateHeartBeatProcess());
         // 重新设置元素的时间戳
         timeoutEvent = timeoutEvent.assignTimestampsAndWatermarks(WatermarkStrategy
                 .<HeartBeatAndRecord>forBoundedOutOfOrderness(
                         Duration.ofMinutes(10))
                 .withTimestampAssigner(
-                        new TimeoutSituation.HeartBeatAndRecordTimestampAssigner()))
+                        new TimestampAssigners.HeartBeatAndRecordTimestampAssigner()))
                 .setParallelism(1);
 
         DataStream<HeartBeatAndRecord> timeoutEventKeyby = timeoutEvent
@@ -86,16 +86,6 @@ public class TimeoutSituation {
                 .process(new CEPGantryTimerPatternProcess());
         alerts.addSink(RabbitMQDataSink.generateRMQSink("CEPAbnormalVehiclehb"))
                 .name(String.format("RMQ:%s", "CEPAbnormalVehicle"));
-    }
-
-    static class HeartBeatAndRecordTimestampAssigner implements SerializableTimestampAssigner<HeartBeatAndRecord> {
-
-        @Override
-        public long extractTimestamp(HeartBeatAndRecord element, long recordTimestamp) {
-            // TODO Auto-generated method stub
-            return element.getTimestamp();
-        }
-
     }
     
 }

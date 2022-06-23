@@ -1,6 +1,5 @@
 package com.nju.ics.abnormalsituation;
 
-import org.apache.flink.api.common.eventtime.SerializableTimestampAssigner;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.java.functions.KeySelector;
@@ -20,17 +19,18 @@ import com.nju.ics.connectors.RabbitMQDataSink;
 import com.nju.ics.funcs.CEPOverlapPassidPatternProcess;
 import com.nju.ics.models.OverlapPassidEvent;
 import com.nju.ics.models.TimerRecord;
+import com.nju.ics.streamjobslocal.TimestampAssigners;
 import com.nju.ics.utils.UniversalDataStreamOps;
 
 public class OverlapPassid {
     /**
      * 同时在图：使用cep监测事件
      * 
-     * @param stationRecordFixed:经过修复的timerRecord
+     * @param recordFixed:经过修复的timerRecord
      */
-    public static void generateStream(DataStream<TimerRecord> stationRecordFixed) {
+    public static void generateStream(DataStream<TimerRecord> recordFixed) {
         DataStream<OverlapPassidEvent> overlapevent = new UniversalDataStreamOps.ObserveFieldChangeBuilder<TimerRecord, OverlapPassidEvent>(
-                stationRecordFixed)
+                recordFixed)
                 .outputType(OverlapPassidEvent.class)
                 .changeProcess((pre, cur) -> {
                     return OverlapPassidEvent.buildPassidChangedEvent(pre.getPASSID(), cur.getPASSID(),
@@ -38,15 +38,13 @@ public class OverlapPassid {
                 })
                 .keyby(x -> x.getVEHICLEID())
                 .observeField("passid")
-                .postProcess((pre, cur) -> {
+                .postProcess((pre, cur) -> {// 拿当前记录cur与之前的记录pre进行比较，分情况讨论
                     // System.out.println("after");
                     switch (cur.getFLOWTYPE()) {
                         case 1:
                             // 入站记录
-
                         case 2:
                             // 门架记录
-
                             return OverlapPassidEvent.buildOnEvent(cur.getVEHICLEID(), cur.getTIME());
                         case 3:
                             // 出口记录
@@ -60,7 +58,7 @@ public class OverlapPassid {
                 .<OverlapPassidEvent>forBoundedOutOfOrderness(
                         Duration.ofMinutes(10))
                 .withTimestampAssigner(
-                        new OverlapPassid.OverlapPassidEventTimeassigner()))
+                        new TimestampAssigners.OverlapPassidEventTimeassigner()))
                 .setParallelism(1);
 
         // 使用cep来监测
@@ -78,9 +76,6 @@ public class OverlapPassid {
                 .where(new SimpleCondition<OverlapPassidEvent>() {
                     @Override
                     public boolean filter(OverlapPassidEvent value) throws Exception {
-                        // if (value.getType() == OverlapPassidEvent.on) {
-                        // System.out.println("on");
-                        // }
                         return value.getType() == OverlapPassidEvent.on;
                     }
                 })
@@ -88,11 +83,7 @@ public class OverlapPassid {
                 .where(new SimpleCondition<OverlapPassidEvent>() {
                     @Override
                     public boolean filter(OverlapPassidEvent value) throws Exception {
-                        // if (value.getType() == OverlapPassidEvent.passidChanged) {
-                        // System.out.println(2);
-                        // }
                         return value.getType() == OverlapPassidEvent.passidChanged;
-
                     }
                 });
         // OutputTag<OverlapPassidEvent> timeout = new
@@ -133,17 +124,9 @@ public class OverlapPassid {
         // }
 
         // });
+        
+        // 结果发送至rabbitmq
         alerts.addSink(RabbitMQDataSink.generateRMQSink("CEPOverlapPassid"))
                 .name(String.format("RMQ:%s", "CEPOverlapPassid"));
-    }
-
-    static class OverlapPassidEventTimeassigner implements SerializableTimestampAssigner<OverlapPassidEvent> {
-
-        @Override
-        public long extractTimestamp(OverlapPassidEvent element, long recordTimestamp) {
-            // TODO Auto-generated method stub
-            return element.getTimestamp();
-        }
-
     }
 }

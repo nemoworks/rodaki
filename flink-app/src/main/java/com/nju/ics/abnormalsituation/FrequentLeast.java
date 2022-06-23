@@ -12,10 +12,10 @@ import org.apache.flink.streaming.api.datastream.DataStream;
  * 频繁兜底
  */
 public class FrequentLeast {
-    public static void generateStream(DataStream<TimerRecord> stationRecordFixed) {
-        //使用
+    public static void generateStream(DataStream<TimerRecord> recordFixed) {
+        // 使用
         DataStream<FrequentLeastFeeEvent> alerts = new UniversalDataStreamOps.ObserveFieldFrequentBuilder<TimerRecord, FrequentLeastFeeEvent>(
-                stationRecordFixed)
+                recordFixed)
                 .filter((record) -> {
                     return record.getACTUALFEECLASS() == 6;
                 })
