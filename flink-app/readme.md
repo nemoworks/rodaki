@@ -23,13 +23,13 @@
 ```
 # 运行
 ## 本地测试运行
-在本地IDE下，直接运行StreamJobsLocal文件夹下的各个任务即可
+在本地IDE下，直接运行streamjobslocal文件夹下的 AllSituationDetect.java 的main()即可
 
 ### 1. 修改读取的文件
-当前StreamJobsLocal文件夹下的很多任务是直接将csv文件作为data source读取的，只要在文件的开头修改csv文件路径即可，如果csv的列有改动，还需要修改解析规则
+当前streamjobslocal文件夹下的很多任务是直接将csv文件作为data source读取的，只要在文件的开头修改csv文件路径即可，如果csv的列有改动，还需要修改解析规则
 ### 2. 运行main函数
 ### 3. web ui查看任务
-    绝大数的local任务访问机器的9000端口即可，少数是9001，具体的可以查看文件里的编码
+    绝大数的local任务访问机器的9000端口即可，具体的可以查看文件里的编码
 ## 远程集群运行（tbd）
 这个一般是用于正式环境，StreamJobsRemote目录下才是可以远程提交的任务。
 ### 1. 修改数据源
