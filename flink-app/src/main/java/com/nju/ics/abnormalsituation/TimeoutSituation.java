@@ -77,10 +77,9 @@ public class TimeoutSituation {
                         } else {
                             return false;
                         }
-
                     }
                 })
-                .timesOrMore(5).consecutive();
+                .timesOrMore(5).consecutive();//连续出现5次
         PatternStream<HeartBeatAndRecord> patternStream = CEP.pattern(timeoutEventKeyby, pattern);
         SingleOutputStreamOperator<TimeoutEvent> alerts = patternStream
                 .process(new CEPGantryTimerPatternProcess());

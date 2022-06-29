@@ -1,7 +1,8 @@
 package com.nju.ics.abnormalsituation;
 
+import java.time.Duration;
+
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
-import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.java.functions.KeySelector;
 import org.apache.flink.cep.CEP;
 import org.apache.flink.cep.EventComparator;
@@ -11,9 +12,6 @@ import org.apache.flink.cep.pattern.Pattern;
 import org.apache.flink.cep.pattern.conditions.SimpleCondition;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
-import org.apache.flink.util.OutputTag;
-
-import java.time.Duration;
 
 import com.nju.ics.connectors.RabbitMQDataSink;
 import com.nju.ics.funcs.CEPOverlapPassidPatternProcess;
