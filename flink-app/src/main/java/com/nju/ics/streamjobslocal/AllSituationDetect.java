@@ -1,6 +1,5 @@
 package com.nju.ics.streamjobslocal;
 
-import java.text.SimpleDateFormat;
 import java.time.Duration;
 
 import com.alibaba.fastjson.JSON;
@@ -15,7 +14,6 @@ import com.nju.ics.utils.ConfigureENV;
 import com.nju.ics.utils.DataSourceJudge;
 
 import org.apache.flink.api.common.RuntimeExecutionMode;
-import org.apache.flink.api.common.eventtime.SerializableTimestampAssigner;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
@@ -121,7 +119,6 @@ public class AllSituationDetect {
                         }
                         return true;
                     }
-
                 });
         DataStream<TimerRecord> recordFixed = recordSimple.keyBy(x -> "default")
                 .process(new FixTimerRecord());
@@ -133,25 +130,5 @@ public class AllSituationDetect {
         // 3.频繁兜底
         FrequentLeast.generateStream(recordFixed);
         env.execute();
-    }
-
-    static class JSONObjectTimestampAssigner implements SerializableTimestampAssigner<JSONObject> {
-        SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-        @Override
-        public long extractTimestamp(JSONObject element, long recordTimestamp) {
-            // TODO Auto-generated method stub
-            long timestamp = 0;
-
-            try {
-
-                timestamp = time.parse(element.getString("TIMESTRING")).getTime();
-
-            } catch (Exception e) {
-            }
-
-            return timestamp;
-        }
-
     }
 }

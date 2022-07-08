@@ -1,18 +1,14 @@
 package com.nju.ics.funcs;
 
-import java.time.Duration;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.flink.api.common.state.MapState;
 import org.apache.flink.api.common.state.MapStateDescriptor;
-import org.apache.flink.api.common.state.ValueState;
-import org.apache.flink.api.common.state.ValueStateDescriptor;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
 import org.apache.flink.util.Collector;
 
-import com.nju.ics.models.HeartBeatAndRecord;
 import com.nju.ics.models.TimerRecord;
 
 /**
@@ -48,7 +44,6 @@ public class FixTimerRecord extends KeyedProcessFunction<String, TimerRecord, Ti
         // 如果是省界入口门架或者入口站点记录，认为passid与车牌是对应的，需要记录一下
         if (value.getFLOWTYPE() == 1|| value.getPROVINCEBOUND() == 1) {
             passid2vehicle.put(value.getPASSID(), value.getVEHICLEID());
-
         } else if (value.getORIGINALFLAG() == 2
                 || value.getPROVINCEBOUND() == 2 || value.getFLOWTYPE() == 3) {
             // 在省界出口、虚门架、出口站点矫正一下
@@ -66,7 +61,6 @@ public class FixTimerRecord extends KeyedProcessFunction<String, TimerRecord, Ti
                     timervehicleid = passid2vehicle.get(value.getPASSID());
                 }
             }
-
         }
         // 经过矫正之后仍然不合法
         if (timervehicleid.startsWith("默") || timervehicleid.startsWith("0")) {
@@ -79,5 +73,4 @@ public class FixTimerRecord extends KeyedProcessFunction<String, TimerRecord, Ti
         // 直接向后输出经过矫正后的元素
         out.collect(value);
     }
-
 }
