@@ -1,0 +1,29 @@
+@startuml
+left to right direction
+!include <archimate/Archimate>
+
+skinparam rectangle<<behavior>> {
+	roundCorner 25
+}
+sprite $bProcess jar:archimate/business-process
+sprite $bRole jar:archimate/business-role
+
+sprite $aService jar:archimate/application-service
+sprite $aProcess jar:archimate/application-process
+sprite $aComponent jar:archimate/application-component
+
+rectangle "数据库"  as sqlDB <<$bRole>> #Business
+
+rectangle "门架流水" as gateflow
+rectangle "站点流水" as stationflow
+rectangle "牌识流水" as VLPRflow
+gateflow --> sqlDB
+stationflow --> sqlDB
+VLPRflow -->sqlDB
+
+rectangle "稽核业务"  as audit_logic <<$bProcess>><<behavior>> #Business
+Rel_Access_rw( sqlDB, audit_logic, 批处理)
+
+rectangle "应用" as application <<$aService>> #APPLICATION
+Rel_Access_r( sqlDB, application,)
+@enduml

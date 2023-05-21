@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="200px" preserveAspectRatio="none" style="width:589px;height:200px;background:#FFFFFF;" version="1.1" viewBox="0 0 589 200" width="589px" zoomAndPan="magnify"><defs/><g><!--MD5=[0f3f86dd70a84e3ef8634fa3c3e228b3]
+entity sqlDB--><g id="elem_sqlDB"><rect fill="#FFFFCC" height="54.1201" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="62" x="408" y="73.5"/><image height="16" width="16" x="445" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAARElEQVR4XmNgGHbgH5EYA4Al/v/f+h8XRpaHqUcxAF0DLs1ohpCnGd0QnAqINYAsQ5A1gw3ApghdA5pm3LFBBB4F1AQA5KwdoBiftUUAAAAASUVORK5CYII=" y="83.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="42" x="418" y="114.5439">数据库</text></g><!--MD5=[d23a09412774e4e2eb2e6fe5a98c828f]
+entity gateflow--><g id="elem_gateflow"><rect fill="#F1F1F1" height="39.1201" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="76" x="7" y="7"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="56" x="17" y="33.0439">门架流水</text></g><!--MD5=[1287b62f6820ef759a1660eb3bf9ec13]
+entity stationflow--><g id="elem_stationflow"><rect fill="#F1F1F1" height="39.1201" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="76" x="7" y="81"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="56" x="17" y="107.0439">站点流水</text></g><!--MD5=[b37b35a65fca0e01f588fc2519e3be37]
+entity VLPRflow--><g id="elem_VLPRflow"><rect fill="#F1F1F1" height="39.1201" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="76" x="7" y="155"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="56" x="17" y="181.0439">牌识流水</text></g><!--MD5=[e29745d789d1cd237fb5892a53e7b9d1]
+entity kafka--><g id="elem_kafka"><rect fill="#008000" height="39.1201" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="56" x="144" y="81"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="36" x="154" y="107.0439">Kafka</text></g><!--MD5=[dec3a943e101ce3b37541e3f75daca20]
+entity audit_logic--><g id="elem_audit_logic"><rect fill="#FFFFCC" height="73.2402" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="82" x="261" y="64"/><image height="16" width="16" x="318" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAATUlEQVR4XmNgGCrgH7oAqQBkAEWG/Pv/f+t/EI0uAQMwG3BikAH4DIErIAaD1FNkADZDSDIAXTPYAEIYn2ZiAMFYIARgLiEbUKR5kAMA7zW3iUrbg3kAAAAASUVORK5CYII=" y="74"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="62" x="271" y="105.0439">Flink CEP</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="56" x="274" y="124.1641">稽核业务</text></g><!--MD5=[37c33c71ce9550fe283f62c54b59719b]
+entity application--><g id="elem_application"><rect fill="#C2F0FF" height="54.1201" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="48" x="535" y="73.5"/><image height="16" width="16" x="558" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAL0lEQVR4XmNgGAXI4B+JGAX82/r//39SMLIhJGtGN2QYGECWIcia4YaQiEcBFAAA3exLaNqtLeYAAAAASUVORK5CYII=" y="83.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="28" x="545" y="114.5439">应用</text></g><!--MD5=[8846b87d6838ace86ce66470e99a4d8a]
+link audit_logic to sqlDB--><g id="link_audit_logic_sqlDB"><path d="M343.14,100.5 C362.04,100.5 384.38,100.5 402.63,100.5 " fill="none" id="audit_logic-to-sqlDB" style="stroke:#000000;stroke-width:1.0;stroke-dasharray:1.0,3.0;"/><polygon fill="#000000" points="407.67,100.5,398.67,96.5,402.67,100.5,398.67,104.5,407.67,100.5" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="3" x="374" y="97.252"> </text></g><!--MD5=[3006b0c85cd4cf5fc01530001c4e383d]
+link gateflow to kafka--><g id="link_gateflow_kafka"><path d="M79.17,46.14 C97.84,57.19 121.02,70.91 139.43,81.81 " fill="none" id="gateflow-to-kafka" style="stroke:#000000;stroke-width:1.0;"/><polygon fill="#000000" points="144,84.51,138.309,76.4718,139.7025,81.9543,134.22,83.3478,144,84.51" style="stroke:#000000;stroke-width:1.0;"/></g><!--MD5=[5a761926e85dbd6f1fd2b66951b7a239]
+link stationflow to kafka--><g id="link_stationflow_kafka"><path d="M83.17,100.5 C100.77,100.5 121.61,100.5 138.57,100.5 " fill="none" id="stationflow-to-kafka" style="stroke:#000000;stroke-width:1.0;"/><polygon fill="#000000" points="143.7,100.5,134.7,96.5,138.7,100.5,134.7,104.5,143.7,100.5" style="stroke:#000000;stroke-width:1.0;"/></g><!--MD5=[80f611ff8ff6447f2dbf76fbb8af3a34]
+link VLPRflow to kafka--><g id="link_VLPRflow_kafka"><path d="M79.17,154.86 C97.84,143.81 121.02,130.09 139.43,119.19 " fill="none" id="VLPRflow-to-kafka" style="stroke:#000000;stroke-width:1.0;"/><polygon fill="#000000" points="144,116.49,134.22,117.6522,139.7025,119.0457,138.309,124.5282,144,116.49" style="stroke:#000000;stroke-width:1.0;"/></g><!--MD5=[5c54c7f8aaac29e644513f9196f1c09b]
+link kafka to audit_logic--><g id="link_kafka_audit_logic"><path d="M200.15,100.5 C216.24,100.5 237.06,100.5 255.6,100.5 " fill="none" id="kafka-to-audit_logic" style="stroke:#000000;stroke-width:1.0;"/><polygon fill="#000000" points="260.76,100.5,251.76,96.5,255.76,100.5,251.76,104.5,260.76,100.5" style="stroke:#000000;stroke-width:1.0;"/></g><!--MD5=[e5e448107ad8a6d74c6e9563e78159d7]
+reverse link sqlDB to application--><g id="link_sqlDB_application"><path d="M475.38,100.5 C494.57,100.5 517.76,100.5 534.67,100.5 " fill="none" id="sqlDB-backto-application" style="stroke:#000000;stroke-width:1.0;stroke-dasharray:1.0,3.0;"/><polygon fill="#000000" points="470.08,100.5,479.08,104.5,475.08,100.5,479.08,96.5,470.08,100.5" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="3" x="501" y="97.252"> </text></g><!--MD5=[6829925e13c1eb88cfa5673477464e40]
+@startuml 
+left to right direction
+
+!include <archimate/Archimate>
+
+skinparam rectangle<<behavior>> {
+	roundCorner 25
+}
+sprite $bProcess jar:archimate/business-process
+sprite $bRole jar:archimate/business-role
+
+sprite $aService jar:archimate/application-service
+sprite $aProcess jar:archimate/application-process
+sprite $aComponent jar:archimate/application-component
+
+rectangle "数据库"  as sqlDB <<$bRole>> #Business
+
+rectangle "门架流水" as gateflow
+rectangle "站点流水" as stationflow
+rectangle "牌识流水" as VLPRflow
+
+rectangle "Kafka" as kafka #Green
+
+rectangle "Flink CEP\n稽核业务"  as audit_logic <<$bProcess>><<behavior>> #Business
+Rel_Access_w(audit_logic, sqlDB, )
+
+gateflow - -> kafka
+stationflow - -> kafka
+VLPRflow - -> kafka
+
+kafka - -> audit_logic
+
+rectangle "应用" as application <<$aService>> #APPLICATION
+Rel_Access_r( sqlDB, application,)
+@enduml
+
+@startuml 
+left to right direction
+
+
+
+skinparam defaultTextAlignment center
+skinparam wrapWidth 400
+skinparam maxMessageSize 150
+skinparam StereotypeAlignment right
+
+skinparam Arrow {
+    Color #000000
+    FontColor #000000
+    FontSize 12
+}
+skinparam Folder<<grouping>> {
+    Shadowing true
+    StereotypeFontSize 0
+    FontColor #444444
+    BorderColor #444444
+    BorderStyle dashed
+}
+skinparam Folder<<group>> {
+    Shadowing true
+    StereotypeFontSize 0
+    FontColor #444444
+    BackgroundColor lightgrey
+}
+skinparam rectangle<<boundary>> {
+    Shadowing false
+    StereotypeFontSize 0
+    FontColor #444444
+    BorderColor #444444
+    BorderStyle dashed
+}
+skinparam node {
+  StereotypeAlignment right
+}
+skinparam cloud {
+  StereotypeAlignment right
+}
+skinparam frame {
+  StereotypeAlignment right
+}
+skinparam archimate {
+  StereotypeAlignment right
+  RoundCorner<<strategy-capability>> 25
+  RoundCorner<<strategy-course-of-action>> 25
+  RoundCorner<<strategy-value-stream>> 25
+  RoundCorner<<business-process>> 25
+  RoundCorner<<business-event>> 25
+  RoundCorner<<business-function>> 25
+  RoundCorner<<business-interaction>> 25
+  RoundCorner<<business-event>> 25
+  RoundCorner<<business-service>> 25
+  RoundCorner<<application-function>> 25
+  RoundCorner<<application-interaction>> 25
+  RoundCorner<<application-process>> 25
+  RoundCorner<<application-event>> 25
+  RoundCorner<<application-service>> 25
+  RoundCorner<<technology-function>> 25
+  RoundCorner<<technology-process>> 25
+  RoundCorner<<technology-interaction>> 25
+  RoundCorner<<technology-event>> 25
+  RoundCorner<<technology-infra-service>> 25
+  RoundCorner<<implementation-workpackage>> 25
+  RoundCorner<<implementation-event>> 25
+  DiagonalCorner<<motivation-stakeholder>> 12
+  DiagonalCorner<<motivation-driver>> 12
+  DiagonalCorner<<motivation-assessment>> 12
+  DiagonalCorner<<motivation-goal>> 12
+  DiagonalCorner<<motivation-outcome>> 12
+  DiagonalCorner<<motivation-principle>> 12
+  DiagonalCorner<<motivation-requirement>> 12
+  DiagonalCorner<<motivation-constraint>> 12
+}
+skinparam usecase {
+  BorderColor #000000
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+skinparam rectangle<<behavior>> {
+	roundCorner 25
+}
+sprite $bProcess jar:archimate/business-process
+sprite $bRole jar:archimate/business-role
+
+sprite $aService jar:archimate/application-service
+sprite $aProcess jar:archimate/application-process
+sprite $aComponent jar:archimate/application-component
+
+rectangle "数据库"  as sqlDB <<$bRole>> #Business
+
+rectangle "门架流水" as gateflow
+rectangle "站点流水" as stationflow
+rectangle "牌识流水" as VLPRflow
+
+rectangle "Kafka" as kafka #Green
+
+rectangle "Flink CEP\n稽核业务"  as audit_logic <<$bProcess>><<behavior>> #Business
+audit_logic ~-> sqlDB : ""
+
+gateflow - -> kafka
+stationflow - -> kafka
+VLPRflow - -> kafka
+
+kafka - -> audit_logic
+
+rectangle "应用" as application <<$aService>> #APPLICATION
+sqlDB <-~ application : ""
+@enduml
+
+PlantUML version 1.2022.7(Tue Aug 23 01:01:30 CST 2022)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: GBK
+Language: zh
+Country: CN
+--></g></svg>

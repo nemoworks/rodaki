@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="200px" preserveAspectRatio="none" style="width:494px;height:200px;background:#FFFFFF;" version="1.1" viewBox="0 0 494 200" width="494px" zoomAndPan="magnify"><defs/><g><!--MD5=[0f3f86dd70a84e3ef8634fa3c3e228b3]
+entity sqlDB--><g id="elem_sqlDB"><rect fill="#FFFFCC" height="54.1201" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="62" x="313" y="73.5"/><image height="16" width="16" x="350" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAARElEQVR4XmNgGHbgH5EYA4Al/v/f+h8XRpaHqUcxAF0DLs1ohpCnGd0QnAqINYAsQ5A1gw3ApghdA5pm3LFBBB4F1AQA5KwdoBiftUUAAAAASUVORK5CYII=" y="83.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="42" x="323" y="114.5439">数据库</text></g><!--MD5=[d23a09412774e4e2eb2e6fe5a98c828f]
+entity gateflow--><g id="elem_gateflow"><rect fill="#F1F1F1" height="39.1201" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="76" x="7" y="7"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="56" x="17" y="33.0439">门架流水</text></g><!--MD5=[1287b62f6820ef759a1660eb3bf9ec13]
+entity stationflow--><g id="elem_stationflow"><rect fill="#F1F1F1" height="39.1201" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="76" x="7" y="81"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="56" x="17" y="107.0439">站点流水</text></g><!--MD5=[b37b35a65fca0e01f588fc2519e3be37]
+entity VLPRflow--><g id="elem_VLPRflow"><rect fill="#F1F1F1" height="39.1201" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="76" x="7" y="155"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="56" x="17" y="181.0439">牌识流水</text></g><!--MD5=[dec3a943e101ce3b37541e3f75daca20]
+entity audit_logic--><g id="elem_audit_logic"><rect fill="#FFFFCC" height="54.1201" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="104" x="144" y="73.5"/><image height="16" width="16" x="223" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAATUlEQVR4XmNgGCrgH7oAqQBkAEWG/Pv/f+t/EI0uAQMwG3BikAH4DIErIAaD1FNkADZDSDIAXTPYAEIYn2ZiAMFYIARgLiEbUKR5kAMA7zW3iUrbg3kAAAAASUVORK5CYII=" y="83.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="84" x="154" y="114.5439">CEP稽核业务</text></g><!--MD5=[37c33c71ce9550fe283f62c54b59719b]
+entity application--><g id="elem_application"><rect fill="#C2F0FF" height="54.1201" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="48" x="440" y="73.5"/><image height="16" width="16" x="463" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAL0lEQVR4XmNgGAXI4B+JGAX82/r//39SMLIhJGtGN2QYGECWIcia4YaQiEcBFAAA3exLaNqtLeYAAAAASUVORK5CYII=" y="83.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="28" x="450" y="114.5439">应用</text></g><!--MD5=[8846b87d6838ace86ce66470e99a4d8a]
+link audit_logic to sqlDB--><g id="link_audit_logic_sqlDB"><path d="M248.06,100.5 C267.59,100.5 289.42,100.5 307.22,100.5 " fill="none" id="audit_logic-to-sqlDB" style="stroke:#000000;stroke-width:1.0;stroke-dasharray:1.0,3.0;"/><polygon fill="#000000" points="312.61,100.5,303.61,96.5,307.61,100.5,303.61,104.5,312.61,100.5" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="3" x="279" y="97.252"> </text></g><!--MD5=[ece9e83a9cf58b7bf2b78c3b081d76b3]
+link gateflow to audit_logic--><g id="link_gateflow_audit_logic"><path d="M83.21,44.98 C100.14,53.39 120.53,63.51 139.23,72.8 " fill="none" id="gateflow-to-audit_logic" style="stroke:#000000;stroke-width:1.0;"/><polygon fill="#000000" points="143.94,75.14,137.6403,67.5695,139.4565,72.9268,134.0991,74.7431,143.94,75.14" style="stroke:#000000;stroke-width:1.0;"/></g><!--MD5=[1a96ec2984a6f8ece285b1b3cf6c71eb]
+link stationflow to audit_logic--><g id="link_stationflow_audit_logic"><path d="M83.21,100.5 C100,100.5 120.18,100.5 138.75,100.5 " fill="none" id="stationflow-to-audit_logic" style="stroke:#000000;stroke-width:1.0;"/><polygon fill="#000000" points="143.94,100.5,134.94,96.5,138.94,100.5,134.94,104.5,143.94,100.5" style="stroke:#000000;stroke-width:1.0;"/></g><!--MD5=[062f98790643ae3515dc4f177283a11a]
+link VLPRflow to audit_logic--><g id="link_VLPRflow_audit_logic"><path d="M83.21,156.02 C100.14,147.61 120.53,137.49 139.23,128.2 " fill="none" id="VLPRflow-to-audit_logic" style="stroke:#000000;stroke-width:1.0;"/><polygon fill="#000000" points="143.94,125.86,134.0991,126.2569,139.4565,128.0732,137.6403,133.4305,143.94,125.86" style="stroke:#000000;stroke-width:1.0;"/></g><!--MD5=[e5e448107ad8a6d74c6e9563e78159d7]
+reverse link sqlDB to application--><g id="link_sqlDB_application"><path d="M380.38,100.5 C399.57,100.5 422.76,100.5 439.67,100.5 " fill="none" id="sqlDB-backto-application" style="stroke:#000000;stroke-width:1.0;stroke-dasharray:1.0,3.0;"/><polygon fill="#000000" points="375.08,100.5,384.08,104.5,380.08,100.5,384.08,96.5,375.08,100.5" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="3" x="406" y="97.252"> </text></g><!--MD5=[db9790bd529fbb660c0b32f267505e58]
+@startuml
+
+left to right direction
+!include <archimate/Archimate>
+
+skinparam rectangle<<behavior>> {
+	roundCorner 25
+}
+sprite $bProcess jar:archimate/business-process
+sprite $bRole jar:archimate/business-role
+
+sprite $aService jar:archimate/application-service
+sprite $aProcess jar:archimate/application-process
+sprite $aComponent jar:archimate/application-component
+
+rectangle "数据库"  as sqlDB <<$bRole>> #Business
+
+rectangle "门架流水" as gateflow
+rectangle "站点流水" as stationflow
+rectangle "牌识流水" as VLPRflow
+
+rectangle "CEP稽核业务"  as audit_logic <<$bProcess>><<behavior>> #Business
+Rel_Access_w(audit_logic, sqlDB, )
+
+gateflow - -> audit_logic
+stationflow - -> audit_logic
+VLPRflow - ->audit_logic
+
+rectangle "应用" as application <<$aService>> #APPLICATION
+Rel_Access_r( sqlDB, application,)
+@enduml
+
+@startuml
+
+left to right direction
+
+
+skinparam defaultTextAlignment center
+skinparam wrapWidth 400
+skinparam maxMessageSize 150
+skinparam StereotypeAlignment right
+
+skinparam Arrow {
+    Color #000000
+    FontColor #000000
+    FontSize 12
+}
+skinparam Folder<<grouping>> {
+    Shadowing true
+    StereotypeFontSize 0
+    FontColor #444444
+    BorderColor #444444
+    BorderStyle dashed
+}
+skinparam Folder<<group>> {
+    Shadowing true
+    StereotypeFontSize 0
+    FontColor #444444
+    BackgroundColor lightgrey
+}
+skinparam rectangle<<boundary>> {
+    Shadowing false
+    StereotypeFontSize 0
+    FontColor #444444
+    BorderColor #444444
+    BorderStyle dashed
+}
+skinparam node {
+  StereotypeAlignment right
+}
+skinparam cloud {
+  StereotypeAlignment right
+}
+skinparam frame {
+  StereotypeAlignment right
+}
+skinparam archimate {
+  StereotypeAlignment right
+  RoundCorner<<strategy-capability>> 25
+  RoundCorner<<strategy-course-of-action>> 25
+  RoundCorner<<strategy-value-stream>> 25
+  RoundCorner<<business-process>> 25
+  RoundCorner<<business-event>> 25
+  RoundCorner<<business-function>> 25
+  RoundCorner<<business-interaction>> 25
+  RoundCorner<<business-event>> 25
+  RoundCorner<<business-service>> 25
+  RoundCorner<<application-function>> 25
+  RoundCorner<<application-interaction>> 25
+  RoundCorner<<application-process>> 25
+  RoundCorner<<application-event>> 25
+  RoundCorner<<application-service>> 25
+  RoundCorner<<technology-function>> 25
+  RoundCorner<<technology-process>> 25
+  RoundCorner<<technology-interaction>> 25
+  RoundCorner<<technology-event>> 25
+  RoundCorner<<technology-infra-service>> 25
+  RoundCorner<<implementation-workpackage>> 25
+  RoundCorner<<implementation-event>> 25
+  DiagonalCorner<<motivation-stakeholder>> 12
+  DiagonalCorner<<motivation-driver>> 12
+  DiagonalCorner<<motivation-assessment>> 12
+  DiagonalCorner<<motivation-goal>> 12
+  DiagonalCorner<<motivation-outcome>> 12
+  DiagonalCorner<<motivation-principle>> 12
+  DiagonalCorner<<motivation-requirement>> 12
+  DiagonalCorner<<motivation-constraint>> 12
+}
+skinparam usecase {
+  BorderColor #000000
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+skinparam rectangle<<behavior>> {
+	roundCorner 25
+}
+sprite $bProcess jar:archimate/business-process
+sprite $bRole jar:archimate/business-role
+
+sprite $aService jar:archimate/application-service
+sprite $aProcess jar:archimate/application-process
+sprite $aComponent jar:archimate/application-component
+
+rectangle "数据库"  as sqlDB <<$bRole>> #Business
+
+rectangle "门架流水" as gateflow
+rectangle "站点流水" as stationflow
+rectangle "牌识流水" as VLPRflow
+
+rectangle "CEP稽核业务"  as audit_logic <<$bProcess>><<behavior>> #Business
+audit_logic ~-> sqlDB : ""
+
+gateflow - -> audit_logic
+stationflow - -> audit_logic
+VLPRflow - ->audit_logic
+
+rectangle "应用" as application <<$aService>> #APPLICATION
+sqlDB <-~ application : ""
+@enduml
+
+PlantUML version 1.2022.7(Tue Aug 23 01:01:30 CST 2022)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: GBK
+Language: zh
+Country: CN
+--></g></svg>
