@@ -29,28 +29,28 @@ public class OverlapPassid {
     public static void generateStream(DataStream<TimerRecord> recordFixed) {
         DataStream<OverlapPassidEvent> overlapevent = new UniversalDataStreamOps.ObserveFieldChangeBuilder<TimerRecord, OverlapPassidEvent>(
                 recordFixed)
-                .outputType(OverlapPassidEvent.class)
-                .changeProcess((pre, cur) -> {
-                    return OverlapPassidEvent.buildPassidChangedEvent(pre.getPASSID(), cur.getPASSID(),
-                            cur.getVEHICLEID(), cur.getTIME());
-                })
-                .keyby(x -> x.getVEHICLEID())
-                .observeField("passid")
-                .postProcess((pre, cur) -> {// 拿当前记录cur与之前的记录pre进行比较，分情况讨论
-                    // System.out.println("after");
-                    switch (cur.getFLOWTYPE()) {
-                        case 1:
-                            // 入站记录
-                        case 2:
-                            // 门架记录
-                            return OverlapPassidEvent.buildOnEvent(cur.getVEHICLEID(), cur.getTIME());
-                        case 3:
-                            // 出口记录
-                            return OverlapPassidEvent.buildOffEvent(cur.getVEHICLEID(), cur.getTIME());
-                    }
-                    return null;
-                })
-                .build();
+                        .outputType(OverlapPassidEvent.class)
+                        .changeProcess((pre, cur) -> {
+                            return OverlapPassidEvent.buildPassidChangedEvent(pre.getPASSID(), cur.getPASSID(),
+                                    cur.getVEHICLEID(), cur.getTIME());
+                        })
+                        .keyby(x -> x.getVEHICLEID())
+                        .observeField("passid")
+                        .postProcess((pre, cur) -> {// 拿当前记录cur与之前的记录pre进行比较，分情况讨论
+                            // System.out.println("after");
+                            switch (cur.getFLOWTYPE()) {
+                                case 1:
+                                    // 入站记录
+                                case 2:
+                                    // 门架记录
+                                    return OverlapPassidEvent.buildOnEvent(cur.getVEHICLEID(), cur.getTIME());
+                                case 3:
+                                    // 出口记录
+                                    return OverlapPassidEvent.buildOffEvent(cur.getVEHICLEID(), cur.getTIME());
+                            }
+                            return null;
+                        })
+                        .build();
         // 重新设置元素的时间戳
         overlapevent = overlapevent.assignTimestampsAndWatermarks(WatermarkStrategy
                 .<OverlapPassidEvent>forBoundedOutOfOrderness(
@@ -122,7 +122,7 @@ public class OverlapPassid {
         // }
 
         // });
-        
+
         // 结果发送至rabbitmq
         alerts.addSink(RabbitMQDataSink.generateRMQSink("CEPOverlapPassid"))
                 .name(String.format("RMQ:%s", "CEPOverlapPassid"));

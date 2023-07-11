@@ -61,7 +61,7 @@ public class GantryTimerTest {
                                                 Types.STRING, Types.STRING }, // 字段类型
                                 "\n", // 行分隔符
                                 ",",
-                                new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+                                new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 },
                                 false); // 字段分隔符
                 csvGantryInput.setSkipFirstLineAsHeader(true);
                 csvGantryInput.setLenient(true);

@@ -36,14 +36,15 @@ public class MergeLoginEventTest {
 
                 PatternStream<LoginEvent> patternStream = CEP.pattern(input, pattern)
                                 .inProcessingTime();
-                                
-                //针对用pattern1的方式的处理函数
-                // DataStream<List<LoginEvent>> result = patternStream.process(new MyPatternProcessFunction1())
-                                // .setParallelism(1);
-                
-                //针对用pattern2的方式的处理函数
+
+                // 针对用pattern1的方式的处理函数
+                // DataStream<List<LoginEvent>> result = patternStream.process(new
+                // MyPatternProcessFunction1())
+                // .setParallelism(1);
+
+                // 针对用pattern2的方式的处理函数
                 DataStream<List<LoginEvent>> result = patternStream.process(new MyPatternProcessFunction2())
-                .setParallelism(1);
+                                .setParallelism(1);
 
                 result.print();
 
@@ -154,11 +155,11 @@ public class MergeLoginEventTest {
                 return pattern;
         }
 
-
         public static Pattern<LoginEvent, ?> getPattern2() {
-                //pattern设计，匹配所有连续出现的车牌相同、hex相同的LoginEvent序列（不区分类型），这里采用skipToLast策略
-                //pattern2只有当同一个车牌经过不同门架的时间间隔确保比较长（超过同一个门架的所有流水、牌识流水之间的时间间隔时才有效）
-                Pattern<LoginEvent, ?> pattern = Pattern.<LoginEvent>begin("start", AfterMatchSkipStrategy.skipToLast("end"))
+                // pattern设计，匹配所有连续出现的车牌相同、hex相同的LoginEvent序列（不区分类型），这里采用skipToLast策略
+                // pattern2只有当同一个车牌经过不同门架的时间间隔确保比较长（超过同一个门架的所有流水、牌识流水之间的时间间隔时才有效）
+                Pattern<LoginEvent, ?> pattern = Pattern
+                                .<LoginEvent>begin("start", AfterMatchSkipStrategy.skipToLast("end"))
                                 .where(
                                                 new SimpleCondition<LoginEvent>() {
                                                         @Override
@@ -194,8 +195,9 @@ public class MergeLoginEventTest {
                                                                 throw new UnsupportedOperationException(
                                                                                 "Unimplemented method 'filter'");
                                                         }
-                                                }).oneOrMore().greedy()
-                                .followedBy("end").where(//hex不同时终止，最后一个LoginEvent是下一个开始的记录
+                                                })
+                                .oneOrMore().greedy()
+                                .followedBy("end").where(// hex不同时终止，最后一个LoginEvent是下一个开始的记录
                                                 new SimpleCondition<LoginEvent>() {
                                                         @Override
                                                         public boolean filter(LoginEvent event, Context ctx) {
@@ -231,7 +233,8 @@ public class MergeLoginEventTest {
 
 class MyPatternProcessFunction1 extends PatternProcessFunction<LoginEvent, List<LoginEvent>>
                 implements TimedOutPartialMatchHandler<LoginEvent> {
-        OutputTag<LoginEvent> outputTag=new OutputTag<LoginEvent>("side-output"){};
+        OutputTag<LoginEvent> outputTag = new OutputTag<LoginEvent>("side-output") {
+        };
 
         @Override
         public void processMatch(Map<String, List<LoginEvent>> pattern,
@@ -270,7 +273,8 @@ class MyPatternProcessFunction1 extends PatternProcessFunction<LoginEvent, List<
 
 class MyPatternProcessFunction2 extends PatternProcessFunction<LoginEvent, List<LoginEvent>>
                 implements TimedOutPartialMatchHandler<LoginEvent> {
-        OutputTag<LoginEvent> outputTag=new OutputTag<LoginEvent>("side-output"){};
+        OutputTag<LoginEvent> outputTag = new OutputTag<LoginEvent>("side-output") {
+        };
 
         @Override
         public void processMatch(Map<String, List<LoginEvent>> pattern,
@@ -278,7 +282,7 @@ class MyPatternProcessFunction2 extends PatternProcessFunction<LoginEvent, List<
                         Collector<List<LoginEvent>> out) throws Exception {
 
                 List<LoginEvent> start = pattern.get("start");
-                
+
                 List<LoginEvent> middle = pattern.get("middle");
                 List<LoginEvent> end = pattern.get("end");
 
@@ -287,7 +291,7 @@ class MyPatternProcessFunction2 extends PatternProcessFunction<LoginEvent, List<
                         results.addAll(start);
                 if (middle != null)
                         results.addAll(middle);
-                //end 此处是和start，middle不同的hex，应记为下一个记录。
+                // end 此处是和start，middle不同的hex，应记为下一个记录。
 
                 // 对于所有被pattern匹配成功的LoginEvent，将其matched设为true
                 for (LoginEvent event : results) {
@@ -304,15 +308,15 @@ class MyPatternProcessFunction2 extends PatternProcessFunction<LoginEvent, List<
         public void processTimedOutMatch(Map<String, List<LoginEvent>> pattern, Context ctx) throws Exception {
 
                 List<LoginEvent> start = pattern.get("start");
-                LoginEvent startEvent=start.get(0);
+                LoginEvent startEvent = start.get(0);
                 List<LoginEvent> middle = pattern.get("middle");
                 List<LoginEvent> end = pattern.get("end");
-                if(middle!=null&&middle.size()>0){//此时实际上，start和middle是匹配的
+                if (middle != null && middle.size() > 0) {// 此时实际上，start和middle是匹配的
                         startEvent.setMatched(true);
-                        for(LoginEvent event : middle){
+                        for (LoginEvent event : middle) {
                                 event.setMatched(true);
                         }
-                }else{//此时middle为空，不存在与start匹配
+                } else {// 此时middle为空，不存在与start匹配
                         // 对于没有被pettern匹配超时的，其只包含一个LoginEvent，若其matched=false，则表示该LoginEvent不存在任何匹配的其他LoginEvent，可以通过SideStream额外处理
                         if (!startEvent.isMatched()) {
                                 System.out.println("Notmatch: " + startEvent);
@@ -323,7 +327,7 @@ class MyPatternProcessFunction2 extends PatternProcessFunction<LoginEvent, List<
                 System.out.println("start:" + start);
                 System.out.println("middle:" + middle);
                 System.out.println("end:" + end);
-                
+
         }
 }
 

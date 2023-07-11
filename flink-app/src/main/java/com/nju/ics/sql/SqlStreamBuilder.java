@@ -27,24 +27,15 @@ import com.nju.ics.utils.GetColInfo;
 
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.functions.RichMapFunction;
-import org.apache.flink.api.java.io.RowCsvInputFormat;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.core.fs.Path;
-import org.apache.flink.shaded.jackson2.org.yaml.snakeyaml.events.StreamStartEvent;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.util.OutputTag;
 import org.apache.flink.table.api.DataTypes;
-import org.apache.flink.table.api.Schema;
-import org.apache.flink.table.api.Table;
-import org.apache.flink.table.api.TableDescriptor;
-import org.apache.flink.table.api.TableResult;
 import org.apache.flink.table.api.bridge.java.StreamStatementSet;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
-import org.apache.flink.table.types.UnresolvedDataType;
-
-import static org.apache.flink.table.api.Expressions.*;
 
 public class SqlStreamBuilder {
         public static void generateDataStream(StreamExecutionEnvironment env, ParameterTool params) {
@@ -274,7 +265,7 @@ public class SqlStreamBuilder {
                 String ExitPaymentRecordT = tenv.fromDataStream(ExitPaymentRecordStream).toString();
                 String ExitInvoiceRecordT = tenv.fromDataStream(ExitInvoiceRecordStream).toString();
                 String ExitVehicleInfoT = tenv.fromDataStream(ExitVehicleInfoStream).toString();
-               
+
                 String PASSEDSITES = DataTypes.of(TrafficTransactionPASSEDSITES.class).toString();
                 System.out.println(PASSEDSITES);
                 tenv.executeSql("CREATE TABLE TrafficTransaction"
@@ -288,7 +279,8 @@ public class SqlStreamBuilder {
                                 + "ENWEIGHT INT,"
                                 + "EXIDENTIFY STRING,"
                                 + "EXWEIGHT INT,"
-                                + String.format("PASSEDSITES ARRAY<ROW<PASSID STRING,SITEID STRING,TIME2 INT>>,", PASSEDSITES)
+                                + String.format("PASSEDSITES ARRAY<ROW<PASSID STRING,SITEID STRING,TIME2 INT>>,",
+                                                PASSEDSITES)
                                 + "SPECIALTYPE STRING"
                                 + ")"
                                 + "WITH ("
@@ -309,7 +301,7 @@ public class SqlStreamBuilder {
                                                 + " ON " + " t1.PASSID=t2.PASSID "
 
                                                 + "");
-                //statement.addInsert("TrafficTransaction", TrafficTransactionT);
+                // statement.addInsert("TrafficTransaction", TrafficTransactionT);
                 statement.execute();
 
         }
