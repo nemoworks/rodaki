@@ -42,91 +42,91 @@ import org.apache.flink.types.Row;
 import org.apache.flink.util.Collector;
 
 public class GantryTimerTest {
-        public static void main(String[] args) throws Exception {
-                // set up the streaming execution environment
-                final ParameterTool params = ParameterTool.fromArgs(args);
+  public static void main(String[] args) throws Exception {
+    // set up the streaming execution environment
+    final ParameterTool params = ParameterTool.fromArgs(args);
 
-                Configuration conf = new Configuration();
-                ConfigureENV.initConfiguration("/applicationdebug.properties");
-                conf.setInteger("rest.port", 9000);
-                StreamExecutionEnvironment env = StreamExecutionEnvironment.createLocalEnvironmentWithWebUI(conf);
-                ConfigureENV.configureEnvironment(params, env);
-                // 输入文件路径
-                String gantrycsv = "/hdd/data/1101/1101_sort.csv";
-                // 使用 RowCsvInputFormat 把每一行记录解析为一个 Row
-                RowCsvInputFormat csvGantryInput = new RowCsvInputFormat(
-                                new Path(gantrycsv), // 文件路径
-                                new TypeInformation[] { Types.STRING, Types.STRING, Types.STRING, Types.STRING,
-                                                Types.STRING, Types.STRING, Types.STRING, Types.STRING, Types.STRING,
-                                                Types.STRING, Types.STRING }, // 字段类型
-                                "\n", // 行分隔符
-                                ",",
-                                new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 },
-                                false); // 字段分隔符
-                csvGantryInput.setSkipFirstLineAsHeader(true);
-                csvGantryInput.setLenient(true);
-                DataStream<JSONObject> rawGantry = env.readFile(csvGantryInput, gantrycsv)
-                                .assignTimestampsAndWatermarks(WatermarkStrategy.<Row>forBoundedOutOfOrderness(
-                                                Duration.ofSeconds(60)).withIdleness(Duration.ofMinutes(1))
-                                                .withTimestampAssigner(
-                                                                new GantryTimerTest.timestampAssigner()))
-                                .map(new Row2JSONObject(new String[] { "FLOWTYPE", "LANESPINFO", "ORIGINALFLAG",
-                                                "PASSID", "PROVINCEBOUND", "STATIONID", "TIME", "TIMESTRING",
-                                                "VEHICLETYPE", "VLP", "VLPC"
-                                }));
-                // "FLOWTYPE", "TIME", "STATIONID", "VLP", "VLPC",
-                // "VEHICLETYPE", "PASSID", "TIMESTRING", "ORIGINALFLAG",
-                // "PROVINCEBOUND", "MEDIATYPE", "SPECIALTYPE", "TRANSCODE", "LANESPINFO"
-                DataStream<TimerRecord> gantryRecordSimple = rawGantry
-                                .process(new ProcessFunction<JSONObject, TimerRecord>() {
+    Configuration conf = new Configuration();
+    ConfigureENV.initConfiguration("/applicationdebug.properties");
+    conf.setInteger("rest.port", 9000);
+    StreamExecutionEnvironment env = StreamExecutionEnvironment.createLocalEnvironmentWithWebUI(conf);
+    ConfigureENV.configureEnvironment(params, env);
+    // 输入文件路径
+    String gantrycsv = "/hdd/data/1101/1101_sort.csv";
+    // 使用 RowCsvInputFormat 把每一行记录解析为一个 Row
+    RowCsvInputFormat csvGantryInput = new RowCsvInputFormat(
+        new Path(gantrycsv), // 文件路径
+        new TypeInformation[] { Types.STRING, Types.STRING, Types.STRING, Types.STRING,
+            Types.STRING, Types.STRING, Types.STRING, Types.STRING, Types.STRING,
+            Types.STRING, Types.STRING }, // 字段类型
+        "\n", // 行分隔符
+        ",",
+        new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 },
+        false); // 字段分隔符
+    csvGantryInput.setSkipFirstLineAsHeader(true);
+    csvGantryInput.setLenient(true);
+    DataStream<JSONObject> rawGantry = env.readFile(csvGantryInput, gantrycsv)
+        .assignTimestampsAndWatermarks(WatermarkStrategy.<Row>forBoundedOutOfOrderness(
+            Duration.ofSeconds(60)).withIdleness(Duration.ofMinutes(1))
+            .withTimestampAssigner(
+                new GantryTimerTest.timestampAssigner()))
+        .map(new Row2JSONObject(new String[] { "FLOWTYPE", "LANESPINFO", "ORIGINALFLAG",
+            "PASSID", "PROVINCEBOUND", "STATIONID", "TIME", "TIMESTRING",
+            "VEHICLETYPE", "VLP", "VLPC"
+        }));
+    // "FLOWTYPE", "TIME", "STATIONID", "VLP", "VLPC",
+    // "VEHICLETYPE", "PASSID", "TIMESTRING", "ORIGINALFLAG",
+    // "PROVINCEBOUND", "MEDIATYPE", "SPECIALTYPE", "TRANSCODE", "LANESPINFO"
+    DataStream<TimerRecord> gantryRecordSimple = rawGantry
+        .process(new ProcessFunction<JSONObject, TimerRecord>() {
 
-                                        @Override
-                                        public void processElement(JSONObject value,
-                                                        ProcessFunction<JSONObject, TimerRecord>.Context ctx,
-                                                        Collector<TimerRecord> out) throws Exception {
-                                                // TODO Auto-generated method stub
-                                                value.put(DataSourceJudge.timeKey, ctx.timestamp());
-                                                // Thread.sleep(1); // 延时1毫秒
-                                                out.collect(JSON.toJavaObject(value, TimerRecord.class));
-                                        }
+          @Override
+          public void processElement(JSONObject value,
+              ProcessFunction<JSONObject, TimerRecord>.Context ctx,
+              Collector<TimerRecord> out) throws Exception {
+            // TODO Auto-generated method stub
+            value.put(DataSourceJudge.timeKey, ctx.timestamp());
+            // Thread.sleep(1); // 延时1毫秒
+            out.collect(JSON.toJavaObject(value, TimerRecord.class));
+          }
 
-                                });
-                // DataStream<AbnormalVehicle> abnormalVehicle = gantryRecordSimple.keyBy(x ->
-                // "default")
-                // .process(new GantryTimer("/home/lzm/zc/simulate/gantrytime_site.json"));
+        });
+    // DataStream<AbnormalVehicle> abnormalVehicle = gantryRecordSimple.keyBy(x ->
+    // "default")
+    // .process(new GantryTimer("/home/lzm/zc/simulate/gantrytime_site.json"));
 
-                // abnormalVehicle.addSink(RabbitMQDataSink.generateRMQSink("AbnormalVehicle"))
-                // .name(String.format("RMQ:%s", "AbnormalVehicle"));
-                DataStream<MultiPassIdVehicle> multiPassIdVehicle = gantryRecordSimple.keyBy(x -> x.getVEHICLEID())
-                                .process(new MultiPassid());
-                // multiPassIdVehicle.addSink(RabbitMQDataSink.generateRMQSink("MultiPassIdVehicle"))
-                // .name(String.format("RMQ:%s", "MultiPassIdVehicle"));
-                env.execute();
-        }
+    // abnormalVehicle.addSink(RabbitMQDataSink.generateRMQSink("AbnormalVehicle"))
+    // .name(String.format("RMQ:%s", "AbnormalVehicle"));
+    DataStream<MultiPassIdVehicle> multiPassIdVehicle = gantryRecordSimple.keyBy(x -> x.getVEHICLEID())
+        .process(new MultiPassid());
+    // multiPassIdVehicle.addSink(RabbitMQDataSink.generateRMQSink("MultiPassIdVehicle"))
+    // .name(String.format("RMQ:%s", "MultiPassIdVehicle"));
+    env.execute();
+  }
 
-        static class timestampAssigner implements SerializableTimestampAssigner<Row> {
-                SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+  static class timestampAssigner implements SerializableTimestampAssigner<Row> {
+    SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-                @Override
-                public long extractTimestamp(Row element, long recordTimestamp) {
-                        // TODO Auto-generated method stub
+    @Override
+    public long extractTimestamp(Row element, long recordTimestamp) {
+      // TODO Auto-generated method stub
 
-                        long timestamp = 0;
+      long timestamp = 0;
 
-                        try {
+      try {
 
-                                timestamp = time.parse(element.getFieldAs(7)).getTime();
-                                // System.out.println(element.getField(6));
-                                // System.out.println(timestamp);
-                                // System.exit(0);
-                        } catch (Exception e) {
-                                // System.out.println(gantryCharge);
-                        }
+        timestamp = time.parse(element.getFieldAs(7)).getTime();
+        // System.out.println(element.getField(6));
+        // System.out.println(timestamp);
+        // System.exit(0);
+      } catch (Exception e) {
+        // System.out.println(gantryCharge);
+      }
 
-                        return timestamp;
+      return timestamp;
 
-                }
+    }
 
-        }
+  }
 
 }
